@@ -1,0 +1,27 @@
+{
+  "project": "anclora-data-lab",
+  "roadmap": "public/docs/anclora-data-lab-roadmap-v1.md",
+  "tasks": [
+    {
+      "id": "DATALAB-FOUND-001",
+      "title": "Baseline SDD, architecture and multi-agent governance",
+      "status": "DONE",
+      "assigned_to": "Director",
+      "dependencies": []
+    },
+    {
+      "id": "DATALAB-FOUND-002",
+      "title": "Foundation v1 public narrative, login and private workspace",
+      "status": "DONE",
+      "assigned_to": "Agent A",
+      "dependencies": ["DATALAB-FOUND-001"]
+    },
+    {
+      "id": "DATALAB-FOUND-003",
+      "title": "Documentation, access architecture and QA closure",
+      "status": "DONE",
+      "assigned_to": "Agent B",
+      "dependencies": ["DATALAB-FOUND-002"]
+    }
+  ]
+}
