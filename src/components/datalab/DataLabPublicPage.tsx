@@ -28,7 +28,7 @@ export function DataLabPublicPage() {
 
           <div className="datalab-brand">
             <div className="datalab-brand-mark">
-              <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={44} height={44} className="datalab-brand-logo" />
+              <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={54} height={54} className="datalab-brand-logo" />
             </div>
             <div className="datalab-brand-copy">
               <p>Anclora Data Lab</p>

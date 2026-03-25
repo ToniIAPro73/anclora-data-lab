@@ -1,5 +1,6 @@
 'use client'
 
+import { Laptop2, MoonStar, SunMedium } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { DATALAB_LOCALES, DATALAB_THEMES, type DataLabLocale, type DataLabTheme } from '@/lib/datalab-ui'
 
@@ -12,10 +13,10 @@ type Props = {
   onLocaleChange?: (locale: DataLabLocale) => void
 }
 
-const themeLabels: Record<DataLabTheme, string> = {
-  light: 'CLARO',
-  dark: 'OSCURO',
-  system: 'AUTO',
+const themeIcons = {
+  light: SunMedium,
+  dark: MoonStar,
+  system: Laptop2,
 } as const
 
 function resolveTheme(theme: DataLabTheme) {
@@ -66,17 +67,18 @@ export function DataLabUiToggles({ defaultLocale, defaultTheme, onLocaleChange }
       <div className="datalab-toggle datalab-toggle-theme" role="group" aria-label="Tema">
         {DATALAB_THEMES.map((option) => {
           const active = theme === option
+          const Icon = themeIcons[option]
           return (
             <button
               key={option}
               type="button"
-              className={`datalab-toggle-pill datalab-toggle-pill-text ${active ? 'is-active' : ''}`}
+              className={`datalab-toggle-pill ${active ? 'is-active' : ''}`}
               onClick={() => setTheme(option)}
               aria-pressed={active}
               aria-label={`Tema ${option}`}
               title={`Tema ${option}`}
             >
-              {themeLabels[option]}
+              <Icon size={16} strokeWidth={1.8} />
             </button>
           )
         })}
