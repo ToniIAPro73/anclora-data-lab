@@ -9,9 +9,154 @@ function decodeArg(value = '') {
   return value
 }
 
+function escapeHtml(text = '') {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+function hasMojibake(text = '') {
+  return /Ã.|Â[^\s]|â€[^\s]?|â€”|â€“|â€¦|�/u.test(text)
+}
+
+function repairMojibake(text = '') {
+  let repaired = text
+
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    if (!hasMojibake(repaired)) {
+      break
+    }
+
+    try {
+      repaired = Buffer.from(repaired, 'latin1').toString('utf8')
+    } catch {
+      break
+    }
+  }
+
+  return repaired
+}
+
+function stripInlineReferences(text = '') {
+  return text
+    .replace(/【\d+†L\d+(?:-L?\d+)?】/gu, '')
+    .replace(/\[\d+†L\d+(?:-L?\d+)?\]/gu, '')
+    .replace(/【\d+†[^\]】]+】/gu, '')
+    .replace(/\[\d+†[^\]]*\]/gu, '')
+    .replace(/(?<=[.:;)])\d{1,2}(?=\s|$)/gu, '')
+    .replace(/[^\S\r\n]{2,}/g, ' ')
+    .replace(/\s+([,.;:!?)])/g, '$1')
+}
+
+function cleanSourceLabel(text = '') {
+  return repairMojibake(stripInlineReferences(text))
+    .replace(/\[[^\]]+]\([^)]+\)/g, '')
+    .replace(/https?:\/\/\S+/gi, '')
+    .replace(/,\s*fecha de acceso:.*$/i, '')
+    .replace(/\s+-\s+Documents?\s*&\s*Reports?/i, '')
+    .replace(/\s+-\s+.*$/i, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+    .replace(/[.;:,]+$/g, '')
+}
+
+function extractNumberedSources(markdown = '') {
+  const sources = []
+  const lines = markdown.split(/\r?\n/)
+  const keptLines = []
+
+  for (const line of lines) {
+    const referenceMatch = line.match(/^\s*\d+\.\s+(.*)$/)
+    const imageRefMatch = line.match(/^\s*\[image\d+]:/i)
+
+    if (imageRefMatch) {
+      continue
+    }
+
+    if (referenceMatch) {
+      const label = cleanSourceLabel(referenceMatch[1])
+      if (label) {
+        sources.push(label)
+      }
+      continue
+    }
+
+    if (/^\s*!\[\]\[image\d+]\s*$/i.test(line)) {
+      continue
+    }
+
+    keptLines.push(line)
+  }
+
+  return {
+    markdown: keptLines.join('\n'),
+    sources,
+  }
+}
+
+function rewriteInlineSourcesSection(markdown = '') {
+  const match = markdown.match(/^\*\*Fuentes:\*\*\s*(.+)$/im)
+  if (!match) {
+    return { markdown, sources: [] }
+  }
+
+  const sources = match[1]
+    .split(/\s*;\s*/g)
+    .map(cleanSourceLabel)
+    .filter(Boolean)
+
+  return {
+    markdown: markdown.replace(/^\*\*Fuentes:\*\*.*$/im, '').trimEnd(),
+    sources,
+  }
+}
+
+function dedupeSources(sources = []) {
+  const seen = new Set()
+  const deduped = []
+
+  for (const source of sources) {
+    const key = source.toLocaleLowerCase()
+    if (!seen.has(key)) {
+      seen.add(key)
+      deduped.push(source)
+    }
+  }
+
+  return deduped
+}
+
+function normalizeMarkdown(markdown = '') {
+  let normalized = repairMojibake(markdown)
+    .replace(/\r\n/g, '\n')
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, ' ')
+
+  const numberedSources = extractNumberedSources(normalized)
+  normalized = numberedSources.markdown
+
+  const inlineSources = rewriteInlineSourcesSection(normalized)
+  normalized = inlineSources.markdown
+
+  normalized = stripInlineReferences(normalized)
+    .replace(/[ \t]{2,}/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+
+  const sources = dedupeSources([...numberedSources.sources, ...inlineSources.sources])
+
+  if (sources.length > 0) {
+    normalized += `\n\n## Fuentes\n\n${sources.map((source) => `<div class="source-line">· ${escapeHtml(source)}</div>`).join('\n')}\n`
+  }
+
+  return normalized
+}
+
 const [,, inputMarkdown, outputHtml, rawTitle, rawSubtitle = ''] = process.argv
-const title = decodeArg(rawTitle)
-const subtitle = decodeArg(rawSubtitle)
+const title = repairMojibake(decodeArg(rawTitle))
+const subtitle = repairMojibake(decodeArg(rawSubtitle))
 
 if (!inputMarkdown || !outputHtml || !title) {
   throw new Error('Usage: node render-premium-markdown.mjs <inputMarkdown> <outputHtml> <title> [subtitle]')
@@ -21,7 +166,19 @@ const markdownPath = path.resolve(inputMarkdown)
 const outputPath = path.resolve(outputHtml)
 const logoPath = path.resolve(path.dirname(outputPath), '..', '..', '..', '..', 'public', 'brand', 'logo-anclora-datalab.png')
 
-const markdown = fs.readFileSync(markdownPath, 'utf8')
+function readMarkdownText(filePath) {
+  const buffer = fs.readFileSync(filePath)
+  const utf8Decoder = new TextDecoder('utf-8', { fatal: true })
+  const windows1252Decoder = new TextDecoder('windows-1252')
+
+  try {
+    return utf8Decoder.decode(buffer)
+  } catch {
+    return windows1252Decoder.decode(buffer)
+  }
+}
+
+const markdown = normalizeMarkdown(readMarkdownText(markdownPath))
 const content = marked.parse(markdown)
 const logoUri = `file:///${logoPath.replace(/\\/g, '/')}`
 
@@ -166,6 +323,12 @@ const html = `<!DOCTYPE html>
       page-break-inside: avoid;
     }
 
+    .content h2 + p,
+    .content h3 + p {
+      page-break-before: avoid;
+      break-before: avoid-page;
+    }
+
     .content strong { color: var(--dl-ice); }
 
     .content blockquote {
@@ -233,9 +396,21 @@ const html = `<!DOCTYPE html>
     .content tr,
     .content img,
     .content svg,
-    .content figure {
+    .content figure,
+    .content tbody,
+    .content .source-line,
+    .content ul li,
+    .content ol li {
       break-inside: avoid-page;
       page-break-inside: avoid;
+    }
+
+    .content .source-line {
+      color: var(--dl-muted);
+      font-size: 15px;
+      line-height: 1.72;
+      text-align: left;
+      margin: 0 0 6px;
     }
   </style>
 </head>

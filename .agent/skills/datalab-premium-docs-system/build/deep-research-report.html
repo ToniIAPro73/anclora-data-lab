@@ -139,6 +139,12 @@
       page-break-inside: avoid;
     }
 
+    .content h2 + p,
+    .content h3 + p {
+      page-break-before: avoid;
+      break-before: avoid-page;
+    }
+
     .content strong { color: var(--dl-ice); }
 
     .content blockquote {
@@ -206,9 +212,21 @@
     .content tr,
     .content img,
     .content svg,
-    .content figure {
+    .content figure,
+    .content tbody,
+    .content .source-line,
+    .content ul li,
+    .content ol li {
       break-inside: avoid-page;
       page-break-inside: avoid;
+    }
+
+    .content .source-line {
+      color: var(--dl-muted);
+      font-size: 15px;
+      line-height: 1.72;
+      text-align: left;
+      margin: 0 0 6px;
     }
   </style>
 </head>
@@ -224,85 +242,86 @@
           </div>
         </div>
         <h1>Deep Research Report</h1>
-        <p class="subtitle">SÃ­ntesis premium de investigaciÃ³n sobre posicionamiento, oportunidad y alcance de producto para Data Lab.</p>
+        <p class="subtitle">Síntesis premium de investigación sobre posicionamiento, oportunidad y alcance de producto para Data Lab.</p>
       </section>
       <section class="content">
         <h1>Especificaciones de Anclora Data Lab</h1>
 <h2>1. Contexto y propósito</h2>
-<p>Anclora Data Lab será la <strong>plataforma de inteligencia interna</strong> del vertical inmobiliario premium de Anclora, centralizando datos y análisis para soportar decisiones estratégicas. Se espera que reúna datos internos (pipeline, operaciones) y externos (mercado, demografía) en un repositorio unificado con control de acceso por roles. Esto responde a tendencias de mercado: la industria PropTech está en auge, con un <strong>crecimiento anual ~11%</strong> (de US$40,2 mil M en 2025 a ~US$104,6 mil M en 2034【34†L607-L614】), impulsada por soluciones basadas en la nube y análisis avanzado. De hecho, expertos señalan que en PropTech los pilares clave son la experiencia de usuario y el análisis de datos【26†L49-L52】. Data Lab debe alinear estas tendencias: ofrecer <strong>insights de valor</strong> (informes premium, señales territoriales, IA) para diferenciar a Anclora y atraer inversores.  </p>
+<p>Anclora Data Lab será la <strong>plataforma de inteligencia interna</strong> del vertical inmobiliario premium de Anclora, centralizando datos y análisis para soportar decisiones estratégicas. Se espera que reúna datos internos (pipeline, operaciones) y externos (mercado, demografía) en un repositorio unificado con control de acceso por roles. Esto responde a tendencias de mercado: la industria PropTech está en auge, con un <strong>crecimiento anual ~11%</strong> (de US$40,2 mil M en 2025 a ~US$104,6 mil M en 2034), impulsada por soluciones basadas en la nube y análisis avanzado. De hecho, expertos señalan que en PropTech los pilares clave son la experiencia de usuario y el análisis de datos. Data Lab debe alinear estas tendencias: ofrecer <strong>insights de valor</strong> (informes premium, señales territoriales, IA) para diferenciar a Anclora y atraer inversores. </p>
 <ul>
-<li>Mercado PropTech global: US$40,2 B en 2025 → US$104,6 B en 2034【34†L607-L614】. El auge del análisis de datos y la IA respalda la inversión en plataformas como Data Lab.  </li>
-<li>Tendencias clave: la UX y la analítica de datos son factores decisivos en PropTech【26†L49-L52】. Data Lab debe ofrecer interfaz intuitiva y <strong>visualizaciones potentes</strong> (dashboards, mapas de calor, informes automatizados).  </li>
+<li>Mercado PropTech global: US$40,2 B en 2025 → US$104,6 B en 2034. El auge del análisis de datos y la IA respalda la inversión en plataformas como Data Lab. </li>
+<li>Tendencias clave: la UX y la analítica de datos son factores decisivos en PropTech. Data Lab debe ofrecer interfaz intuitiva y <strong>visualizaciones potentes</strong> (dashboards, mapas de calor, informes automatizados). </li>
 <li>Rol de Anclora Data Lab: fuente de “inteligencia premium” para Anclora Private Estates, con <strong>documentación curada</strong>, indicadores de mercado y capacidades predictivas. Será un activo estratégico para negocios internos y potencialmente un servicio para socios, reforzando la propuesta de valor del ecosistema.</li>
 </ul>
 <h2>2. Análisis de mercado y competidores</h2>
-<p>Plataformas similares confirman la viabilidad de Data Lab:  </p>
+<p>Plataformas similares confirman la viabilidad de Data Lab: </p>
 <ul>
-<li><strong>DatAlpine (Teseo Data Lab)</strong>: plataforma de inteligencia inmobiliaria que “transforma grandes volúmenes de datos en decisiones estratégicas”. Combina ciencia de datos, IA y análisis econométrico para identificar tendencias, optimizar producto y calcular precios dinámicos【3†L64-L72】. Sus herramientas incluyen simuladores financieros y exploradores de mercado en tiempo real.  </li>
-<li><strong>Cassandra AI</strong>: solución SaaS con IA que promete reducir en &gt;50% el tiempo de análisis y reporte, mejorar la precisión de valuaciones y detectar oportunidades antes que la competencia【45†L104-L112】. Está enfocada en valoraciones de portafolios e inversiones, mostrando la demanda de análisis automatizado.  </li>
-<li>Otros actores globales incluyen CoreLogic, Zumper, Altus Group o VTS【34†L630-L634】, que ofrecen desde data warehouses inmobiliarios hasta visualizaciones de mercado. La mayoría prioriza <strong>APIs de datos en tiempo real</strong>, machine learning y dashboards interactivos.</li>
+<li><strong>DatAlpine (Teseo Data Lab)</strong>: plataforma de inteligencia inmobiliaria que “transforma grandes volúmenes de datos en decisiones estratégicas”. Combina ciencia de datos, IA y análisis econométrico para identificar tendencias, optimizar producto y calcular precios dinámicos. Sus herramientas incluyen simuladores financieros y exploradores de mercado en tiempo real. </li>
+<li><strong>Cassandra AI</strong>: solución SaaS con IA que promete reducir en &gt;50% el tiempo de análisis y reporte, mejorar la precisión de valuaciones y detectar oportunidades antes que la competencia. Está enfocada en valoraciones de portafolios e inversiones, mostrando la demanda de análisis automatizado. </li>
+<li>Otros actores globales incluyen CoreLogic, Zumper, Altus Group o VTS, que ofrecen desde data warehouses inmobiliarios hasta visualizaciones de mercado. La mayoría prioriza <strong>APIs de datos en tiempo real</strong>, machine learning y dashboards interactivos.</li>
 </ul>
 <p><strong>Diferenciador de Anclora Data Lab</strong>: integrar datos internos de Anclora (pipeline de Nexus, insumos de Synergi, contenidos de Advisor AI) con fuentes externas (mercado local, normativas, tendencias) para ofrecer análisis contextualizados y generación de informes exclusivos. Incluir generación IA (p.ej. resúmenes automáticos de datos) puede aumentar su atractivo ante inversores.</p>
 <h2>3. Requisitos funcionales</h2>
 <ul>
-<li><strong>Ingesta y almacenamiento de datos:</strong> Capacidad para integrar diversos orígenes (APIs públicas/propietarias, bases SQL/NoSQL, CSV/Excel, sensores geoespaciales). La plataforma debe manejar <strong>volúmenes crecientes</strong> y diversidad de datos sin intervención manual【46†L142-L150】. Esto incluye ETL/ELT automatizado (p.ej. pipelines con Airbyte, Fivetran o scripts Python) que vuelque todo en un <em>data warehouse</em>/lago (p.ej. Snowflake, BigQuery o similar).  </li>
-<li><strong>Gobernanza y seguridad de datos:</strong> Rol-based access control (RBAC) detallado para definir quién ve qué. Debe implementar seguimiento de linaje de datos y logs de auditoría para garantizar cumplimiento (GDPR, buenas prácticas)【46†L142-L150】. En la capa de seguridad se aplicarán cifrado en tránsito/descanso, autenticación fuerte (SSO, 2FA) y enmascaramiento de PII【46†L142-L150】.  </li>
-<li><strong>Visualización y dashboards:</strong> Interfaces gráficas interactivas (web) con filtros, gráficos y mapas de calor. Debe permitir consultas ad-hoc sin técnicos (exploradores de precios por zona, comparativas de indicadores, tendencias). Herramientas open-source como <strong>Metabase</strong> o <strong>Apache Superset</strong> podrían usarse para acelerar este módulo. Los dashboards deben cargar en &lt;1s a gran escala (indexación y caché)【46†L142-L150】.  </li>
-<li><strong>Generación de informes y señalización:</strong> Capacidad de armar reportes periódicos (PDF/Excel) personalizados por usuario/segmento (e.g. informe semanal de mercado). Alertas automáticas (p.ej. via email) sobre cambios significativos (variación de precios, hotspots emergentes). Integración con el “Anclora Content Generator AI” para generar resúmenes ejecutivos o artículos basados en los datos procesados.  </li>
-<li><strong>Funciones analíticas avanzadas:</strong> Módulos de IA y machine learning internos: modelado predictivo (estimación de plusvalías, forecasting de demanda), segmentación de mercados, scores de riesgo. Posible integración de LLM (GPT-4, Llama2, etc.) para consultas conversacionales o resúmenes automatizados de data.  </li>
-<li><strong>Gestión de contenido curado:</strong> Repositorio de documentos relevantes (estudios de mercado, normativas, análisis internos), categorizado por etiquetas. Herramienta de búsqueda full-text. Roles de usuario pueden marcar favoritos o añadir notas. Contenido exclusivo para usuarios autorizados (socios, equipo interno).  </li>
-<li><strong>Interfaz de usuario:</strong> UX limpio y moderno. Basarse en Next.js (como el resto del ecosistema) garantizará coherencia visual. Acceso web/mobile responsive.  </li>
-<li><strong>Integración con otras apps:</strong>  <ul>
-<li><em>Nexus:</em> alimentarse del pipeline de ventas y datos CRM para análisis de rendimiento comercial.  </li>
-<li><em>Synergi:</em> compartir dashboards/e informes con partners aprobados en su workspace (gestión de datos limitada según rol).  </li>
-<li><em>Content Generator AI:</em> usar análisis del Data Lab para enriquecer generación de ebooks o leads magnets.  </li>
+<li><strong>Ingesta y almacenamiento de datos:</strong> Capacidad para integrar diversos orígenes (APIs públicas/propietarias, bases SQL/NoSQL, CSV/Excel, sensores geoespaciales). La plataforma debe manejar <strong>volúmenes crecientes</strong> y diversidad de datos sin intervención manual. Esto incluye ETL/ELT automatizado (p.ej. pipelines con Airbyte, Fivetran o scripts Python) que vuelque todo en un <em>data warehouse</em>/lago (p.ej. Snowflake, BigQuery o similar). </li>
+<li><strong>Gobernanza y seguridad de datos:</strong> Rol-based access control (RBAC) detallado para definir quién ve qué. Debe implementar seguimiento de linaje de datos y logs de auditoría para garantizar cumplimiento (GDPR, buenas prácticas). En la capa de seguridad se aplicarán cifrado en tránsito/descanso, autenticación fuerte (SSO, 2FA) y enmascaramiento de PII. </li>
+<li><strong>Visualización y dashboards:</strong> Interfaces gráficas interactivas (web) con filtros, gráficos y mapas de calor. Debe permitir consultas ad-hoc sin técnicos (exploradores de precios por zona, comparativas de indicadores, tendencias). Herramientas open-source como <strong>Metabase</strong> o <strong>Apache Superset</strong> podrían usarse para acelerar este módulo. Los dashboards deben cargar en &lt;1s a gran escala (indexación y caché). </li>
+<li><strong>Generación de informes y señalización:</strong> Capacidad de armar reportes periódicos (PDF/Excel) personalizados por usuario/segmento (e.g. informe semanal de mercado). Alertas automáticas (p.ej. via email) sobre cambios significativos (variación de precios, hotspots emergentes). Integración con el “Anclora Content Generator AI” para generar resúmenes ejecutivos o artículos basados en los datos procesados. </li>
+<li><strong>Funciones analíticas avanzadas:</strong> Módulos de IA y machine learning internos: modelado predictivo (estimación de plusvalías, forecasting de demanda), segmentación de mercados, scores de riesgo. Posible integración de LLM (GPT-4, Llama2, etc.) para consultas conversacionales o resúmenes automatizados de data. </li>
+<li><strong>Gestión de contenido curado:</strong> Repositorio de documentos relevantes (estudios de mercado, normativas, análisis internos), categorizado por etiquetas. Herramienta de búsqueda full-text. Roles de usuario pueden marcar favoritos o añadir notas. Contenido exclusivo para usuarios autorizados (socios, equipo interno). </li>
+<li><strong>Interfaz de usuario:</strong> UX limpio y moderno. Basarse en Next.js (como el resto del ecosistema) garantizará coherencia visual. Acceso web/mobile responsive. </li>
+<li><strong>Integración con otras apps:</strong> </li>
+<li><em>Nexus:</em> alimentarse del pipeline de ventas y datos CRM para análisis de rendimiento comercial. </li>
+<li><em>Synergi:</em> compartir dashboards/e informes con partners aprobados en su workspace (gestión de datos limitada según rol). </li>
+<li><em>Content Generator AI:</em> usar análisis del Data Lab para enriquecer generación de ebooks o leads magnets. </li>
 <li><em>Advisor AI e Impulso:</em> potencialmente usar la Data Lab como repositorio de insights fiscales/laborales o métricas de bienestar, consolidando todo en el ecosistema.</li>
-</ul>
-</li>
 </ul>
 <p>Cada requisito debe detallarse en el MVP y priorizarse por impacto: p.ej. ingesta de datos y dashboards básicos primero, luego IA predictiva y escalamiento de reporting.</p>
 <h2>4. Requisitos técnicos y arquitectura</h2>
 <ul>
-<li><strong>Arquitectura por capas:</strong> Se recomienda arquitectura de 5 capas: ingesta (streams/ETL), almacenamiento (data warehouse/lake), transformación (ELT pipelines), BI (dashboards/ML) y capa de seguridad【46†L178-L186】【46†L209-L217】. Esta separación mejora escalabilidad y facilita adoptar microservicios. La arquitectura debe ser <strong>escalable y multitenant</strong>: usar contenedores (Docker/Kubernetes) para API y escalado automático, permitiendo atender creciente cantidad de usuarios/consultas simultáneas.  </li>
-<li><strong>Tecnologías clave:</strong> Lenguajes y frameworks sólidos: Python para procesamiento y ML (p.ej. Pandas, Scikit-learn, TensorFlow/PyTorch), Node.js/TypeScript + React (Next.js) para backend/frontend. Bases de datos analíticas (PostgreSQL, Snowflake, DuckDB o similar OLAP), y almacenamiento en la nube (AWS S3, Google Cloud Storage). Para la capa de BI, usar librerías de gráficos (Chart.js, D3) o soluciones embebidas. Para IA, integrar APIs de modelos (OpenAI GPT-4, modelos locales Llama2) o librerías de embeddings (FAISS). Emplear herramientas de código abierto cuando sea viable para reducir costos y acelerar desarrollo (por ejemplo, Superset para dashboards, Jupyter/Streamlit para prototipos analíticos internos).  </li>
-<li><strong>Plataforma en la nube:</strong> Hospedaje en la nube pública para escalabilidad (p.ej. AWS/GCP), con cluster de computo para ML (GPU si es necesario). CI/CD automático (GitHub Actions/GitLab CI) para despliegues frecuentes.  </li>
-<li><strong>Extensibilidad:</strong> API RESTful o GraphQL para exponer datos e integrar con terceros (ej. exportar señales a apps de partners). SDK/documentación técnica para que futuros desarrollos (internos o socios) puedan ampliar la plataforma.  </li>
+<li><strong>Arquitectura por capas:</strong> Se recomienda arquitectura de 5 capas: ingesta (streams/ETL), almacenamiento (data warehouse/lake), transformación (ELT pipelines), BI (dashboards/ML) y capa de seguridad. Esta separación mejora escalabilidad y facilita adoptar microservicios. La arquitectura debe ser <strong>escalable y multitenant</strong>: usar contenedores (Docker/Kubernetes) para API y escalado automático, permitiendo atender creciente cantidad de usuarios/consultas simultáneas. </li>
+<li><strong>Tecnologías clave:</strong> Lenguajes y frameworks sólidos: Python para procesamiento y ML (p.ej. Pandas, Scikit-learn, TensorFlow/PyTorch), Node.js/TypeScript + React (Next.js) para backend/frontend. Bases de datos analíticas (PostgreSQL, Snowflake, DuckDB o similar OLAP), y almacenamiento en la nube (AWS S3, Google Cloud Storage). Para la capa de BI, usar librerías de gráficos (Chart.js, D3) o soluciones embebidas. Para IA, integrar APIs de modelos (OpenAI GPT-4, modelos locales Llama2) o librerías de embeddings (FAISS). Emplear herramientas de código abierto cuando sea viable para reducir costos y acelerar desarrollo (por ejemplo, Superset para dashboards, Jupyter/Streamlit para prototipos analíticos internos). </li>
+<li><strong>Plataforma en la nube:</strong> Hospedaje en la nube pública para escalabilidad (p.ej. AWS/GCP), con cluster de computo para ML (GPU si es necesario). CI/CD automático (GitHub Actions/GitLab CI) para despliegues frecuentes. </li>
+<li><strong>Extensibilidad:</strong> API RESTful o GraphQL para exponer datos e integrar con terceros (ej. exportar señales a apps de partners). SDK/documentación técnica para que futuros desarrollos (internos o socios) puedan ampliar la plataforma. </li>
 <li><strong>Disponibilidad y performance:</strong> SLA altos para evitar caídas (monitorizar con Prometheus/Grafana). Cachés en DB (Redis) para acelerar consultas recurrentes. Índices optimizados en los datamarts. Partitioning de tablas grandes. Pruebas de carga antes de lanzamiento.</li>
 </ul>
 <h2>5. Seguridad y cumplimiento</h2>
-<p>La confianza es esencial para inversores y usuarios premium. Requisitos de seguridad:  </p>
+<p>La confianza es esencial para inversores y usuarios premium. Requisitos de seguridad: </p>
 <ul>
-<li><strong>Acceso basado en roles (RBAC):</strong> Control estricto para que cada usuario (interno o partner) vea solo sus datos. RBAC permitirá definir permisos granulares (e.g. solo lectura de ciertos reportes).【46†L142-L150】  </li>
-<li><strong>Autenticación y VPN/SSO:</strong> Integración con Single Sign-On corporativo (OAuth2/SAML) y contraseñas seguras. Para invitados o partners, implementar permisos temporales y caducidad de tokens.  </li>
-<li><strong>Encriptación:</strong> Datos sensibles cifrados en reposo (AES) y SSL/TLS en tránsito. Uso de VPN o VPC privadas en la nube según sea requerido.  </li>
-<li><strong>Auditoría y logs:</strong> Registro detallado de accesos, consultas e integridad de datos. Dashboards internos de monitoreo de seguridad.  </li>
-<li><strong>Cumplimiento normativo:</strong> Asegurar cumplimiento de leyes de protección de datos (GDPR, CCPA según mercados) y normativas específicas inmobiliarias (por ejemplo, consultas agregadas de catastro sin revelar identificadores personales). Incorporar “data masking” para información confidencial en análisis.  </li>
+<li><strong>Acceso basado en roles (RBAC):</strong> Control estricto para que cada usuario (interno o partner) vea solo sus datos. RBAC permitirá definir permisos granulares (e.g. solo lectura de ciertos reportes). </li>
+<li><strong>Autenticación y VPN/SSO:</strong> Integración con Single Sign-On corporativo (OAuth2/SAML) y contraseñas seguras. Para invitados o partners, implementar permisos temporales y caducidad de tokens. </li>
+<li><strong>Encriptación:</strong> Datos sensibles cifrados en reposo (AES) y SSL/TLS en tránsito. Uso de VPN o VPC privadas en la nube según sea requerido. </li>
+<li><strong>Auditoría y logs:</strong> Registro detallado de accesos, consultas e integridad de datos. Dashboards internos de monitoreo de seguridad. </li>
+<li><strong>Cumplimiento normativo:</strong> Asegurar cumplimiento de leyes de protección de datos (GDPR, CCPA según mercados) y normativas específicas inmobiliarias (por ejemplo, consultas agregadas de catastro sin revelar identificadores personales). Incorporar “data masking” para información confidencial en análisis. </li>
 <li><strong>Respaldo y recuperación:</strong> Backups regulares de la base de datos y catálogos (cloud snapshots), con plan de recuperación ante fallos (RTO/RPO definidos).</li>
 </ul>
 <h2>6. Integración con ecosistema Anclora</h2>
-<p>Data Lab debe operar de forma <strong>unificada</strong> con las demás aplicaciones de Anclora:  </p>
+<p>Data Lab debe operar de forma <strong>unificada</strong> con las demás aplicaciones de Anclora: </p>
 <ul>
-<li><strong>Portal corporativo (Anclora Group):</strong> Único punto de acceso con SSO y navegación consistente.  </li>
-<li><strong>Sincronización con Nexus:</strong> Actualizar dashboards en tiempo real con datos de pipeline y ventas. Los analistas usarán Data Lab para monitorear métricas clave de Nexus (tasa de conversión, tiempos de cierre, forecast de ventas).  </li>
-<li><strong>Exportación a Synergi:</strong> Permitir que socios aprobados vean extractos de inteligencia relevante (p.ej. indicadores de mercado) dentro de su workspace. Data Lab podría generar reportes en PDF/Excel acotados a cada partner.  </li>
-<li><strong>Base de conocimiento:</strong> Los informes generados pueden difundirse en el blog interno o newsletter de Anclora. El Content Generator AI puede usar la base de datos de Data Lab como fuente para crear contenido valioso (guías, e-books).  </li>
-<li><strong>Flujo de datos bidireccional:</strong> Datos de Advisor AI (situación fiscal y laboral) alimentan análisis en Data Lab y viceversa. Impulso (wellness) podría compartir tendencias generales como parte de estudios de bienestar corporativo.  </li>
+<li><strong>Portal corporativo (Anclora Group):</strong> Único punto de acceso con SSO y navegación consistente. </li>
+<li><strong>Sincronización con Nexus:</strong> Actualizar dashboards en tiempo real con datos de pipeline y ventas. Los analistas usarán Data Lab para monitorear métricas clave de Nexus (tasa de conversión, tiempos de cierre, forecast de ventas). </li>
+<li><strong>Exportación a Synergi:</strong> Permitir que socios aprobados vean extractos de inteligencia relevante (p.ej. indicadores de mercado) dentro de su workspace. Data Lab podría generar reportes en PDF/Excel acotados a cada partner. </li>
+<li><strong>Base de conocimiento:</strong> Los informes generados pueden difundirse en el blog interno o newsletter de Anclora. El Content Generator AI puede usar la base de datos de Data Lab como fuente para crear contenido valioso (guías, e-books). </li>
+<li><strong>Flujo de datos bidireccional:</strong> Datos de Advisor AI (situación fiscal y laboral) alimentan análisis en Data Lab y viceversa. Impulso (wellness) podría compartir tendencias generales como parte de estudios de bienestar corporativo. </li>
 <li><strong>Consistencia visual y UX:</strong> Uso de esquemas de color y componentes React/Next.js compartidos para coherencia de marca Anclora.</li>
 </ul>
 <h2>7. Monetización y atractivo para inversores</h2>
-<p>Aunque Data Lab parte como herramienta interna, debe diseñarse pensando en posible monetización futura o valoración como activo:  </p>
+<p>Aunque Data Lab parte como herramienta interna, debe diseñarse pensando en posible monetización futura o valoración como activo: </p>
 <ul>
-<li><strong>Propuesta de valor clarade para inversores:</strong> Enfatizar cómo Data Lab mejora la eficiencia (p.ej. ahorros de tiempo &gt;50% comprobados en competidores【45†L104-L112】) y genera nuevas oportunidades de ingresos (informes exclusivos, servicios analíticos). La existencia de datos propios y tecnología IA aumenta el <em>valuation</em> de Anclora.  </li>
-<li><strong>Modelos de oferta:</strong> Si se quisiera monetizar externamente: versión <em>freemium</em> (acceso básico a datos generales gratis, pago por informes detallados), planes escalonados (dashboards básicos vs avanzados con IA) o pago por informe/predicción puntual【41†L245-L254】【41†L339-L347】. También podría ofrecerse analítica como servicio (white-label analytics) a otros proyectos PropTech, o consultoría basada en los insights de Data Lab.  </li>
-<li><strong>Métricas clave (KPIs) para inversores:</strong> Retorno de inversión se demuestra con indicadores como tasa de adopción interna, reducción de error en valuaciones, aumento de cierres de negocio gracias a insights. Por ejemplo, Cassandra AI reporta un 50% menos de tiempo de análisis【45†L104-L112】. Data Lab debe registrar métricas similares (porcentaje de recomendaciones acertadas, velocidad de preparación de informes).  </li>
-<li><strong>Estrategia de crecimiento:</strong> Prever una hoja de ruta que contemple agregar módulos premium (p.ej. API de predicciones, data feeds pagados) que puedan suponer ingresos recurrentes. Mantener roadmap de producto alineado con demanda de partners e inversores (ej. API pública, compartición de datos anónimos).  </li>
-<li><strong>Posicionamiento frente a inversores:</strong> Resaltar tendencias globales y estadísticas de crecimiento en PropTech【34†L607-L614】. Señalar alianzas con grandes jugadores (p.ej. usar datos de CoreLogic/Zillow en análisis comparativo). Mostrar prototipos o demos de dashboard para convencer a inversores de la viabilidad técnica.</li>
+<li><strong>Propuesta de valor clarade para inversores:</strong> Enfatizar cómo Data Lab mejora la eficiencia (p.ej. ahorros de tiempo &gt;50% comprobados en competidores) y genera nuevas oportunidades de ingresos (informes exclusivos, servicios analíticos). La existencia de datos propios y tecnología IA aumenta el <em>valuation</em> de Anclora. </li>
+<li><strong>Modelos de oferta:</strong> Si se quisiera monetizar externamente: versión <em>freemium</em> (acceso básico a datos generales gratis, pago por informes detallados), planes escalonados (dashboards básicos vs avanzados con IA) o pago por informe/predicción puntual. También podría ofrecerse analítica como servicio (white-label analytics) a otros proyectos PropTech, o consultoría basada en los insights de Data Lab. </li>
+<li><strong>Métricas clave (KPIs) para inversores:</strong> Retorno de inversión se demuestra con indicadores como tasa de adopción interna, reducción de error en valuaciones, aumento de cierres de negocio gracias a insights. Por ejemplo, Cassandra AI reporta un 50% menos de tiempo de análisis. Data Lab debe registrar métricas similares (porcentaje de recomendaciones acertadas, velocidad de preparación de informes). </li>
+<li><strong>Estrategia de crecimiento:</strong> Prever una hoja de ruta que contemple agregar módulos premium (p.ej. API de predicciones, data feeds pagados) que puedan suponer ingresos recurrentes. Mantener roadmap de producto alineado con demanda de partners e inversores (ej. API pública, compartición de datos anónimos). </li>
+<li><strong>Posicionamiento frente a inversores:</strong> Resaltar tendencias globales y estadísticas de crecimiento en PropTech. Señalar alianzas con grandes jugadores (p.ej. usar datos de CoreLogic/Zillow en análisis comparativo). Mostrar prototipos o demos de dashboard para convencer a inversores de la viabilidad técnica.</li>
 </ul>
-<p>La clave es demostrar que <strong>Anclora Data Lab</strong> no solo es costo sino palanca de negocio: optimiza decisiones inmobiliarias, crea diferenciación competitiva y abre la puerta a nuevos servicios de inteligencia.  </p>
+<p>La clave es demostrar que <strong>Anclora Data Lab</strong> no solo es costo sino palanca de negocio: optimiza decisiones inmobiliarias, crea diferenciación competitiva y abre la puerta a nuevos servicios de inteligencia. </p>
 <h2>8. Conclusiones y próximos pasos</h2>
-<p>Anclora Data Lab se perfila como el <strong>centro neurálgico de conocimiento</strong> del grupo. Para generar interés inversor, el documento maestro debe detallar cómo cada componente (ingesta de datos, dashboards, IA, seguridad, monetización) se alinea con las metas de Anclora y las tendencias de mercado. En resumen, Data Lab debe ser <strong>modular, escalable y orientado a valor</strong>: un MVP con dashboards útiles y algunos informes automáticos, y roadmap claro para análisis predictivo y AI.  </p>
-<p>Como siguiente paso, es recomendable elaborar un roadmap de desarrollo (lista de features priorizadas) y un plan de inversión estimado, que permita a potenciales inversores ver plazos, costos y retornos esperados. Combinando buenas prácticas técnicas (arquitectura escalable, open-source cuando convenga) con un sólido plan de negocio, Anclora Data Lab se posicionará como un proyecto prometedor que maximiza la competitividad de la empresa y atrae capital estratégico.  </p>
-<p><strong>Fuentes:</strong> Tendencias PropTech y datos de mercado【34†L607-L614】【26†L49-L52】; ejemplos de plataformas analíticas inmobiliarias【3†L64-L72】【45†L104-L112】; mejores prácticas de plataformas analíticas (ingesta escalable, RBAC)【46†L142-L150】【46†L178-L186】.</p>
+<p>Anclora Data Lab se perfila como el <strong>centro neurálgico de conocimiento</strong> del grupo. Para generar interés inversor, el documento maestro debe detallar cómo cada componente (ingesta de datos, dashboards, IA, seguridad, monetización) se alinea con las metas de Anclora y las tendencias de mercado. En resumen, Data Lab debe ser <strong>modular, escalable y orientado a valor</strong>: un MVP con dashboards útiles y algunos informes automáticos, y roadmap claro para análisis predictivo y AI. </p>
+<p>Como siguiente paso, es recomendable elaborar un roadmap de desarrollo (lista de features priorizadas) y un plan de inversión estimado, que permita a potenciales inversores ver plazos, costos y retornos esperados. Combinando buenas prácticas técnicas (arquitectura escalable, open-source cuando convenga) con un sólido plan de negocio, Anclora Data Lab se posicionará como un proyecto prometedor que maximiza la competitividad de la empresa y atrae capital estratégico.</p>
+<h2>Fuentes</h2>
+<div class="source-line">· Tendencias PropTech y datos de mercado</div>
+<div class="source-line">· ejemplos de plataformas analíticas inmobiliarias</div>
+<div class="source-line">· mejores prácticas de plataformas analíticas (ingesta escalable, RBAC)</div>
 
       </section>
     </div>

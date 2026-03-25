@@ -139,6 +139,12 @@
       page-break-inside: avoid;
     }
 
+    .content h2 + p,
+    .content h3 + p {
+      page-break-before: avoid;
+      break-before: avoid-page;
+    }
+
     .content strong { color: var(--dl-ice); }
 
     .content blockquote {
@@ -206,9 +212,21 @@
     .content tr,
     .content img,
     .content svg,
-    .content figure {
+    .content figure,
+    .content tbody,
+    .content .source-line,
+    .content ul li,
+    .content ol li {
       break-inside: avoid-page;
       page-break-inside: avoid;
+    }
+
+    .content .source-line {
+      color: var(--dl-muted);
+      font-size: 15px;
+      line-height: 1.72;
+      text-align: left;
+      margin: 0 0 6px;
     }
   </style>
 </head>
@@ -224,7 +242,7 @@
           </div>
         </div>
         <h1>Documento maestro de especificaciones</h1>
-        <p class="subtitle">Arquitectura estratÃ©gica y tÃ©cnica de Anclora Data Lab dentro del ecosistema Anclora Group.</p>
+        <p class="subtitle">Arquitectura estratégica y técnica de Anclora Data Lab dentro del ecosistema Anclora Group.</p>
       </section>
       <section class="content">
         <h1>Anclora Data Lab: investigación exhaustiva para el documento maestro de especificaciones</h1>
@@ -378,7 +396,7 @@
 <p><strong>Visualización geoespacial y dashboards interactivos.</strong> Mapbox GL JS es el estándar de la industria utilizado por PriceHubble para mapas interactivos con heatmaps, modelos 3D y vídeos embebidos. Las capas esenciales para Baleares incluyen: precio €/m² por municipio/zona, yield de alquiler (STR vs. LTR), intensidad de demanda, densidad turística, proximidad a infraestructura, zonas protegidas ANEI/ARIP superpuestas, y análisis de vistas al mar. El dashboard principal debe mostrar: evolución YoY de precios a nivel municipal, volumen de transacciones con tendencia, desglose de compradores por nacionalidad, y balance oferta-demanda. CoStar referencia 6M+ de registros con analytics sobre 3.000+ mercados/submercados; CASAFARI ofrece seguimiento del ciclo de vida de listings (nuevos, cambios de precio, off-market).</p>
 <p><strong>Analítica y generación automatizada de informes.</strong> PriceHubble genera informes de valoración white-label exportables como PDF/digital sharing con funcionalidad de templates. ARGUS Intelligence (Altus Group) es el estándar institucional para valoración, previsión de flujos de caja y reporting. Para Anclora, Claude API debe generar las secciones narrativas de los informes incluyendo: resumen de valoración, comparación de mercado, métricas de inversión (IRR, CoC, Cap Rate), evaluación ESG, factores de riesgo y análisis de zona. La generación de informes en <strong>múltiples idiomas</strong> (ES, EN, DE, FR como mínimo; sueco, danés y polaco como deseable) es crítica para la audiencia balear.</p>
 <p><strong>Sistema de alertas e inteligencia de mercado personalizada.</strong> CASAFARI envía alertas customizadas por email para benchmarking de portfolio; CoStar permite guardar criterios de búsqueda con notificaciones instantáneas. El sistema de alertas de Anclora debe implementarse vía webhooks con triggers configurables: cambios de precio en zonas objetivo, nuevos listings que coincidan con criterios del inversor, ventas comparables completadas, cambios regulatorios (moratorias, fiscalidad, licencias ETV). Un <strong>scoring de oportunidades de inversión</strong> propio — combinando análisis de precio relativo al mercado (descuento %), potencial de yield, pronóstico de apreciación, score ESG, score de liquidez (días en mercado) y índice de prima de ubicación — representaría un diferenciador significativo.</p>
-<p><strong>API e integraciones.</strong> Siguiendo el modelo API-first de CASAFARI y PriceHubble, los endpoints core deben cubrir: búsqueda/detalle de propiedades, valoración (AVM), analytics de mercado, ventas comparables, gestión de alertas, operaciones de portfolio y generación de informes. Autenticación vía OAuth 2.0 con API keys para machine-to-machine y JWT para sesiones de usuario. Rate limiting y metering de uso para acceso tiered. Integraciones nativas con CRMs (HubSpot/Salesforce) utilizados por agencias inmobiliarias, y capacidad white-label con widgets embebibles (calculadora de valoración, snapshot de mercado) y soporte para dominios personalizados de partners.</p>
+<p><strong>API e integraciones.</strong> Siguiendo el modelo API-first de CASAFARI y PriceHubble, los endpoints core deben cubrir: búsqueda/detalle de propiedades, valoración (AVM), analytics de mercado, ventas comparables, gestión de alertas, operaciones de portfolio y generación de informes. Autenticación vía OAuth 2. con API keys para machine-to-machine y JWT para sesiones de usuario. Rate limiting y metering de uso para acceso tiered. Integraciones nativas con CRMs (HubSpot/Salesforce) utilizados por agencias inmobiliarias, y capacidad white-label con widgets embebibles (calculadora de valoración, snapshot de mercado) y soporte para dominios personalizados de partners.</p>
 <p><strong>Funcionalidades potenciadas por Claude API.</strong> La interfaz conversacional debe superar el estándar actual (búsqueda en lenguaje natural tipo Redfin) hacia la <strong>generación automatizada de tesis de inversión</strong>: para cualquier propiedad o portfolio, Claude genera un análisis estructurado con contexto de mercado, análisis comparativo, proyecciones financieras (múltiples escenarios), evaluación de riesgo, consideraciones ESG y opciones de estrategia de salida. El contexto debe incluir: terminología local (finca, possessió, chalet adosado), nombres de barrios, segmentos de mercado y regulación vigente. La implementación con pgvector en Supabase permite búsqueda semántica sobre embeddings de propiedades para identificar similitudes no evidentes en datos estructurados.</p>
 <p><strong>Seguridad y compliance para audiencia HNWI.</strong> ISO 27001 como estándar mínimo (referencia: PriceHubble). Cumplimiento GDPR/LOPDGDD con designación de DPO. Cifrado en reposo y en tránsito. Control de acceso basado en roles (RBAC) con perfiles de inversor, asesor y administrador. Autenticación de dos factores (2FA) obligatoria para datos sensibles. Residencia de datos en la UE (regiones EU de Supabase). Principio de privacidad por diseño: recopilación mínima de datos, consentimiento transparente, soporte del derecho de supresión. Conformidad con requisitos AML para plataformas de datos inmobiliarios — aunque existe una laguna importante en España, donde las transacciones inmobiliarias pueden realizarse sin involucrar a un profesional obligado.</p>
 <hr>

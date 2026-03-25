@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arquitectura de acceso v1 Â· Anclora Data Lab</title>
+  <title>Arquitectura de acceso v1 · Anclora Data Lab</title>
   <style>
     @page {
       margin: 20mm 14mm 20mm;
@@ -139,6 +139,12 @@
       page-break-inside: avoid;
     }
 
+    .content h2 + p,
+    .content h3 + p {
+      page-break-before: avoid;
+      break-before: avoid-page;
+    }
+
     .content strong { color: var(--dl-ice); }
 
     .content blockquote {
@@ -206,9 +212,21 @@
     .content tr,
     .content img,
     .content svg,
-    .content figure {
+    .content figure,
+    .content tbody,
+    .content .source-line,
+    .content ul li,
+    .content ol li {
       break-inside: avoid-page;
       page-break-inside: avoid;
+    }
+
+    .content .source-line {
+      color: var(--dl-muted);
+      font-size: 15px;
+      line-height: 1.72;
+      text-align: left;
+      margin: 0 0 6px;
     }
   </style>
 </head>
@@ -223,8 +241,8 @@
             <p class="eyebrow" style="letter-spacing:.18rem;opacity:.82;">Inteligencia institucional aplicada a Anclora Private Estates</p>
           </div>
         </div>
-        <h1>Arquitectura de acceso v1 Â· Anclora Data Lab</h1>
-        <p class="subtitle">DefiniciÃ³n de posicionamiento, relaciÃ³n con Private Estates y capas iniciales de acceso selectivo.</p>
+        <h1>Arquitectura de acceso v1 · Anclora Data Lab</h1>
+        <p class="subtitle">Definición de posicionamiento, relación con Private Estates y capas iniciales de acceso selectivo.</p>
       </section>
       <section class="content">
         <h1>Anclora Data Lab · Access Architecture v1</h1>
@@ -237,23 +255,22 @@
 <li><code>Data Lab</code> materializa esa promesa mediante acceso privado y activos analíticos curados.</li>
 </ul>
 <h2>Capas de acceso inicial</h2>
-<ol>
-<li><p><strong>Pública</strong></p>
 <ul>
-<li>narrativa</li>
-<li>promesa de producto</li>
-<li>documentos fundacionales</li>
-</ul>
+<li><p>narrativa</p>
 </li>
-<li><p><strong>Privada</strong></p>
-<ul>
-<li>señales curadas</li>
-<li>radar territorial</li>
-<li>packs activos</li>
-<li>documentación premium</li>
-</ul>
+<li><p>promesa de producto</p>
 </li>
-</ol>
+<li><p>documentos fundacionales</p>
+</li>
+<li><p>señales curadas</p>
+</li>
+<li><p>radar territorial</p>
+</li>
+<li><p>packs activos</p>
+</li>
+<li><p>documentación premium</p>
+</li>
+</ul>
 <h2>Roles iniciales</h2>
 <ul>
 <li><code>datalab-admin</code></li>
@@ -268,6 +285,9 @@
 <li>separación de audiencias internas y externas</li>
 <li>integración futura con <code>Anclora Group</code></li>
 </ul>
+<h2>Fuentes</h2>
+<div class="source-line">· **Pública**</div>
+<div class="source-line">· **Privada**</div>
 
       </section>
     </div>

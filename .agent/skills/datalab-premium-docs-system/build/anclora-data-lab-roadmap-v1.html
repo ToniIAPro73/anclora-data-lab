@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roadmap v1 Â· Anclora Data Lab</title>
+  <title>Roadmap v1 · Anclora Data Lab</title>
   <style>
     @page {
       margin: 20mm 14mm 20mm;
@@ -139,6 +139,12 @@
       page-break-inside: avoid;
     }
 
+    .content h2 + p,
+    .content h3 + p {
+      page-break-before: avoid;
+      break-before: avoid-page;
+    }
+
     .content strong { color: var(--dl-ice); }
 
     .content blockquote {
@@ -206,9 +212,21 @@
     .content tr,
     .content img,
     .content svg,
-    .content figure {
+    .content figure,
+    .content tbody,
+    .content .source-line,
+    .content ul li,
+    .content ol li {
       break-inside: avoid-page;
       page-break-inside: avoid;
+    }
+
+    .content .source-line {
+      color: var(--dl-muted);
+      font-size: 15px;
+      line-height: 1.72;
+      text-align: left;
+      margin: 0 0 6px;
     }
   </style>
 </head>
@@ -223,8 +241,8 @@
             <p class="eyebrow" style="letter-spacing:.18rem;opacity:.82;">Inteligencia institucional aplicada a Anclora Private Estates</p>
           </div>
         </div>
-        <h1>Roadmap v1 Â· Anclora Data Lab</h1>
-        <p class="subtitle">Secuencia de evoluciÃ³n del laboratorio analÃ­tico desde la foundation hasta las siguientes capas de producto.</p>
+        <h1>Roadmap v1 · Anclora Data Lab</h1>
+        <p class="subtitle">Secuencia de evolución del laboratorio analítico desde la foundation hasta las siguientes capas de producto.</p>
       </section>
       <section class="content">
         <h1>Anclora Data Lab · Roadmap v1</h1>
