@@ -129,25 +129,25 @@ export const curatedDocuments: DataLabDocument[] = [
     title: 'Documento maestro de especificaciones',
     category: 'Foundational Research',
     summary: 'Arquitectura completa del producto, alcance funcional, hipótesis y visión de plataforma.',
-    href: '/docs/Anclora_Data_Lab_doc_maestro_especificaciones.md',
+    href: '/docs/Anclora_Data_Lab_doc_maestro_especificaciones.pdf',
   },
   {
     title: 'Deep Research Report',
     category: 'Market Intelligence',
     summary: 'Investigación estructurada sobre posicionamiento, valor diferencial y oportunidades de producto.',
-    href: '/docs/deep-research-report.md',
+    href: '/docs/deep-research-report.pdf',
   },
   {
     title: 'Especificaciones iniciales',
     category: 'Product Design',
     summary: 'Documento de arranque con visión de módulos, perfiles de acceso y narrativa para la experiencia premium.',
-    href: '/docs/Especificaciones para Anclora Data Lab.md',
+    href: '/docs/Especificaciones_para_Anclora_Data_Lab.pdf',
   },
   {
     title: 'Feature Foundation v1',
     category: 'SDD',
     summary: 'Spec operativa de la primera versión funcional del repositorio Anclora Data Lab.',
-    href: '/docs/anclora-data-lab-foundation-v1-spec.md',
+    href: '/docs/anclora-data-lab-foundation-v1-spec.pdf',
   },
 ]
 

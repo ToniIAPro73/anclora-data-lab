@@ -3,12 +3,17 @@ import Link from 'next/link'
 import { Bell, BookOpenText, ChartColumnBig, LockKeyhole, Map, Radar, Shield } from 'lucide-react'
 import type { DataLabSession } from '@/lib/datalab-auth'
 import { curatedDocuments, roleLabels, signals, workspaceAlerts, workspacePacks, zones } from '@/lib/datalab-content'
+import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
+import { getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
 
 type Props = {
   session: DataLabSession
 }
 
 export function DataLabWorkspaceShell({ session }: Props) {
+  const defaultLocale = getDefaultLocale()
+  const defaultTheme = getDefaultTheme()
+
   return (
     <main className="datalab-page">
       <div className="datalab-noise" />
@@ -16,7 +21,7 @@ export function DataLabWorkspaceShell({ session }: Props) {
         <header className="datalab-topbar">
           <div className="datalab-brand">
             <div className="datalab-brand-mark">
-              <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={44} height={44} />
+              <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={44} height={44} className="datalab-brand-logo" />
             </div>
             <div className="datalab-brand-copy">
               <p>Anclora Data Lab</p>
@@ -24,6 +29,7 @@ export function DataLabWorkspaceShell({ session }: Props) {
             </div>
           </div>
           <div className="datalab-workspace-actions">
+            <DataLabUiToggles defaultLocale={defaultLocale} defaultTheme={defaultTheme} />
             <span className="datalab-role-badge">
               <Shield size={15} />
               {roleLabels[session.role]}
@@ -136,8 +142,8 @@ export function DataLabWorkspaceShell({ session }: Props) {
             <aside className="datalab-side-panel">
               <div className="datalab-section-head"><div><p className="datalab-eyebrow">Arquitectura</p><h2>Documentación de producto y acceso.</h2></div><LockKeyhole size={18} /></div>
               <div className="datalab-stack-actions">
-                <Link href="/docs/anclora-data-lab-access-architecture-v1.md" target="_blank" className="datalab-doc-link">Arquitectura de acceso</Link>
-                <Link href="/docs/anclora-data-lab-roadmap-v1.md" target="_blank" className="datalab-doc-link">Roadmap inicial</Link>
+                <Link href="/docs/anclora-data-lab-access-architecture-v1.pdf" target="_blank" className="datalab-doc-link">Arquitectura de acceso</Link>
+                <Link href="/docs/anclora-data-lab-roadmap-v1.pdf" target="_blank" className="datalab-doc-link">Roadmap inicial</Link>
               </div>
               <p className="datalab-footer-note">
                 Esta fundación se alinea con el acceso ya mostrado en el Área Privada de Anclora Private Estates y prepara la evolución hacia dashboards, scoring y briefings IA más profundos.

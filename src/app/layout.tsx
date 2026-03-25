@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -14,8 +15,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const defaultLocale = getDefaultLocale()
+  const defaultTheme = getDefaultTheme()
+
   return (
-    <html lang="es">
+    <html lang={defaultLocale} data-locale={defaultLocale} data-theme={defaultTheme === 'system' ? 'dark' : defaultTheme}>
       <body>{children}</body>
     </html>
   )

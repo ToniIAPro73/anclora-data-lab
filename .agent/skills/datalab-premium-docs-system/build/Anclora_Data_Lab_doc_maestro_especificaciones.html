@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documento maestro de especificaciones</title>
+  <style>
+    :root {
+      --dl-bg: #07131a;
+      --dl-bg-soft: #0d232d;
+      --dl-panel: rgba(10, 33, 43, 0.94);
+      --dl-border: rgba(86, 229, 240, 0.22);
+      --dl-text: #eefcff;
+      --dl-muted: rgba(216, 241, 245, 0.78);
+      --dl-aqua: #5fd9e2;
+      --dl-aqua-soft: #b6f4f8;
+      --dl-ice: #f4fdff;
+      --dl-shadow: rgba(2, 8, 12, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--dl-text);
+      font-family: Georgia, 'Times New Roman', serif;
+      background:
+        radial-gradient(circle at top left, rgba(61, 181, 191, 0.26), transparent 26%),
+        linear-gradient(180deg, #02070b 0%, #07141a 54%, #081a21 100%);
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 40px;
+    }
+
+    .shell {
+      max-width: 1040px;
+      margin: 0 auto;
+      border: 1px solid var(--dl-border);
+      border-radius: 34px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(9, 30, 39, 0.96), rgba(6, 19, 26, 0.98));
+      box-shadow: 0 34px 90px var(--dl-shadow);
+    }
+
+    .hero {
+      padding: 42px 48px 30px;
+      border-bottom: 1px solid rgba(113, 236, 245, 0.16);
+      background:
+        linear-gradient(180deg, rgba(11, 36, 46, 0.98), rgba(7, 23, 30, 0.94));
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .brand img {
+      width: 62px;
+      height: 62px;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 22px rgba(5, 24, 31, 0.32));
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--dl-aqua-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.28rem;
+      font-size: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 40px;
+      line-height: 1.06;
+      color: var(--dl-ice);
+    }
+
+    .subtitle {
+      margin-top: 14px;
+      max-width: 760px;
+      color: var(--dl-muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .content {
+      padding: 32px 48px 44px;
+    }
+
+    .content h1, .content h2, .content h3 {
+      color: var(--dl-ice);
+      line-height: 1.18;
+      page-break-after: avoid;
+    }
+
+    .content h1 { font-size: 30px; margin: 30px 0 16px; }
+    .content h2 { font-size: 24px; margin: 26px 0 14px; }
+    .content h3 { font-size: 19px; margin: 22px 0 12px; }
+
+    .content p, .content li {
+      color: var(--dl-muted);
+      font-size: 15px;
+      line-height: 1.78;
+    }
+
+    .content ul, .content ol {
+      padding-left: 24px;
+      margin: 10px 0 18px;
+    }
+
+    .content strong { color: var(--dl-ice); }
+
+    .content blockquote {
+      margin: 22px 0;
+      padding: 18px 22px;
+      border-left: 3px solid rgba(136, 242, 248, 0.48);
+      background: rgba(9, 31, 40, 0.74);
+      border-radius: 18px;
+    }
+
+    .content code {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: var(--dl-aqua-soft);
+    }
+
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 22px 0;
+      font-size: 14px;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+
+    .content th, .content td {
+      border: 1px solid rgba(100, 226, 235, 0.16);
+      padding: 12px 14px;
+      vertical-align: top;
+    }
+
+    .content th {
+      background: rgba(13, 42, 53, 0.92);
+      color: var(--dl-ice);
+      text-align: left;
+    }
+
+    .content td {
+      background: rgba(8, 25, 33, 0.9);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="shell">
+      <section class="hero">
+        <div class="brand">
+          <img src="file:///C:/Users/antonio.ballesterosa/Desktop/Proyectos/anclora-data-lab/public/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" />
+          <div>
+            <p class="eyebrow">Anclora Data Lab</p>
+            <p class="eyebrow" style="letter-spacing:.18rem;opacity:.82;">Inteligencia institucional aplicada a Anclora Private Estates</p>
+          </div>
+        </div>
+        <h1>Documento maestro de especificaciones</h1>
+        <p class="subtitle">Arquitectura estratÃ©gica y tÃ©cnica de Anclora Data Lab dentro del ecosistema Anclora Group.</p>
+      </section>
+      <section class="content">
+        <h1>Anclora Data Lab: investigación exhaustiva para el documento maestro de especificaciones</h1>
+<p><strong>Anclora Data Lab tiene ante sí una ventana de oportunidad única en el mercado PropTech europeo.</strong> No existe actualmente ninguna plataforma de inteligencia inmobiliaria dedicada al segmento residencial de lujo en mercados resort como Baleares. Mientras plataformas como CASAFARI y PriceHubble dominan el espacio generalista europeo, y las grandes marcas de lujo (Engel &amp; Völkers, Sotheby&#39;s) generan informes propietarios sin acceso digital interactivo, ningún competidor ofrece analítica institucional interactiva focalizada en inversores HNWI del mercado balear. Con precios que han subido un <strong>45-50% en cinco años</strong> y una oferta de propiedades de lujo que ha caído del 17% al <strong>menos del 4% del inventario total</strong>, el mercado necesita una herramienta de inteligencia de grado institucional accesible.</p>
+<p>Este informe consolida la investigación necesaria para fundamentar el documento maestro de especificaciones técnicas y de producto de Anclora Data Lab, abarcando siete áreas críticas: el panorama competitivo, las fuentes de datos disponibles, las métricas que demandan los inversores, los modelos de monetización óptimos, las tendencias PropTech relevantes, el estado del mercado balear y los requisitos funcionales de referencia.</p>
+<hr>
+<h2>1. Panorama competitivo: un mercado fragmentado sin líder en lujo residencial</h2>
+<p>El ecosistema de plataformas de inteligencia inmobiliaria presenta una fragmentación notable entre soluciones institucionales globales y herramientas locales españolas, con una brecha evidente en el segmento residencial de lujo.</p>
+<p><strong>A nivel global</strong>, MSCI Real Assets (anteriormente Real Capital Analytics) domina la inteligencia de flujos de capital con datos de transacciones en <strong>más de 170 países</strong> y $50 billones en transacciones CRE, pero opera exclusivamente a nivel institucional/comercial con precios enterprise no publicados. CoStar Group controla aproximadamente el <strong>70% de cuota de mercado</strong> entre usuarios institucionales CRE en EE.UU./UK, con licencias de <strong>$3.000-$12.000+/año por usuario</strong>, pero carece de cobertura en mercados residenciales europeos. Mashvisor ofrece el modelo más cercano al que Anclora persigue — análisis de inversión residencial con scoring algorítmico (&quot;Mashmeter&quot;), comparativas STR vs. LTR, y mapas de calor — pero está limitado exclusivamente al mercado estadounidense con precios de <strong>$49,99-$99,99/mes</strong>.</p>
+<p><strong>PriceHubble</strong> destaca como el líder europeo en AVMs (Automated Valuation Models) con presencia en 11 países y <strong>más de 800 empresas clientes</strong>. Su arquitectura de regresión multi-spline, certificación ISO 27001 y reciente lanzamiento de AI Agents Suite (Companion, Copilot, Autopilot) y Model Context Protocol representan el estado del arte en PropTech europeo. Sin embargo, PriceHubble opera exclusivamente B2B para bancos e instituciones financieras, sin interfaz directa para inversores individuales.</p>
+<p><strong>En el mercado español</strong>, la fragmentación es particularmente aguda. CASAFARI es la plataforma de datos inmobiliarios más completa de Europa con <strong>más de 200 millones de listings</strong> en 20+ países, deduplicación inteligente y API unificada. Es utilizada por Engel &amp; Völkers y Sotheby&#39;s en Baleares, lo que la convierte en el competidor más directo. Idealista domina los datos de portal con la mayor base de listings activos en España, aunque solo ofrece precios de demanda (asking prices), no transacciones reales. Tinsa Digital proporciona datos de tasación desde 1985 con un índice de referencia para el mercado residencial español. Brainsre se autodenomina &quot;el Bloomberg del inmobiliario&quot; con analítica predictiva big data, modelo freemium y cobertura nacional.</p>
+<p>La conclusión competitiva es contundente: <strong>no existe ninguna plataforma dedicada que combine inteligencia de mercado interactiva, scoring de oportunidades y analítica de grado institucional para el segmento residencial de lujo</strong> en mercados resort europeos. Las firmas de lujo publican informes PDF estáticos; las plataformas de datos cubren el mercado generalista. Anclora Data Lab puede ocupar este espacio vacante.</p>
+<table>
+<thead>
+<tr>
+<th>Plataforma</th>
+<th>Geografía</th>
+<th>Lujo</th>
+<th>Balear</th>
+<th>Modelo</th>
+<th>Precio referencia</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MSCI Real Assets</td>
+<td>Global (170+ países)</td>
+<td>No</td>
+<td>Macro</td>
+<td>Enterprise</td>
+<td>Custom ($$$$)</td>
+</tr>
+<tr>
+<td>CoStar</td>
+<td>EE.UU./UK</td>
+<td>No</td>
+<td>No</td>
+<td>Enterprise</td>
+<td>$3K-$12K+/año</td>
+</tr>
+<tr>
+<td>PriceHubble</td>
+<td>Europa (11 países)</td>
+<td>No</td>
+<td>Parcial</td>
+<td>B2B SaaS/API</td>
+<td>Custom</td>
+</tr>
+<tr>
+<td>CASAFARI</td>
+<td>Europa (20+ países)</td>
+<td>Vía partners</td>
+<td><strong>Sí</strong></td>
+<td>Suscripción + API</td>
+<td>Custom (mid)</td>
+</tr>
+<tr>
+<td>Idealista/Data</td>
+<td>España/PT/IT</td>
+<td>No</td>
+<td><strong>Sí</strong></td>
+<td>B2B suscripción</td>
+<td>Custom</td>
+</tr>
+<tr>
+<td>Tinsa Digital</td>
+<td>España</td>
+<td>No</td>
+<td><strong>Sí</strong></td>
+<td>B2B licensing</td>
+<td>Custom</td>
+</tr>
+<tr>
+<td>Brainsre</td>
+<td>España</td>
+<td>No</td>
+<td><strong>Sí</strong></td>
+<td>Freemium + suscripción</td>
+<td>Free explorer + paid</td>
+</tr>
+<tr>
+<td>Mashvisor</td>
+<td>Solo EE.UU.</td>
+<td>No</td>
+<td>No</td>
+<td>Tiered suscripción</td>
+<td>$50-$100/mes</td>
+</tr>
+<tr>
+<td><strong>Anclora Data Lab</strong></td>
+<td><strong>Baleares → Mediterráneo</strong></td>
+<td><strong>Sí</strong></td>
+<td><strong>Core</strong></td>
+<td><strong>Freemium premium</strong></td>
+<td><strong>TBD</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>2. Fuentes de datos: un pipeline robusto con acceso gratuito a datos críticos</h2>
+<p>La investigación identifica <strong>más de 20 fuentes de datos explotables</strong> para el mercado balear, organizadas en cuatro capas de integración prioritaria.</p>
+<p><strong>Capa 1 — Fundamento (datos core, APIs disponibles, gratuitos):</strong> El Catastro ofrece datos a nivel de propiedad con APIs REST/SOAP gratuitas, bulk downloads en formato CAT/Shapefile y servicios INSPIRE WFS/WMS. Librerías Python (<code>pycatastro</code>) facilitan la integración. Cubre el 100% de las propiedades pero excluye valores catastrales y titularidad de las descargas públicas. El <strong>Portal Estadístico del Notariado</strong> (penotariado.com, lanzado octubre 2025) es la fuente más valiosa y subestimada: proporciona <strong>precios reales de transacción</strong> a nivel de código postal con 12+ años de histórico, desglose por nacionalidad de compradores y datos de hipotecas — todo gratuito con registro. Es metodológicamente superior a los precios de demanda de portales. El INE aporta el Índice de Precios de Vivienda trimestral, estadísticas de hipotecas mensuales y transmisiones de propiedad, todo accesible vía API JSON. IBESTAT proporciona la granularidad insular (Mallorca vs. Ibiza vs. Menorca) que ninguna otra fuente nacional ofrece, incluyendo un nuevo <strong>Observatorio de la Vivienda</strong> con cinco bloques de datos y encuesta a más de 4.000 hogares.</p>
+<p><strong>Capa 2 — Inteligencia de mercado:</strong> Idealista ofrece API oficial (acceso controlado, requiere aprobación) para datos de listings en tiempo real. Engel &amp; Völkers genera el informe más completo del segmento de lujo balear con datos propietarios de <del>500 transacciones anuales y €838M de facturación en 2024. AirDNA cubre analítica de alquiler vacacional con **</del>2.844 propiedades rastreadas en Palma** (60% ocupación, $282 ADR) y API disponible con precios enterprise. La AETIB publica estadísticas turísticas mensuales con datos de llegadas, gasto y ocupación por isla.</p>
+<p><strong>Capa 3 — Regulatorio y territorial:</strong> El Registro de Empresas Turísticas de Baleares documenta todas las licencias ETV/ET activas (sin API, requiere scraping). IDEIB (Infraestructura de Dades Espacials) ofrece capas GIS con zonas ANEI/ARIP, usos del suelo y cartografía — servicios WMS/WFS gratuitos. Los PTI (Planes Territoriales Insulares) de cada isla definen zonas edificables, protecciones y capacidad turística.</p>
+<p><strong>Capa 4 — Contexto macro:</strong> AENA publica estadísticas mensuales de pasajeros (Palma PMI alcanzó <strong>33,3M de pasajeros en 2024</strong>, récord histórico). El Banco de España consolida indicadores del mercado de vivienda combinando INE, Notariado, Idealista y Sociedad de Tasación. El Colegio de Registradores aporta el dato crítico de <strong>nacionalidad de compradores</strong> (28-33% extranjeros en Baleares).</p>
+<p>El pipeline de datos más eficiente y gratuito sigue esta secuencia: <strong>Catastro (API) → INE (API) → IBESTAT (API) → Portal del Notariado (web scraping) → AETIB (informes)</strong>. La mayor laguna es la ausencia de una API unificada que combine todas estas fuentes — precisamente el valor que Anclora Data Lab puede crear.</p>
+<hr>
+<h2>3. Las métricas que buscan los inversores difieren radicalmente por perfil</h2>
+<p><strong>HNWIs y Family Offices</strong> evalúan inmuebles a través del prisma de la preservación patrimonial y la asignación de activos. Sus métricas primarias son el <strong>IRR (Internal Rate of Return)</strong> como estándar de oro para inversiones a largo plazo — el segmento de lujo balear típicamente apunta a un 10-15% IRR para estrategias core/core-plus — y el <strong>Equity Multiple</strong> (objetivo 1,5x-2,0x sobre un hold de 5-7 años). Exigen informes de portfolio consolidados que neten SPVs contra capas de fondos feeder con conversión multi-divisa, análisis asset-liability, y conformidad con GIPS. La due diligence requiere verificación de titularidad, auditorías ambientales, análisis de estructuración fiscal y evaluación de riesgo regulatorio. Para el mercado balear específicamente, monitorizan la velocidad de precios (tasa de cambio de €/m² por trimestre), días en mercado, y el calendario regulatorio (abolición Golden Visa, moratorias ETV, propuestas de impuestos a compradores extranjeros).</p>
+<p><strong>Fondos institucionales</strong> operan bajo estándares de reporting codificados: <strong>NCREIF PREA</strong> (actualizado en 2025 con reporting ampliado a nivel de activo), <strong>INREV Guidelines</strong> para vehículos europeos no listados, y <strong>GRESB</strong> como benchmark ESG. Los estándares NCREIF 2025 requieren jerarquía estandarizada de IRR combinada con TVPI, DPI y RVPI en todo reporting a LPs, más el <strong>TGER (Total Global Expense Ratio)</strong> desarrollado conjuntamente con INREV y ANREV. En el contexto balear, los cap rates de lujo se comprimen al <strong>3-5%</strong> debido a los altos valores de activos, con DSCR mínimos de 1,25x y LTV típicos del 50-65%. El dato crítico para fondos es el <strong>SFDR</strong> — aproximadamente el 39% de los fondos inmobiliarios europeos están clasificados bajo Artículo 8 (&quot;light green&quot;), y la Comisión Europea está revisando SFDR para reemplazar Artículos 8/9 con tres nuevas categorías.</p>
+<p><strong>Inversores retail premium (€100K-€500K)</strong> necesitan métricas simplificadas: yield bruto de alquiler (4-5% en long-term, significativamente superior con licencia ETV), yield neto (2-3,5% tras gastos y fiscalidad), apreciación proyectada de capital (8-12% anual reciente en Baleares), y calculadoras de coste total de adquisición (10-13% del precio en España: ITP, notaría, registro, abogados). Herramientas de comparación €/m² entre zonas y simuladores de ocupación estacional son esenciales.</p>
+<p><strong>Señales macro críticas para Baleares</strong> incluyen la conectividad aérea (nueva ruta Miami-Palma atrayendo compradores estadounidenses; vuelos de invierno iniciándose 3 semanas antes en 2025), el impacto de la abolición de la <strong>Golden Visa</strong> (efectiva 3 de abril de 2025, aunque con impacto directo limitado: solo ~2.000 solicitudes/año en toda España frente a 87.000+ compras de extranjeros en 2023), efectos cambiarios GBP/EUR y USD/EUR sobre compradores británicos y americanos, y riesgo climático creciente (tormenta de agosto 2024 en Mallorca con vientos de 110+ km/h, escasez hídrica en las islas).</p>
+<hr>
+<h2>4. Modelo de monetización óptimo: freemium premium con exclusividad escalable</h2>
+<p>El análisis de pricing de plataformas comparables revela un espectro amplio: desde los $49,99/mes de Mashvisor Lite hasta los $50.000+/año de licencias enterprise de MSCI o CoStar. Para Anclora Data Lab, el posicionamiento premium y la integración en un ecosistema más amplio sugieren un modelo híbrido.</p>
+<p><strong>Benchmarks de referencia concretos:</strong></p>
+<ul>
+<li>Mashvisor: $49,99 (Lite) / $74,99 (Standard) / $99,99 (Pro) por mes</li>
+<li>Reonomy: $400/mes o $4.800/año por usuario</li>
+<li>LoopNet: $130–$1.100+/mes</li>
+<li>ATTOM Data API: desde $95/mes</li>
+<li>BatchData: $500–$5.000+/mes según volumen</li>
+</ul>
+<p><strong>Modelo recomendado para Anclora Data Lab — &quot;Freemium Premium con Escalabilidad Institucional&quot;:</strong></p>
+<p>El <strong>Tier Explorer (gratuito, sin registro)</strong> debe seguir la estrategia ya definida en la documentación existente de Anclora: acceso sin fricciones a dashboards de mercado con datos agregados (€/m² por zona, tendencias anuales, indicadores macro), mapas de calor interactivos con datos limitados, y 2-3 informes de mercado publicados trimestralmente. Objetivo: <strong>generación de leads y autoridad de marca</strong>.</p>
+<p>El <strong>Tier Investor (€99-€149/mes, registro requerido)</strong> incluiría analítica completa por zona y propiedad individual, scoring de oportunidades de inversión, alertas personalizadas (nuevos listings, cambios de precio, ventas comparables), simuladores de rendimiento (STR vs. LTR, IRR, CoC), generación de hasta 10 informes PDF/mes, y acceso a la interfaz conversacional con IA. Este tier competiría directamente con Mashvisor Pro pero para mercado de lujo europeo.</p>
+<p>El <strong>Tier Family Office (€499-€749/mes o €4.999-€7.499/año)</strong> añadiría portfolio analytics multi-activo, informes GIPS-compliant automatizados, datos ESG/sostenibilidad por propiedad, acceso a datos de transacciones históricas del Notariado (procesados), alertas de cambios regulatorios, y generación ilimitada de informes con marca blanca.</p>
+<p>El <strong>Tier Institutional/API (€12.000-€25.000/año, custom)</strong> proporcionaría acceso completo vía API REST, bulk data exports, integración con CRMs (HubSpot/Salesforce), dashboards personalizados, soporte dedicado, y SLA con uptime garantizado.</p>
+<p>Un <strong>modelo complementario de invitación/exclusividad</strong> para el Portal B2B de Partners (ya documentado en la arquitectura existente de Anclora) crearía un canal de monetización adicional vía comisiones de referencia, acceso a inventario off-market y servicios BaaS.</p>
+<hr>
+<h2>5. Tendencias PropTech 2024-2026: la IA conversacional ya no es diferenciador sino tabla base</h2>
+<p>El mercado PropTech global alcanza <strong>~$40-44.000 millones en 2024-2025</strong> con proyección a $179-198.000 millones para 2034-2035 (CAGR 16%). Las tendencias más relevantes para Anclora convergen en cinco ejes.</p>
+<p><strong>La IA conversacional para búsqueda inmobiliaria se ha convertido en estándar.</strong> En noviembre de 2025, Redfin lanzó búsqueda conversacional con Sierra, permitiendo consultas en lenguaje natural tipo &quot;casa estilo rancho con piscina en Austin.&quot; Homes.com, Realtor.com y Zillow lanzaron funcionalidades similares ese mismo año. PriceHubble introdujo su AI Agents Suite con tres niveles de autonomía (Companion, Copilot, Autopilot) y un <strong>Model Context Protocol</strong> en beta para Q1 2026. Que Anclora utilice Claude API para consultas en lenguaje natural ya no es diferenciador — es requisito mínimo. El diferenciador será la <strong>calidad del contexto balear</strong> inyectado al modelo y la generación de tesis de inversión automatizadas.</p>
+<p><strong>Los AVMs para lujo requieren un enfoque distinto.</strong> Los modelos estándar fallan en el segmento de lujo por escasez de comparables (menos transacciones por encima de €4M) y factores cualitativos no capturados por datos estructurados (calidad de vistas marinas, proximidad a beach clubs, estilo arquitectónico). PriceHubble ya integra computer vision para extraer características de fotografías de propiedades, reconociendo más de 300 atributos. Para Baleares, un AVM efectivo debe combinar regresión multi-spline con embeddings de atributos cualitativos procesados por pgvector en Supabase.</p>
+<p><strong>ESG/sostenibilidad es ahora factor de inversión obligatorio.</strong> Según Knight Frank, el <strong>49% de compradores de lujo</strong> consideran las calificaciones energéticas esenciales; CBRE documenta que edificios certificados ESG obtienen un <strong>6% de prima en alquileres</strong> y 14-16% más en valores de capital en Europa. La EPBD europea exige clase energética E para 2030 y D para 2033 en todo el parque de viviendas. En Ibiza, la producción fotovoltaica creció <strong>7,5x en 2023</strong>, aunque las renovables representan solo el 2,8% del total energético. Integrar scoring ESG por propiedad es una oportunidad de diferenciación inmediata para Anclora.</p>
+<p><strong>La tokenización inmobiliaria crece exponencialmente pero requiere infraestructura de datos.</strong> Deloitte proyecta el mercado tokenizado de <strong>$300.000M en 2024 a $4 billones en 2035</strong>. MiCA está plenamente en vigor desde diciembre 2024, aunque la mayoría de tokens inmobiliarios se estructuran como securities bajo MiFID II/AIFMD. En España, los tokens no pueden conferir titularidad directa de propiedad (requiere escritura notarial), sino que representan derechos económicos sobre SPVs. <strong>Anclora puede posicionarse como la capa de datos/inteligencia</strong> que las plataformas de tokenización necesitan: valoraciones verificadas, datos de mercado y analytics para pricing de activos tokenizados.</p>
+<p><strong>El marco regulatorio europeo se endurece.</strong> GDPR/LOPDGDD exigen designación de DPO para procesamiento a gran escala. La AEPD puede imponer multas de hasta el 4% de facturación global. Las infracciones LOPDGDD se clasifican en leves (prescripción 1 año), graves (2 años) y muy graves (3 años). El software debe especificar su nivel de protección de datos: básico, medio o alto. Para una plataforma que maneja datos de HNWIs, la certificación ISO 27001 (estándar de PriceHubble) y el hosting con residencia de datos en la UE son requisitos no negociables.</p>
+<hr>
+<h2>6. El mercado de lujo balear se encuentra en un punto de inflexión estructural</h2>
+<p>El mercado inmobiliario de lujo en Baleares atraviesa una situación sin precedentes definida por la convergencia de oferta críticamente limitada y demanda internacional sostenida.</p>
+<p><strong>Los precios han alcanzado máximos históricos en todas las islas.</strong> Mallorca registra un promedio de <strong>€4.512/m²</strong> general y <strong>€5.800/m²</strong> para propiedades vacacionales (enero 2024), con la zona suroeste superando los <strong>€13.400/m²</strong> en el segmento de lujo. En Ibiza, el promedio insular es de <strong>€7.043/m²</strong> (subida del 5,86% en 2024) con un CAGR 2017-2024 del 8,08%. Las villas de lujo en Es Cubells/Cap Martinet alcanzan los <strong>€20.000/m²</strong>. Menorca, más accesible, muestra €2.733/m² en Mahón con un 11% de crecimiento interanual. Sant Joan de Labritja (Ibiza) ostenta el precio municipal más alto de todas las Baleares: <strong>€8.959/m²</strong>.</p>
+<p><strong>El volumen de transacciones se ha normalizado tras el boom post-pandemia.</strong> Las Baleares registraron <strong>13.624 transmisiones</strong> en 2024, un 4% menos que 2023 y un 23,5% por debajo del pico de 2022 (17.813). Sin embargo, el segmento de €1,5M+ se vende más rápido que el rango medio — en Ibiza, más del 50% de las propiedades se venden en menos de 3 meses. La normalización del volumen, combinada con precios al alza, indica un mercado de vendedores con poder de fijación de precios sostenido.</p>
+<p><strong>El perfil de compradores mantiene una dominancia europea con diversificación emergente.</strong> Los alemanes lideran ampliamente, especialmente en Mallorca. Los británicos mantienen presencia significativa en las tres islas pese al Brexit. Los escandinavos (suecos, noruegos, daneses) representan un segmento creciente, particularmente en Menorca. Los compradores polacos han experimentado un <strong>crecimiento del 60%</strong>. La entrada de compradores estadounidenses se acelera con la nueva ruta Miami-Palma, y emerge interés de Oriente Medio en Ibiza. El <strong>35,1% de todas las transacciones baleares en 2022 fueron internacionales</strong>.</p>
+<p><strong>Las zonas premium muestran dinámicas microregionales diferenciadas:</strong></p>
+<p>En Mallorca, <strong>Deià</strong> registró el salto más dramático: de €6.895/m² a €9.112/m² en un solo año (+32%), impulsado por escasez extrema y protecciones patrimoniales/ambientales de la Serra de Tramuntana. <strong>Son Vida</strong> permanece como enclave ultra-exclusivo con tres campos de golf de clase mundial (Arabella). <strong>Puerto de Andratx</strong> alcanza €5.629/m² de media general, con el waterfront sustancialmente por encima. <strong>Calvià</strong> (Santa Ponsa, Bendinat) a €6.925/m² está en camino de superar a Andratx como la zona más cara.</p>
+<p>En Ibiza, el casco histórico de <strong>Eivissa</strong> muestra €7.465/m² (+16,5% interanual), con Cap Martinet como el enclave más exclusivo de la isla. La zona sur (Es Cubells, Cala Jondal) promedió €9.500/m² para villas y fincas. <strong>Sant Joan de Labritja</strong> ostenta los precios más altos del archipiélago por su carácter rural exclusivo con oferta mínima.</p>
+<p>En Menorca, <strong>Mahón</strong> lidera con €2.733/m² y Ciutadella con €2.600+/m². La isla muestra primas de hasta el 30% por vistas al mar. Su estatus de <strong>Reserva de la Biosfera UNESCO</strong> limita severamente el desarrollo pero protege el carácter que atrae a su demografía compradora — menos especulativa y más orientada a lifestyle.</p>
+<p><strong>El entorno regulatorio es el factor de mayor impacto prospectivo.</strong> La <strong>moratoria ETV</strong> vigente desde febrero 2022 (extendida al menos hasta 2026) prohíbe nuevas licencias de alquiler turístico. El <strong>Decreto Ley 4/2025</strong> (abril 2025) añadió la prohibición de nuevo alojamiento turístico en edificios plurifamiliares. Solo se puede entrar en el mercado de alquiler vacacional comprando propiedades con licencia existente, que ya comandan una <strong>prima del ~20%</strong>. Las multas por alquiler sin licencia van de €5.000 a €50.000+. La Golden Visa fue abolida el 3 de abril de 2025, aunque con impacto directo limitado. La propuesta de <strong>impuesto del 100% a compras de extranjeros</strong> — discutida para Baleares, Canarias y Cataluña — no está aprobada y se considera improbable pero genera incertidumbre.</p>
+<p><strong>Las proyecciones 2025-2026</strong> apuntan a incrementos moderados del <strong>5-7% para el mercado general</strong> y <strong>7-10% para el segmento premium</strong> (Yes! Mallorca Property, Balearic Properties). BBVA Research proyecta +7% para vivienda en España en 2026. La dinámica de oferta-demanda permanece estructuralmente favorable: España necesita unas 600.000 viviendas (2022-2025), las propiedades de lujo representan menos del 4% del inventario (vs. 17% en 2020), y los costes y plazos de construcción siguen escalando (26+ meses para licencia en Ibiza). Las compras internacionales de segundas residencias de lujo por encima de €10M crecieron un <strong>11% en 2025</strong> en la Europa costera.</p>
+<hr>
+<h2>7. Requisitos funcionales: la arquitectura debe servir a cuatro audiencias con necesidades distintas</h2>
+<p>Basado en el benchmarking de las plataformas líderes y alineado con la documentación estratégica existente de Anclora, los requisitos funcionales se organizan en seis bloques.</p>
+<p><strong>Visualización geoespacial y dashboards interactivos.</strong> Mapbox GL JS es el estándar de la industria utilizado por PriceHubble para mapas interactivos con heatmaps, modelos 3D y vídeos embebidos. Las capas esenciales para Baleares incluyen: precio €/m² por municipio/zona, yield de alquiler (STR vs. LTR), intensidad de demanda, densidad turística, proximidad a infraestructura, zonas protegidas ANEI/ARIP superpuestas, y análisis de vistas al mar. El dashboard principal debe mostrar: evolución YoY de precios a nivel municipal, volumen de transacciones con tendencia, desglose de compradores por nacionalidad, y balance oferta-demanda. CoStar referencia 6M+ de registros con analytics sobre 3.000+ mercados/submercados; CASAFARI ofrece seguimiento del ciclo de vida de listings (nuevos, cambios de precio, off-market).</p>
+<p><strong>Analítica y generación automatizada de informes.</strong> PriceHubble genera informes de valoración white-label exportables como PDF/digital sharing con funcionalidad de templates. ARGUS Intelligence (Altus Group) es el estándar institucional para valoración, previsión de flujos de caja y reporting. Para Anclora, Claude API debe generar las secciones narrativas de los informes incluyendo: resumen de valoración, comparación de mercado, métricas de inversión (IRR, CoC, Cap Rate), evaluación ESG, factores de riesgo y análisis de zona. La generación de informes en <strong>múltiples idiomas</strong> (ES, EN, DE, FR como mínimo; sueco, danés y polaco como deseable) es crítica para la audiencia balear.</p>
+<p><strong>Sistema de alertas e inteligencia de mercado personalizada.</strong> CASAFARI envía alertas customizadas por email para benchmarking de portfolio; CoStar permite guardar criterios de búsqueda con notificaciones instantáneas. El sistema de alertas de Anclora debe implementarse vía webhooks con triggers configurables: cambios de precio en zonas objetivo, nuevos listings que coincidan con criterios del inversor, ventas comparables completadas, cambios regulatorios (moratorias, fiscalidad, licencias ETV). Un <strong>scoring de oportunidades de inversión</strong> propio — combinando análisis de precio relativo al mercado (descuento %), potencial de yield, pronóstico de apreciación, score ESG, score de liquidez (días en mercado) y índice de prima de ubicación — representaría un diferenciador significativo.</p>
+<p><strong>API e integraciones.</strong> Siguiendo el modelo API-first de CASAFARI y PriceHubble, los endpoints core deben cubrir: búsqueda/detalle de propiedades, valoración (AVM), analytics de mercado, ventas comparables, gestión de alertas, operaciones de portfolio y generación de informes. Autenticación vía OAuth 2.0 con API keys para machine-to-machine y JWT para sesiones de usuario. Rate limiting y metering de uso para acceso tiered. Integraciones nativas con CRMs (HubSpot/Salesforce) utilizados por agencias inmobiliarias, y capacidad white-label con widgets embebibles (calculadora de valoración, snapshot de mercado) y soporte para dominios personalizados de partners.</p>
+<p><strong>Funcionalidades potenciadas por Claude API.</strong> La interfaz conversacional debe superar el estándar actual (búsqueda en lenguaje natural tipo Redfin) hacia la <strong>generación automatizada de tesis de inversión</strong>: para cualquier propiedad o portfolio, Claude genera un análisis estructurado con contexto de mercado, análisis comparativo, proyecciones financieras (múltiples escenarios), evaluación de riesgo, consideraciones ESG y opciones de estrategia de salida. El contexto debe incluir: terminología local (finca, possessió, chalet adosado), nombres de barrios, segmentos de mercado y regulación vigente. La implementación con pgvector en Supabase permite búsqueda semántica sobre embeddings de propiedades para identificar similitudes no evidentes en datos estructurados.</p>
+<p><strong>Seguridad y compliance para audiencia HNWI.</strong> ISO 27001 como estándar mínimo (referencia: PriceHubble). Cumplimiento GDPR/LOPDGDD con designación de DPO. Cifrado en reposo y en tránsito. Control de acceso basado en roles (RBAC) con perfiles de inversor, asesor y administrador. Autenticación de dos factores (2FA) obligatoria para datos sensibles. Residencia de datos en la UE (regiones EU de Supabase). Principio de privacidad por diseño: recopilación mínima de datos, consentimiento transparente, soporte del derecho de supresión. Conformidad con requisitos AML para plataformas de datos inmobiliarios — aunque existe una laguna importante en España, donde las transacciones inmobiliarias pueden realizarse sin involucrar a un profesional obligado.</p>
+<hr>
+<h2>Conclusión: Anclora Data Lab puede definir una nueva categoría de producto</h2>
+<p>El análisis revela una convergencia extraordinaria de factores favorables. El mercado inmobiliario de lujo balear está estructuralmente constreñido por el lado de la oferta y sostenido por demanda internacional diversificada, creando una necesidad real de inteligencia de mercado sofisticada. Ningún competidor actual combina analítica institucional interactiva con foco en lujo residencial y cobertura granular balear — esto no es una mejora incremental sino una <strong>categoría de producto inexistente</strong>. Las fuentes de datos disponibles son sorprendentemente ricas y en su mayoría gratuitas, con el Portal Estadístico del Notariado (lanzado octubre 2025) proporcionando precios reales de transacción a nivel de código postal como recurso transformador. El stack tecnológico definido (Next.js 15, React 19, Supabase con pgvector, Claude API, Vercel) está perfectamente alineado con las tendencias PropTech 2025-2026, desde AI Agents hasta MCP protocols.</p>
+<p>Tres decisiones estratégicas definirán el éxito del producto. Primera, la calidad del AVM para el segmento de lujo — donde la escasez de comparables exige modelos híbridos que combinen datos estructurados con análisis cualitativo de atributos premium. Segunda, la velocidad de integración de fuentes de datos oficiales (Catastro + Notariado + IBESTAT) como ventaja competitiva difícil de replicar por competidores generalistas. Tercera, el balance entre acceso gratuito para construcción de marca (siguiendo la estrategia de reciprocidad psicológica ya documentada) y monetización suficiente para sostener el desarrollo en un mercado nicho. El modelo freemium premium con tiers entre €99/mes y €25.000/año, complementado con el Portal B2B de Partners como canal de monetización paralelo, ofrece el equilibrio óptimo entre alcance y exclusividad.</p>
+<p>Anclora Data Lab no compite con CASAFARI ni con Idealista — compite con los informes PDF estáticos de Engel &amp; Völkers, con las hojas de cálculo manuales de los family offices, y con la opacidad informativa que históricamente ha beneficiado a los intermediarios del mercado balear de lujo. Al democratizar la inteligencia de grado institucional para inversores premium, la plataforma simultáneamente captura leads de altísimo valor para el ecosistema Anclora y establece una autoridad de datos que se refuerza con cada usuario adicional.</p>
+
+      </section>
+    </div>
+  </div>
+</body>
+</html>

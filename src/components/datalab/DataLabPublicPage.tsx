@@ -2,8 +2,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight, Database, MapPinned, Radar, ShieldCheck } from 'lucide-react'
 import { curatedDocuments, heroMetrics, mvpModules, signals, zones } from '@/lib/datalab-content'
+import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
+import { getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
 
 export function DataLabPublicPage() {
+  const defaultLocale = getDefaultLocale()
+  const defaultTheme = getDefaultTheme()
+
   return (
     <main className="datalab-page">
       <div className="datalab-noise" />
@@ -11,7 +16,7 @@ export function DataLabPublicPage() {
         <header className="datalab-topbar">
           <div className="datalab-brand">
             <div className="datalab-brand-mark">
-              <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={44} height={44} />
+              <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={44} height={44} className="datalab-brand-logo" />
             </div>
             <div className="datalab-brand-copy">
               <p>Anclora Data Lab</p>
@@ -19,7 +24,8 @@ export function DataLabPublicPage() {
             </div>
           </div>
           <nav className="datalab-nav">
-            <Link href="/docs/anclora-data-lab-roadmap-v1.md" className="datalab-button-ghost">
+            <DataLabUiToggles defaultLocale={defaultLocale} defaultTheme={defaultTheme} />
+            <Link href="/docs/anclora-data-lab-roadmap-v1.pdf" className="datalab-button-ghost" target="_blank">
               Roadmap
             </Link>
             <Link href="/login" className="datalab-button">
@@ -44,7 +50,7 @@ export function DataLabPublicPage() {
               <Link href="/login" className="datalab-button">
                 Entrar en Data Lab
               </Link>
-              <Link href="/docs/anclora-data-lab-foundation-v1-spec.md" className="datalab-doc-link" target="_blank">
+              <Link href="/docs/anclora-data-lab-foundation-v1-spec.pdf" className="datalab-doc-link" target="_blank">
                 Ver spec fundacional
               </Link>
             </div>
