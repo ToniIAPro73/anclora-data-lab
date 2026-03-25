@@ -19,24 +19,55 @@ export function DataLabPublicPage() {
     profile: '',
     intendedUse: '',
   })
+  const [requestBusy, setRequestBusy] = useState(false)
   const [requestNotice, setRequestNotice] = useState<string | null>(null)
+  const [requestError, setRequestError] = useState<string | null>(null)
   const showPublicTechnicalItems = false
   const publicDocuments = showPublicTechnicalItems
     ? curatedDocuments
     : curatedDocuments.filter((document) => document.title !== 'Feature Foundation v1')
 
-  function handleRequestSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleRequestSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setRequestNotice(
-      'Solicitud de acceso registrada. El equipo de Data Lab evaluará tu encaje y te responderá por email con los siguientes pasos.'
-    )
-    setRequestForm({
-      name: '',
-      organization: '',
-      email: '',
-      profile: '',
-      intendedUse: '',
-    })
+    setRequestBusy(true)
+    setRequestError(null)
+    setRequestNotice(null)
+
+    try {
+      const response = await fetch('/api/access-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: requestForm.name,
+          organization: requestForm.organization,
+          email: requestForm.email,
+          profileLabel: requestForm.profile,
+          intendedUse: requestForm.intendedUse,
+          requestedLocale: locale,
+          submissionSource: 'private-estates',
+        }),
+      })
+
+      const payload = (await response.json().catch(() => null)) as { error?: string } | { id?: string } | null
+      if (!response.ok) {
+        throw new Error((payload && 'error' in payload && payload.error) || 'No se ha podido registrar la solicitud de acceso.')
+      }
+
+      setRequestNotice(
+        'Solicitud de acceso registrada. El equipo de Data Lab evaluará tu encaje y te responderá por email con los siguientes pasos.'
+      )
+      setRequestForm({
+        name: '',
+        organization: '',
+        email: '',
+        profile: '',
+        intendedUse: '',
+      })
+    } catch (error) {
+      setRequestError(error instanceof Error ? error.message : 'No se ha podido registrar la solicitud de acceso.')
+    } finally {
+      setRequestBusy(false)
+    }
   }
 
   return (
@@ -164,10 +195,11 @@ export function DataLabPublicPage() {
                 required
               />
 
+              {requestError ? <p className="datalab-notice">{requestError}</p> : null}
               {requestNotice ? <p className="datalab-notice">{requestNotice}</p> : null}
 
-              <button className="datalab-button" type="submit">
-                Enviar solicitud de acceso
+              <button className="datalab-button" type="submit" disabled={requestBusy}>
+                {requestBusy ? 'Registrando solicitud...' : 'Enviar solicitud de acceso'}
               </button>
             </form>
           </section>

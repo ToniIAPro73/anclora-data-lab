@@ -5,12 +5,19 @@ import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
 import { getDataLabSession } from '@/lib/datalab-auth'
 import { getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
 
-export default async function LoginPage() {
+type PageProps = {
+  searchParams: Promise<{ email?: string | string[] }>
+}
+
+export default async function LoginPage({ searchParams }: PageProps) {
   const session = await getDataLabSession()
   if (session) redirect('/workspace')
 
   const defaultLocale = getDefaultLocale()
   const defaultTheme = getDefaultTheme()
+  const params = await searchParams
+  const emailParam = params.email
+  const prefillEmail = Array.isArray(emailParam) ? emailParam[0] || '' : emailParam || ''
 
   return (
     <main className="datalab-login-page">
@@ -48,7 +55,7 @@ export default async function LoginPage() {
             Usa tus credenciales de acceso a Data Lab. Si todavía no tienes acceso, la activación se gestiona desde el
             circuito interno de Private Estates.
           </p>
-          <DataLabLoginForm />
+          <DataLabLoginForm prefillUsername={prefillEmail} />
         </article>
       </section>
     </main>

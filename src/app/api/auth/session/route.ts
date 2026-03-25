@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Debes introducir usuario y contraseña.' }, { status: 400 })
   }
 
-  const session = authenticateDataLabUser(username, password)
+  const session = await authenticateDataLabUser(username, password)
   if (!session) {
     return NextResponse.json({ error: 'Las credenciales no son válidas para Data Lab.' }, { status: 401 })
   }

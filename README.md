@@ -5,7 +5,9 @@ Aplicación independiente de inteligencia y activos analíticos para `Anclora Pr
 ## Incluye
 
 - landing pública premium
-- login privado
+- solicitud pública de acceso
+- login privado para perfiles aprobados
+- backoffice interno de revisión de accesos
 - workspace inicial
 - base SDD
 - documentación pública
@@ -13,6 +15,25 @@ Aplicación independiente de inteligencia y activos analíticos para `Anclora Pr
 ## Entorno
 
 Ver `.env.example`.
+
+Variables mínimas:
+
+- `DATABASE_URL`
+- `ANCLORA_DATALAB_SESSION_SECRET`
+- `DATALAB_ADMIN_USERNAME`
+- `DATALAB_ADMIN_PASSWORD`
+- `DATALAB_ADMIN_SESSION_SECRET`
+
+Rutas relevantes:
+
+- `/` acceso público dual
+- `/login` acceso al workspace para usuarios aprobados
+- `/access-requests/login` acceso interno al backoffice de revisión
+- `/access-requests` consola interna de admisiones
+
+Esquema SQL base:
+
+- `db/datalab_access.sql`
 
 ## Scripts
 

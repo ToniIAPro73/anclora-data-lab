@@ -3,9 +3,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-export function DataLabLoginForm() {
+type Props = {
+  prefillUsername?: string
+}
+
+export function DataLabLoginForm({ prefillUsername = '' }: Props) {
   const router = useRouter()
-  const [username, setUsername] = useState('')
+  const [username, setUsername] = useState(prefillUsername)
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)

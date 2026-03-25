@@ -351,6 +351,15 @@ html[data-theme='light'] .datalab-toggle {
 .datalab-input, .datalab-textarea {
   width: 100%; border: 1px solid var(--dl-border); border-radius: 22px; padding: 16px 18px; background: rgba(4, 18, 24, 0.92); color: var(--dl-text); outline: none;
 }
+.datalab-select {
+  width: 100%;
+  border: 1px solid var(--dl-border);
+  border-radius: 22px;
+  padding: 16px 18px;
+  background: rgba(4, 18, 24, 0.92);
+  color: var(--dl-text);
+  outline: none;
+}
 .datalab-textarea { min-height: 140px; resize: vertical; }
 .datalab-notice, .datalab-error { border-radius: 24px; padding: 16px 18px; line-height: 1.65; }
 .datalab-notice { border: 1px solid rgba(154, 238, 247, 0.18); background: rgba(11, 47, 58, 0.84); color: var(--dl-aqua-soft); }
@@ -367,6 +376,121 @@ html[data-theme='light'] .datalab-toggle {
   justify-content: flex-end;
   margin-bottom: 18px;
 }
+.datalab-review-login-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr);
+  justify-content: center;
+  margin-top: 28px;
+}
+.datalab-review-login-panel {
+  display: grid;
+  gap: 20px;
+}
+.datalab-review-toolbar {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) auto auto;
+  gap: 16px;
+  align-items: center;
+}
+.datalab-review-filter-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.datalab-review-filter {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--dl-border);
+  background: rgba(7, 23, 30, 0.58);
+  color: var(--dl-muted);
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+.datalab-review-filter.is-active {
+  border-color: var(--dl-border-strong);
+  color: var(--dl-text);
+  background: rgba(22, 108, 118, 0.4);
+}
+.datalab-review-grid {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: minmax(320px, 0.78fr) minmax(0, 1.22fr);
+  gap: 22px;
+}
+.datalab-review-list {
+  display: grid;
+  gap: 12px;
+}
+.datalab-review-item {
+  width: 100%;
+  text-align: left;
+  border-radius: 22px;
+  border: 1px solid var(--dl-border);
+  background: rgba(7, 23, 29, 0.72);
+  padding: 18px 20px;
+  color: var(--dl-text);
+  cursor: pointer;
+}
+.datalab-review-item.is-active {
+  border-color: var(--dl-border-strong);
+  box-shadow: 0 0 0 1px rgba(115, 236, 245, 0.14) inset;
+}
+.datalab-review-item-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+.datalab-review-item p,
+.datalab-review-item small {
+  display: block;
+  margin: 8px 0 0;
+  color: var(--dl-muted);
+}
+.datalab-review-badge {
+  border-radius: 999px;
+  padding: 6px 10px;
+  border: 1px solid var(--dl-border);
+  text-transform: uppercase;
+  letter-spacing: 0.14rem;
+  font-size: 0.66rem;
+}
+.datalab-review-badge.is-submitted,
+.datalab-review-badge.is-under_review {
+  color: var(--dl-aqua-soft);
+}
+.datalab-review-badge.is-accepted {
+  color: #baf6cb;
+}
+.datalab-review-badge.is-rejected {
+  color: #ffc7cf;
+}
+.datalab-review-detail {
+  display: grid;
+  gap: 18px;
+}
+.datalab-review-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.datalab-review-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.datalab-review-empty {
+  border: 1px dashed var(--dl-border);
+  border-radius: 24px;
+  padding: 28px 24px;
+  color: var(--dl-muted);
+  text-align: center;
+}
 
 @keyframes datalabHaloSweep {
   0%, 48% { transform: translateX(-130%); }
@@ -376,6 +500,9 @@ html[data-theme='light'] .datalab-toggle {
 @media (max-width: 1120px) {
   .datalab-hero, .datalab-grid-side, .datalab-login-shell, .datalab-workspace-grid { grid-template-columns: 1fr; }
   .datalab-grid-3, .datalab-grid-docs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .datalab-review-grid,
+  .datalab-review-toolbar,
+  .datalab-review-login-wrap { grid-template-columns: 1fr; }
   .datalab-topbar { grid-template-columns: 1fr; }
   .datalab-backlink, .datalab-nav { justify-self: start; }
   .datalab-ui-toggles { flex-wrap: wrap; }
@@ -385,7 +512,7 @@ html[data-theme='light'] .datalab-toggle {
 @media (max-width: 720px) {
   .datalab-shell, .datalab-login-shell { width: min(100% - 28px, 100%); }
   .datalab-topbar, .datalab-card, .datalab-panel, .datalab-login-card, .datalab-workspace-card, .datalab-side-panel { padding: 24px; border-radius: 28px; }
-  .datalab-grid-3, .datalab-grid-2, .datalab-grid-docs, .datalab-form-grid { grid-template-columns: 1fr; }
+  .datalab-grid-3, .datalab-grid-2, .datalab-grid-docs, .datalab-form-grid, .datalab-review-meta-grid { grid-template-columns: 1fr; }
   .datalab-topbar { align-items: flex-start; }
   .datalab-nav { justify-content: flex-start; }
   .datalab-login-toggle-row { justify-content: flex-start; }
