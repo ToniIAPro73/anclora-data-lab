@@ -32,7 +32,7 @@ export function DataLabPublicPage() {
             </div>
             <div className="datalab-brand-copy">
               <p>Anclora Data Lab</p>
-              <span>Packs de inteligencia, señales territoriales y activos analíticos del ecosistema Anclora.</span>
+              <span>Inteligencia territorial y activos analíticos de Anclora.</span>
             </div>
           </div>
           <div className="datalab-nav">

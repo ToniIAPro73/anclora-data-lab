@@ -73,7 +73,7 @@ button, input, textarea, select { font: inherit; }
   border-radius: 34px;
   padding: 32px;
 }
-.datalab-topbar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; border-radius: 28px; padding: 20px 28px; }
+.datalab-topbar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 18px; border-radius: 28px; padding: 20px 28px; }
 .datalab-backlink {
   justify-self: start;
   font-size: 0.76rem;
@@ -83,7 +83,7 @@ button, input, textarea, select { font: inherit; }
   color: var(--dl-text);
 }
 .datalab-backlink:hover { color: var(--dl-aqua-soft); }
-.datalab-brand { display: flex; align-items: center; gap: 18px; }
+.datalab-brand { display: flex; align-items: center; gap: 16px; min-width: 0; }
 .datalab-brand-mark {
   width: auto;
   height: auto;
@@ -105,7 +105,7 @@ button, input, textarea, select { font: inherit; }
 .datalab-brand-copy span, .datalab-copy, .datalab-lead, .datalab-inline-note, .datalab-footer-note {
   color: var(--dl-muted); line-height: 1.72;
 }
-.datalab-brand-copy span { display: block; margin-top: 6px; max-width: 620px; font-size: 1rem; }
+.datalab-brand-copy span { display: block; margin-top: 6px; max-width: 460px; font-size: 0.92rem; }
 
 .datalab-nav, .datalab-hero-actions, .datalab-stack-actions, .datalab-section-head, .datalab-form-actions, .datalab-workspace-actions {
   display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
@@ -115,7 +115,7 @@ button, input, textarea, select { font: inherit; }
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 .datalab-toggle {
   display: inline-flex;
@@ -243,6 +243,7 @@ html[data-theme='light'] .datalab-toggle {
   .datalab-grid-3, .datalab-grid-docs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .datalab-topbar { grid-template-columns: 1fr; }
   .datalab-backlink, .datalab-nav { justify-self: start; }
+  .datalab-ui-toggles { flex-wrap: wrap; }
 }
 @media (max-width: 720px) {
   .datalab-shell, .datalab-login-shell { width: min(100% - 28px, 100%); }
