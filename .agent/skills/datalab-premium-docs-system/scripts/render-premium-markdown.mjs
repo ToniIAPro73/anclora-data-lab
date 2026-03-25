@@ -2,7 +2,16 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { marked } from 'marked'
 
-const [,, inputMarkdown, outputHtml, title, subtitle = ''] = process.argv
+function decodeArg(value = '') {
+  if (value.startsWith('base64:')) {
+    return Buffer.from(value.slice('base64:'.length), 'base64').toString('utf8')
+  }
+  return value
+}
+
+const [,, inputMarkdown, outputHtml, rawTitle, rawSubtitle = ''] = process.argv
+const title = decodeArg(rawTitle)
+const subtitle = decodeArg(rawSubtitle)
 
 if (!inputMarkdown || !outputHtml || !title) {
   throw new Error('Usage: node render-premium-markdown.mjs <inputMarkdown> <outputHtml> <title> [subtitle]')
@@ -23,6 +32,11 @@ const html = `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${title}</title>
   <style>
+    @page {
+      margin: 20mm 14mm 20mm;
+      size: A4;
+    }
+
     :root {
       --dl-bg: #07131a;
       --dl-bg-soft: #0d232d;
@@ -36,7 +50,17 @@ const html = `<!DOCTYPE html>
       --dl-shadow: rgba(2, 8, 12, 0.35);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    html, body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
     body {
       margin: 0;
       color: var(--dl-text);
@@ -67,6 +91,8 @@ const html = `<!DOCTYPE html>
       border-bottom: 1px solid rgba(113, 236, 245, 0.16);
       background:
         linear-gradient(180deg, rgba(11, 36, 46, 0.98), rgba(7, 23, 30, 0.94));
+      break-inside: avoid-page;
+      page-break-inside: avoid;
     }
 
     .brand {
@@ -114,6 +140,9 @@ const html = `<!DOCTYPE html>
       color: var(--dl-ice);
       line-height: 1.18;
       page-break-after: avoid;
+      break-after: avoid-page;
+      page-break-inside: avoid;
+      break-inside: avoid-page;
     }
 
     .content h1 { font-size: 30px; margin: 30px 0 16px; }
@@ -124,11 +153,17 @@ const html = `<!DOCTYPE html>
       color: var(--dl-muted);
       font-size: 15px;
       line-height: 1.78;
+      text-align: justify;
+      text-justify: inter-word;
+      orphans: 3;
+      widows: 3;
     }
 
     .content ul, .content ol {
       padding-left: 24px;
       margin: 10px 0 18px;
+      break-inside: avoid-page;
+      page-break-inside: avoid;
     }
 
     .content strong { color: var(--dl-ice); }
@@ -139,12 +174,21 @@ const html = `<!DOCTYPE html>
       border-left: 3px solid rgba(136, 242, 248, 0.48);
       background: rgba(9, 31, 40, 0.74);
       border-radius: 18px;
+      break-inside: avoid-page;
+      page-break-inside: avoid;
     }
 
     .content code {
       font-family: 'Courier New', monospace;
       font-size: 13px;
       color: var(--dl-aqua-soft);
+    }
+
+    .content pre {
+      break-inside: avoid-page;
+      page-break-inside: avoid;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
 
     .content table {
@@ -154,12 +198,24 @@ const html = `<!DOCTYPE html>
       font-size: 14px;
       overflow: hidden;
       border-radius: 18px;
+      break-inside: avoid-page;
+      page-break-inside: avoid;
+    }
+
+    .content thead {
+      display: table-header-group;
+    }
+
+    .content tfoot {
+      display: table-footer-group;
     }
 
     .content th, .content td {
       border: 1px solid rgba(100, 226, 235, 0.16);
       padding: 12px 14px;
       vertical-align: top;
+      break-inside: avoid-page;
+      page-break-inside: avoid;
     }
 
     .content th {
@@ -170,6 +226,16 @@ const html = `<!DOCTYPE html>
 
     .content td {
       background: rgba(8, 25, 33, 0.9);
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    .content tr,
+    .content img,
+    .content svg,
+    .content figure {
+      break-inside: avoid-page;
+      page-break-inside: avoid;
     }
   </style>
 </head>

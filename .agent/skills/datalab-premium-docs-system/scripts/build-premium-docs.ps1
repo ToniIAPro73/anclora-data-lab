@@ -1,6 +1,9 @@
 param()
 
 $ErrorActionPreference = 'Stop'
+[Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false)
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+$OutputEncoding = [Console]::OutputEncoding
 
 $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..\..'))
 $buildDir = Join-Path $repoRoot '.agent\skills\datalab-premium-docs-system\build'
@@ -60,8 +63,10 @@ foreach ($doc in $docs) {
   $sourcePath = Join-Path $repoRoot $doc.Source
   $htmlPath = Join-Path $repoRoot $doc.Html
   $pdfPath = Join-Path $repoRoot $doc.Pdf
+  $titleArg = 'base64:' + [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($doc.Title))
+  $subtitleArg = 'base64:' + [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($doc.Subtitle))
 
-  & node $renderer $sourcePath $htmlPath $doc.Title $doc.Subtitle
+  & node $renderer $sourcePath $htmlPath $titleArg $subtitleArg
   if ($LASTEXITCODE -ne 0) {
     throw "Markdown renderer failed for $($doc.Source)"
   }
