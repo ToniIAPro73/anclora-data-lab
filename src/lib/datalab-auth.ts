@@ -95,15 +95,17 @@ export async function authenticateDataLabUser(username: string, password: string
   const normalizedUsername = username.trim()
   const normalizedPassword = password.trim()
 
-  if (normalizedUsername.includes('@')) {
-    const account = await getDataLabAccountByEmail(normalizedUsername).catch(() => null)
-    if (account && account.account_status === 'active' && verifySecret(normalizedPassword, account.password_hash)) {
-      await markDataLabLogin(account.id).catch(() => null)
-      return {
-        username: account.email,
-        displayName: account.full_name,
-        role: account.role,
-      }
+  if (!normalizedUsername.includes('@')) {
+    return null
+  }
+
+  const account = await getDataLabAccountByEmail(normalizedUsername).catch(() => null)
+  if (account && account.account_status === 'active' && verifySecret(normalizedPassword, account.password_hash)) {
+    await markDataLabLogin(account.id).catch(() => null)
+    return {
+      username: account.email,
+      displayName: account.full_name,
+      role: account.role,
     }
   }
 

@@ -4,12 +4,12 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 type Props = {
-  prefillUsername?: string
+  prefillEmail?: string
 }
 
-export function DataLabLoginForm({ prefillUsername = '' }: Props) {
+export function DataLabLoginForm({ prefillEmail = '' }: Props) {
   const router = useRouter()
-  const [username, setUsername] = useState(prefillUsername)
+  const [email, setEmail] = useState(prefillEmail)
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -22,7 +22,7 @@ export function DataLabLoginForm({ prefillUsername = '' }: Props) {
     const response = await fetch('/api/auth/session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username: email, password }),
     })
 
     if (!response.ok) {
@@ -39,8 +39,17 @@ export function DataLabLoginForm({ prefillUsername = '' }: Props) {
   return (
     <form className="datalab-form" onSubmit={handleSubmit}>
       <div className="datalab-field">
-        <label htmlFor="username">Usuario</label>
-        <input id="username" className="datalab-input" value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" required />
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          className="datalab-input"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          autoComplete="email"
+          placeholder="tu-email@dominio.com"
+          required
+        />
       </div>
       <div className="datalab-field">
         <label htmlFor="password">Contraseña</label>
@@ -48,7 +57,7 @@ export function DataLabLoginForm({ prefillUsername = '' }: Props) {
       </div>
       {error ? <div className="datalab-error">{error}</div> : null}
       <button className="datalab-button" type="submit" disabled={busy}>
-        {busy ? 'Abriendo acceso...' : 'Entrar en Anclora Data Lab'}
+        {busy ? 'Abriendo acceso...' : 'Entrar en el workspace'}
       </button>
     </form>
   )

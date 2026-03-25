@@ -212,8 +212,8 @@ export function DataLabPublicPage() {
               <div>
                 <p className="datalab-approved-title">Acceso aprobado</p>
                 <p className="datalab-approved-copy">
-                  Esta vía está reservada a perfiles ya autorizados. Si ya has sido validado, entra aquí con tus
-                  credenciales.
+                  Esta vía está reservada a perfiles ya autorizados. Si ya has sido validado, entra con tu email y tu
+                  contraseña para abrir el workspace analítico.
                 </p>
               </div>
             </div>
@@ -222,8 +222,8 @@ export function DataLabPublicPage() {
               <p className="datalab-eyebrow">Entrada privada</p>
               <h2>Entrar en Anclora Data Lab</h2>
               <p>
-                El acceso privado se habilita tras revisión interna. Una vez activo, podrás entrar directamente al
-                workspace analítico y a los packs documentales autorizados.
+                El acceso privado se habilita tras revisión interna. Una vez activa tu cuenta, podrás entrar
+                directamente al workspace analítico y a los packs documentales autorizados con tu email y contraseña.
               </p>
             </div>
 
@@ -231,7 +231,7 @@ export function DataLabPublicPage() {
               <article className="datalab-signal-card">
                 <KeyRound className="datalab-signal-icon" />
                 <h3>Credenciales activas</h3>
-                <p>El login está reservado a equipo interno, partners autorizados y perfiles de capital con permiso.</p>
+                <p>El login está reservado a usuarios aprobados con acceso real al entorno analítico de Data Lab.</p>
               </article>
               <article className="datalab-signal-card">
                 <ArrowRight className="datalab-signal-icon is-cyan" />

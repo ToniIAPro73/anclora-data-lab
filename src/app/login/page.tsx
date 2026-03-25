@@ -52,10 +52,10 @@ export default async function LoginPage({ searchParams }: PageProps) {
           <p className="datalab-eyebrow">Credenciales</p>
           <h1>Abrir workspace.</h1>
           <p className="datalab-copy">
-            Usa tus credenciales de acceso a Data Lab. Si todavía no tienes acceso, la activación se gestiona desde el
-            circuito interno de Private Estates.
+            Este acceso está reservado a usuarios ya aprobados. Entra con el email autorizado y la contraseña asociada a
+            tu cuenta de Data Lab para abrir directamente el workspace analítico.
           </p>
-          <DataLabLoginForm prefillUsername={prefillEmail} />
+          <DataLabLoginForm prefillEmail={prefillEmail} />
         </article>
       </section>
     </main>
