@@ -73,7 +73,16 @@ button, input, textarea, select { font: inherit; }
   border-radius: 34px;
   padding: 32px;
 }
-.datalab-topbar { display: flex; justify-content: space-between; align-items: center; gap: 24px; border-radius: 28px; padding: 20px 28px; }
+.datalab-topbar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; border-radius: 28px; padding: 20px 28px; }
+.datalab-backlink {
+  justify-self: start;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: var(--dl-text);
+}
+.datalab-backlink:hover { color: var(--dl-aqua-soft); }
 .datalab-brand { display: flex; align-items: center; gap: 18px; }
 .datalab-brand-mark {
   width: auto;
@@ -101,7 +110,7 @@ button, input, textarea, select { font: inherit; }
 .datalab-nav, .datalab-hero-actions, .datalab-stack-actions, .datalab-section-head, .datalab-form-actions, .datalab-workspace-actions {
   display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
 }
-.datalab-nav { justify-content: flex-end; }
+.datalab-nav { justify-content: flex-end; justify-self: end; }
 .datalab-ui-toggles {
   display: flex;
   align-items: center;
@@ -111,20 +120,19 @@ button, input, textarea, select { font: inherit; }
 .datalab-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px;
-  border-radius: 22px;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
   border: 1px solid var(--dl-border);
-  background: rgba(8, 27, 34, 0.58);
+  background: rgba(255, 255, 255, 0.03);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 html[data-theme='light'] .datalab-toggle {
   background: rgba(255, 255, 255, 0.7);
 }
 .datalab-toggle-pill {
-  width: 42px;
-  height: 42px;
-  border-radius: 16px;
+  min-height: 42px;
+  border-radius: 999px;
   border: 1px solid transparent;
   background: transparent;
   color: var(--dl-muted);
@@ -146,12 +154,12 @@ html[data-theme='light'] .datalab-toggle {
   box-shadow: 0 14px 28px rgba(25, 155, 167, 0.22);
 }
 .datalab-toggle-pill-text {
-  width: auto;
-  min-width: 52px;
-  padding: 0 16px;
-  font-size: 0.82rem;
-  letter-spacing: 0.08rem;
+  min-width: 58px;
+  padding: 0 15px;
+  font-size: 0.72rem;
+  letter-spacing: 0.18rem;
   font-weight: 700;
+  text-transform: uppercase;
 }
 .datalab-button, .datalab-link-button, .datalab-doc-link { position: relative; overflow: hidden; }
 .datalab-button::before, .datalab-link-button::before, .datalab-doc-link::before {
@@ -233,6 +241,8 @@ html[data-theme='light'] .datalab-toggle {
 @media (max-width: 1120px) {
   .datalab-hero, .datalab-grid-side, .datalab-login-shell, .datalab-workspace-grid { grid-template-columns: 1fr; }
   .datalab-grid-3, .datalab-grid-docs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .datalab-topbar { grid-template-columns: 1fr; }
+  .datalab-backlink, .datalab-nav { justify-self: start; }
 }
 @media (max-width: 720px) {
   .datalab-shell, .datalab-login-shell { width: min(100% - 28px, 100%); }

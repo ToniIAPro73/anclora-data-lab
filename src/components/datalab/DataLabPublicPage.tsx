@@ -1,37 +1,43 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 import { ArrowUpRight, Database, MapPinned, Radar, ShieldCheck } from 'lucide-react'
 import { curatedDocuments, heroMetrics, mvpModules, signals, zones } from '@/lib/datalab-content'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
-import { getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
+import { buildPrivateEstatesHref, getDefaultLocale, getDefaultTheme, type DataLabLocale } from '@/lib/datalab-ui'
 
 export function DataLabPublicPage() {
   const defaultLocale = getDefaultLocale()
   const defaultTheme = getDefaultTheme()
+  const [locale, setLocale] = useState<DataLabLocale>(defaultLocale)
+  const showPublicTechnicalItems = false
+  const publicDocuments = showPublicTechnicalItems
+    ? curatedDocuments
+    : curatedDocuments.filter((document) => document.title !== 'Feature Foundation v1')
 
   return (
     <main className="datalab-page">
       <div className="datalab-noise" />
       <div className="datalab-shell">
         <header className="datalab-topbar">
+          <Link href={buildPrivateEstatesHref(locale)} className="datalab-backlink">
+            Volver a Private Estates
+          </Link>
+
           <div className="datalab-brand">
             <div className="datalab-brand-mark">
               <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={44} height={44} className="datalab-brand-logo" />
             </div>
             <div className="datalab-brand-copy">
               <p>Anclora Data Lab</p>
-              <span>Packs de inteligencia, señales territoriales y activos analíticos con acceso selectivo para partners, clientes e inversores autorizados.</span>
+              <span>Packs de inteligencia, señales territoriales y activos analíticos del ecosistema Anclora.</span>
             </div>
           </div>
-          <nav className="datalab-nav">
-            <DataLabUiToggles defaultLocale={defaultLocale} defaultTheme={defaultTheme} />
-            <Link href="/docs/anclora-data-lab-roadmap-v1.pdf" className="datalab-button-ghost" target="_blank">
-              Roadmap
-            </Link>
-            <Link href="/login" className="datalab-button">
-              Acceso privado
-            </Link>
-          </nav>
+          <div className="datalab-nav">
+            <DataLabUiToggles defaultLocale={defaultLocale} defaultTheme={defaultTheme} onLocaleChange={setLocale} />
+          </div>
         </header>
 
         <section className="datalab-hero">
@@ -50,9 +56,11 @@ export function DataLabPublicPage() {
               <Link href="/login" className="datalab-button">
                 Entrar en Data Lab
               </Link>
-              <Link href="/docs/anclora-data-lab-foundation-v1-spec.pdf" className="datalab-doc-link" target="_blank">
-                Ver spec fundacional
-              </Link>
+              {showPublicTechnicalItems ? (
+                <Link href="/docs/anclora-data-lab-foundation-v1-spec.pdf" className="datalab-doc-link" target="_blank">
+                  Ver spec fundacional
+                </Link>
+              ) : null}
             </div>
           </article>
 
@@ -164,7 +172,7 @@ export function DataLabPublicPage() {
             </div>
           </div>
           <div className="datalab-grid-docs">
-            {curatedDocuments.map((document) => (
+            {publicDocuments.map((document) => (
               <article key={document.title} className="datalab-panel">
                 <div className="datalab-doc-head">
                   <strong>{document.title}</strong>

@@ -3,6 +3,7 @@ export type DataLabTheme = 'dark' | 'light' | 'system'
 
 export const DATALAB_LOCALES: DataLabLocale[] = ['es', 'en', 'de']
 export const DATALAB_THEMES: DataLabTheme[] = ['light', 'dark', 'system']
+const DEFAULT_PRIVATE_ESTATES_URL = 'https://anclora-private-estates.vercel.app/?open=private-area'
 
 export function getDefaultLocale(): DataLabLocale {
   const value = process.env.NEXT_PUBLIC_DATALAB_DEFAULT_LOCALE?.trim().toLowerCase()
@@ -12,4 +13,11 @@ export function getDefaultLocale(): DataLabLocale {
 export function getDefaultTheme(): DataLabTheme {
   const value = process.env.NEXT_PUBLIC_DATALAB_DEFAULT_THEME?.trim().toLowerCase()
   return value === 'light' || value === 'system' ? value : 'dark'
+}
+
+export function buildPrivateEstatesHref(locale: DataLabLocale): string {
+  const explicitEntry = process.env.NEXT_PUBLIC_PRIVATE_ESTATES_DATALAB_ENTRY_URL?.trim()
+  const url = new URL(explicitEntry || DEFAULT_PRIVATE_ESTATES_URL)
+  url.searchParams.set('lang', locale)
+  return url.toString()
 }
