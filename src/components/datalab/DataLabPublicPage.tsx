@@ -2,8 +2,8 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
-import { ArrowUpRight, Database, MapPinned, Radar, ShieldCheck } from 'lucide-react'
+import { useState, type FormEvent } from 'react'
+import { ArrowRight, ArrowUpRight, Database, KeyRound, MapPinned, Radar, ShieldCheck, Sparkles, UserRoundPlus } from 'lucide-react'
 import { curatedDocuments, heroMetrics, mvpModules, signals, zones } from '@/lib/datalab-content'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
 import { buildPrivateEstatesHref, getDefaultLocale, getDefaultTheme, type DataLabLocale } from '@/lib/datalab-ui'
@@ -12,10 +12,32 @@ export function DataLabPublicPage() {
   const defaultLocale = getDefaultLocale()
   const defaultTheme = getDefaultTheme()
   const [locale, setLocale] = useState<DataLabLocale>(defaultLocale)
+  const [requestForm, setRequestForm] = useState({
+    name: '',
+    organization: '',
+    email: '',
+    profile: '',
+    intendedUse: '',
+  })
+  const [requestNotice, setRequestNotice] = useState<string | null>(null)
   const showPublicTechnicalItems = false
   const publicDocuments = showPublicTechnicalItems
     ? curatedDocuments
     : curatedDocuments.filter((document) => document.title !== 'Feature Foundation v1')
+
+  function handleRequestSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setRequestNotice(
+      'Solicitud de acceso registrada. El equipo de Data Lab evaluará tu encaje y te responderá por email con los siguientes pasos.'
+    )
+    setRequestForm({
+      name: '',
+      organization: '',
+      email: '',
+      profile: '',
+      intendedUse: '',
+    })
+  }
 
   return (
     <main className="datalab-page">
@@ -53,9 +75,9 @@ export function DataLabPublicPage() {
               analítica selectiva para capital, partners e interlocutores con permiso, no un dashboard genérico de proptech.
             </p>
             <div className="datalab-hero-actions">
-              <Link href="/login" className="datalab-button">
-                Entrar en Data Lab
-              </Link>
+              <span className="datalab-pill-tag">Solicitud curada</span>
+              <span className="datalab-pill-tag">Acceso aprobado</span>
+              <span className="datalab-pill-tag">Workspace analítico</span>
               {showPublicTechnicalItems ? (
                 <Link href="/docs/anclora-data-lab-foundation-v1-spec.pdf" className="datalab-doc-link" target="_blank">
                   Ver spec fundacional
@@ -73,6 +95,136 @@ export function DataLabPublicPage() {
               </article>
             ))}
           </aside>
+        </section>
+
+        <section className="datalab-grid-2 datalab-access-grid">
+          <section className="datalab-panel datalab-access-panel">
+            <div className="datalab-section-intro">
+              <div className="datalab-section-icon">
+                <UserRoundPlus size={18} />
+              </div>
+              <div>
+                <p className="datalab-eyebrow">Solicitud de acceso</p>
+                <h2 className="datalab-section-title">Solicitar acceso a Data Lab</h2>
+                <p className="datalab-section-copy">
+                  Comparte tu perfil, organización y contexto de uso para que Anclora valide si procede darte acceso a la
+                  capa analítica.
+                </p>
+              </div>
+            </div>
+
+            <div className="datalab-signals">
+              <article className="datalab-signal-card">
+                <Sparkles className="datalab-signal-icon" />
+                <h3>Solicitud estructurada</h3>
+                <p>Recogemos organización, perfil de acceso y el tipo de uso previsto dentro de Anclora Data Lab.</p>
+              </article>
+              <article className="datalab-signal-card">
+                <ShieldCheck className="datalab-signal-icon is-cyan" />
+                <h3>Validación curada</h3>
+                <p>El acceso se concede solo cuando encaja con el nivel de confidencialidad y el propósito analítico.</p>
+              </article>
+            </div>
+
+            <form className="datalab-form" onSubmit={handleRequestSubmit}>
+              <input
+                className="datalab-input"
+                placeholder="Nombre completo"
+                value={requestForm.name}
+                onChange={(event) => setRequestForm((prev) => ({ ...prev, name: event.target.value }))}
+                required
+              />
+              <div className="datalab-form-grid">
+                <input
+                  className="datalab-input"
+                  placeholder="Empresa u organización"
+                  value={requestForm.organization}
+                  onChange={(event) => setRequestForm((prev) => ({ ...prev, organization: event.target.value }))}
+                />
+                <input
+                  className="datalab-input"
+                  type="email"
+                  placeholder="Email profesional"
+                  value={requestForm.email}
+                  onChange={(event) => setRequestForm((prev) => ({ ...prev, email: event.target.value }))}
+                  required
+                />
+              </div>
+              <input
+                className="datalab-input"
+                placeholder="Perfil o rol previsto"
+                value={requestForm.profile}
+                onChange={(event) => setRequestForm((prev) => ({ ...prev, profile: event.target.value }))}
+              />
+              <textarea
+                className="datalab-textarea"
+                placeholder="Explica brevemente cómo utilizarías Data Lab y qué tipo de acceso necesitas."
+                value={requestForm.intendedUse}
+                onChange={(event) => setRequestForm((prev) => ({ ...prev, intendedUse: event.target.value }))}
+                required
+              />
+
+              {requestNotice ? <p className="datalab-notice">{requestNotice}</p> : null}
+
+              <button className="datalab-button" type="submit">
+                Enviar solicitud de acceso
+              </button>
+            </form>
+          </section>
+
+          <section className="datalab-panel datalab-access-panel">
+            <div className="datalab-approved-card">
+              <div className="datalab-approved-icon">
+                <KeyRound size={18} />
+              </div>
+              <div>
+                <p className="datalab-approved-title">Acceso aprobado</p>
+                <p className="datalab-approved-copy">
+                  Esta vía está reservada a perfiles ya autorizados. Si ya has sido validado, entra aquí con tus
+                  credenciales.
+                </p>
+              </div>
+            </div>
+
+            <div className="datalab-form-header">
+              <p className="datalab-eyebrow">Entrada privada</p>
+              <h2>Entrar en Anclora Data Lab</h2>
+              <p>
+                El acceso privado se habilita tras revisión interna. Una vez activo, podrás entrar directamente al
+                workspace analítico y a los packs documentales autorizados.
+              </p>
+            </div>
+
+            <div className="datalab-signals datalab-signal-stack">
+              <article className="datalab-signal-card">
+                <KeyRound className="datalab-signal-icon" />
+                <h3>Credenciales activas</h3>
+                <p>El login está reservado a equipo interno, partners autorizados y perfiles de capital con permiso.</p>
+              </article>
+              <article className="datalab-signal-card">
+                <ArrowRight className="datalab-signal-icon is-cyan" />
+                <h3>Workspace selectivo</h3>
+                <p>Una vez dentro, el acceso se adapta al perfil y a la capa de visibilidad concedida.</p>
+              </article>
+            </div>
+
+            <div className="datalab-login-cta-box">
+              <Link href="/login" className="datalab-button datalab-button-link">
+                Abrir acceso privado
+              </Link>
+            </div>
+
+            <div className="datalab-support-grid">
+              <a href="mailto:datalab@anclora.com?subject=Data%20Lab%20Access" className="datalab-support-card">
+                <p>Soporte de acceso</p>
+                <span>Si no localizas tus credenciales o necesitas asistencia, contacta con el equipo de Data Lab.</span>
+              </a>
+              <a href="mailto:datalab@anclora.com?subject=Data%20Lab%20Access%20Review" className="datalab-support-card">
+                <p>Estado de solicitud</p>
+                <span>Si ya has solicitado acceso y necesitas seguimiento, podemos revisar contigo el estado del proceso.</span>
+              </a>
+            </div>
+          </section>
         </section>
 
         <section className="datalab-section datalab-grid-3">
