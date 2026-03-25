@@ -154,6 +154,19 @@ function normalizeMarkdown(markdown = '') {
   return normalized
 }
 
+function enhanceTables(html = '') {
+  return html.replace(/<table>([\s\S]*?)<\/table>/g, (tableHtml) => {
+    const headerMatches = tableHtml.match(/<th\b/gi) ?? []
+    const columnCount = headerMatches.length
+    const compactClass =
+      columnCount >= 7 ? ' table-compact table-ultra-compact'
+      : columnCount >= 6 ? ' table-compact'
+      : ''
+
+    return `<div class="table-shell${compactClass}" data-columns="${columnCount}">${tableHtml}</div>`
+  })
+}
+
 const [,, inputMarkdown, outputHtml, rawTitle, rawSubtitle = ''] = process.argv
 const title = repairMojibake(decodeArg(rawTitle))
 const subtitle = repairMojibake(decodeArg(rawSubtitle))
@@ -179,7 +192,7 @@ function readMarkdownText(filePath) {
 }
 
 const markdown = normalizeMarkdown(readMarkdownText(markdownPath))
-const content = marked.parse(markdown)
+const content = enhanceTables(marked.parse(markdown))
 const logoUri = `file:///${logoPath.replace(/\\/g, '/')}`
 
 const html = `<!DOCTYPE html>
@@ -230,12 +243,13 @@ const html = `<!DOCTYPE html>
     .page {
       width: 100%;
       min-height: 100vh;
-      padding: 40px;
+      padding: 0;
     }
 
     .shell {
-      max-width: 1040px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: none;
+      margin: 0;
       border: 1px solid var(--dl-border);
       border-radius: 34px;
       overflow: hidden;
@@ -244,7 +258,7 @@ const html = `<!DOCTYPE html>
     }
 
     .hero {
-      padding: 42px 48px 30px;
+      padding: 34px 34px 26px;
       border-bottom: 1px solid rgba(113, 236, 245, 0.16);
       background:
         linear-gradient(180deg, rgba(11, 36, 46, 0.98), rgba(7, 23, 30, 0.94));
@@ -290,7 +304,7 @@ const html = `<!DOCTYPE html>
     }
 
     .content {
-      padding: 32px 48px 44px;
+      padding: 28px 34px 38px;
     }
 
     .content h1, .content h2, .content h3 {
@@ -354,11 +368,20 @@ const html = `<!DOCTYPE html>
       overflow-wrap: anywhere;
     }
 
+    .table-shell {
+      width: 100%;
+      margin: 22px 0;
+      break-inside: avoid-page;
+      page-break-inside: avoid;
+    }
+
     .content table {
       width: 100%;
+      max-width: 100%;
       border-collapse: collapse;
-      margin: 22px 0;
-      font-size: 14px;
+      margin: 0;
+      font-size: 13px;
+      table-layout: fixed;
       overflow: hidden;
       border-radius: 18px;
       break-inside: avoid-page;
@@ -375,10 +398,13 @@ const html = `<!DOCTYPE html>
 
     .content th, .content td {
       border: 1px solid rgba(100, 226, 235, 0.16);
-      padding: 12px 14px;
+      padding: 10px 12px;
       vertical-align: top;
       break-inside: avoid-page;
       page-break-inside: avoid;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      hyphens: auto;
     }
 
     .content th {
@@ -391,6 +417,24 @@ const html = `<!DOCTYPE html>
       background: rgba(8, 25, 33, 0.9);
       text-align: justify;
       text-justify: inter-word;
+    }
+
+    .table-shell.table-compact table {
+      font-size: 11.5px;
+    }
+
+    .table-shell.table-compact th,
+    .table-shell.table-compact td {
+      padding: 8px 9px;
+    }
+
+    .table-shell.table-ultra-compact table {
+      font-size: 10.5px;
+    }
+
+    .table-shell.table-ultra-compact th,
+    .table-shell.table-ultra-compact td {
+      padding: 7px 8px;
     }
 
     .content tr,

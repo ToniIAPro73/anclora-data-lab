@@ -46,12 +46,13 @@
     .page {
       width: 100%;
       min-height: 100vh;
-      padding: 40px;
+      padding: 0;
     }
 
     .shell {
-      max-width: 1040px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: none;
+      margin: 0;
       border: 1px solid var(--dl-border);
       border-radius: 34px;
       overflow: hidden;
@@ -60,7 +61,7 @@
     }
 
     .hero {
-      padding: 42px 48px 30px;
+      padding: 34px 34px 26px;
       border-bottom: 1px solid rgba(113, 236, 245, 0.16);
       background:
         linear-gradient(180deg, rgba(11, 36, 46, 0.98), rgba(7, 23, 30, 0.94));
@@ -106,7 +107,7 @@
     }
 
     .content {
-      padding: 32px 48px 44px;
+      padding: 28px 34px 38px;
     }
 
     .content h1, .content h2, .content h3 {
@@ -170,11 +171,20 @@
       overflow-wrap: anywhere;
     }
 
+    .table-shell {
+      width: 100%;
+      margin: 22px 0;
+      break-inside: avoid-page;
+      page-break-inside: avoid;
+    }
+
     .content table {
       width: 100%;
+      max-width: 100%;
       border-collapse: collapse;
-      margin: 22px 0;
-      font-size: 14px;
+      margin: 0;
+      font-size: 13px;
+      table-layout: fixed;
       overflow: hidden;
       border-radius: 18px;
       break-inside: avoid-page;
@@ -191,10 +201,13 @@
 
     .content th, .content td {
       border: 1px solid rgba(100, 226, 235, 0.16);
-      padding: 12px 14px;
+      padding: 10px 12px;
       vertical-align: top;
       break-inside: avoid-page;
       page-break-inside: avoid;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      hyphens: auto;
     }
 
     .content th {
@@ -207,6 +220,24 @@
       background: rgba(8, 25, 33, 0.9);
       text-align: justify;
       text-justify: inter-word;
+    }
+
+    .table-shell.table-compact table {
+      font-size: 11.5px;
+    }
+
+    .table-shell.table-compact th,
+    .table-shell.table-compact td {
+      padding: 8px 9px;
+    }
+
+    .table-shell.table-ultra-compact table {
+      font-size: 10.5px;
+    }
+
+    .table-shell.table-ultra-compact th,
+    .table-shell.table-ultra-compact td {
+      padding: 7px 8px;
     }
 
     .content tr,
@@ -250,7 +281,7 @@
 <h2><strong>Estrategia de Unificación y Valor del Ecosistema Anclora Group</strong></h2>
 <p>La arquitectura de Anclora Group representa un sistema operativo corporativo diseñado para la máxima eficiencia y escalabilidad. La integración de Anclora Data Lab con las aplicaciones existentes —Private Estates, Synergi, Nexus, Content Generator AI, Advisor AI e Impulso— crea un bucle de retroalimentación de datos que incrementa exponencialmente el valor de cada activo individual dentro de la organización. Mientras que Anclora Nexus centraliza el pipeline y la trazabilidad de las operaciones comerciales, el Data Lab ingesta estos datos operativos para refinar sus modelos de valoración y predicción de tendencias.</p>
 <p>Anclora Synergi, como plataforma de partnership, proporciona una capa adicional de inteligencia cualitativa. Las interacciones y señales de mercado capturadas en el workspace premium de los partners aprobados se transforman en metadatos que el Data Lab procesa para identificar cambios sutiles en la demanda de los inversores ultra-high-net-worth (UHNWI). Esta estructura elimina la fragmentación de datos, que se identifica en 2026 como la principal barrera para la adopción de análisis avanzados en el sector inmobiliario. Al consolidar registros de propiedades, archivos de arrendamiento, historiales de transacciones y datos de mercado en una interfaz única, Anclora se aleja de los &quot;stacks de 10 herramientas&quot; ineficientes para ofrecer una plataforma &quot;all-in-one&quot; que optimiza la toma de decisiones estratégicas.</p>
-<table>
+<div class="table-shell" data-columns="3"><table>
 <thead>
 <tr>
 <th align="left">Componente del Ecosistema</th>
@@ -288,7 +319,7 @@
 <td align="left">Seguimiento de salud y nutrición.</td>
 <td align="left">Aporta señales sobre tendencias de bienestar para el diseño de amenities.</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <h2><strong>Señales Territoriales Predictivas y Datos Alternativos en el Sector del Lujo</strong></h2>
 <p>Para que Anclora Data Lab sea un activo atractivo para los inversores de Series A en 2026, debe ir más allá de los datos catastrales convencionales. La plataforma debe especializarse en la captura y procesamiento de señales territoriales de &quot;alta fidelidad&quot; que anticipen el crecimiento del valor de la propiedad antes de que se refleje en los índices públicos.</p>
 <h3><strong>El Indicador de Retail de Lujo y la Expansión de Marcas Globales</strong></h3>
@@ -297,7 +328,7 @@
 <p>En 2026, el seguimiento del movimiento de jets privados y superyates se ha consolidado como una métrica esencial para entender la migración de la riqueza en tiempo real. Un aumento del 7.4% en el uso de jets privados a nivel global y un crecimiento en la propiedad fraccionada indican que los destinos con mayor tráfico de &quot;números de cola&quot; específicos son candidatos inmediatos para la inversión en activos inmobiliarios &quot;turnkey&quot;. El Data Lab debe ingerir datos de plataformas como MarineTraffic para analizar el tráfico de embarcaciones de recreo en puertos estratégicos, ya que la concentración estacional de superyates suele preceder a picos en la demanda de villas de lujo y branded residences.</p>
 <h3><strong>Infraestructura de Estilo de Vida y Educación</strong></h3>
 <p>La calidad de las instituciones educativas y la oferta de servicios de bienestar son determinantes críticos en la valoración de las propiedades destinadas a familias UHNWI. Los datos demuestran que las viviendas situadas en distritos escolares con calificaciones de &quot;9-10&quot; operan en un segmento de mercado premium que resiste mejor la volatilidad económica. Además, la creciente tendencia hacia la vida multigeneracional —donde el 20% de las compras de viviendas de lujo en 2026 se realizan para alojar a familias extendidas— exige que el Data Lab identifique propiedades con características arquitectónicas específicas, como apartamentos independientes o &quot;guest houses&quot;.</p>
-<table>
+<div class="table-shell" data-columns="3"><table>
 <thead>
 <tr>
 <th align="left">Señal Territorial</th>
@@ -325,7 +356,7 @@
 <td align="left">Certificaciones LEED/WELL e infraestructura de fitness.</td>
 <td align="left">Alineación con la demanda post-pandemia de activos saludables.</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <h2><strong>Especificaciones de Inteligencia Artificial y Valoración Predictiva</strong></h2>
 <p>Anclora Data Lab debe fundamentarse en modelos de aprendizaje automático que transformen los datos brutos en inteligencia accionable. La capacidad de predecir la intención del vendedor y de automatizar valoraciones precisas con un error marginal mínimo es lo que posicionará a Anclora como un líder tecnológico.</p>
 <h3><strong>Puntuación de Intención del Vendedor y Generación de Leads</strong></h3>
@@ -342,7 +373,7 @@
 <p>En 2026, el patrón dominante de integración de datos es el ELT (Extract-Load-Transform), que aprovecha la potencia de cómputo de los almacenes de datos en la nube (como Google BigQuery o Snowflake) para realizar transformaciones complejas sobre datos brutos preservados. La implementación de Change Data Capture (CDC) basada en registros es esencial para mantener los pipelines de datos en tiempo casi real, detectando y sincronizando los cambios en los sistemas fuente (como el CRM en Nexus) de manera inmediata.</p>
 <h3><strong>Seguridad, Privacidad y Gobernanza</strong></h3>
 <p>Dado que Anclora Data Lab maneja información sensible de individuos con patrimonios netos ultra-altos, la seguridad no es negociable. Se deben implementar estándares de cifrado AES-256 para datos en reposo y TLS/SSL para datos en tránsito. El acceso debe regirse por el principio de mínimo privilegio, utilizando políticas de control de acceso granulares basadas en roles (RBAC). Además, para entornos de desarrollo y prueba, es obligatorio el uso de técnicas de enmascaramiento y anonimización de datos para proteger la identidad de los clientes.</p>
-<table>
+<div class="table-shell" data-columns="3"><table>
 <thead>
 <tr>
 <th align="left">Capa de Arquitectura</th>
@@ -370,7 +401,7 @@
 <td align="left">Resolución de identidad y grafos de conocimiento.</td>
 <td align="left">Visión 360 del cliente y de las estructuras de propiedad complejas.</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <h2><strong>Atractivo para Inversores: KPIs, Métricas y Perfil Financiero</strong></h2>
 <p>Para que Anclora Data Lab capte el interés de inversores de Series A, el documento maestro debe presentar un modelo de negocio basado en la eficiencia del capital y resultados financieros medibles. Los inversores en 2026 priorizan las soluciones que ofrecen una precisión económica y operativa demostrable.</p>
 <h3><strong>Métricas de Eficiencia del Capital y Unidad Económica</strong></h3>

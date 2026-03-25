@@ -46,12 +46,13 @@
     .page {
       width: 100%;
       min-height: 100vh;
-      padding: 40px;
+      padding: 0;
     }
 
     .shell {
-      max-width: 1040px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: none;
+      margin: 0;
       border: 1px solid var(--dl-border);
       border-radius: 34px;
       overflow: hidden;
@@ -60,7 +61,7 @@
     }
 
     .hero {
-      padding: 42px 48px 30px;
+      padding: 34px 34px 26px;
       border-bottom: 1px solid rgba(113, 236, 245, 0.16);
       background:
         linear-gradient(180deg, rgba(11, 36, 46, 0.98), rgba(7, 23, 30, 0.94));
@@ -106,7 +107,7 @@
     }
 
     .content {
-      padding: 32px 48px 44px;
+      padding: 28px 34px 38px;
     }
 
     .content h1, .content h2, .content h3 {
@@ -170,11 +171,20 @@
       overflow-wrap: anywhere;
     }
 
+    .table-shell {
+      width: 100%;
+      margin: 22px 0;
+      break-inside: avoid-page;
+      page-break-inside: avoid;
+    }
+
     .content table {
       width: 100%;
+      max-width: 100%;
       border-collapse: collapse;
-      margin: 22px 0;
-      font-size: 14px;
+      margin: 0;
+      font-size: 13px;
+      table-layout: fixed;
       overflow: hidden;
       border-radius: 18px;
       break-inside: avoid-page;
@@ -191,10 +201,13 @@
 
     .content th, .content td {
       border: 1px solid rgba(100, 226, 235, 0.16);
-      padding: 12px 14px;
+      padding: 10px 12px;
       vertical-align: top;
       break-inside: avoid-page;
       page-break-inside: avoid;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      hyphens: auto;
     }
 
     .content th {
@@ -207,6 +220,24 @@
       background: rgba(8, 25, 33, 0.9);
       text-align: justify;
       text-justify: inter-word;
+    }
+
+    .table-shell.table-compact table {
+      font-size: 11.5px;
+    }
+
+    .table-shell.table-compact th,
+    .table-shell.table-compact td {
+      padding: 8px 9px;
+    }
+
+    .table-shell.table-ultra-compact table {
+      font-size: 10.5px;
+    }
+
+    .table-shell.table-ultra-compact th,
+    .table-shell.table-ultra-compact td {
+      padding: 7px 8px;
     }
 
     .content tr,
@@ -255,7 +286,7 @@
 <p><strong>PriceHubble</strong> destaca como el líder europeo en AVMs (Automated Valuation Models) con presencia en 11 países y <strong>más de 800 empresas clientes</strong>. Su arquitectura de regresión multi-spline, certificación ISO 27001 y reciente lanzamiento de AI Agents Suite (Companion, Copilot, Autopilot) y Model Context Protocol representan el estado del arte en PropTech europeo. Sin embargo, PriceHubble opera exclusivamente B2B para bancos e instituciones financieras, sin interfaz directa para inversores individuales.</p>
 <p><strong>En el mercado español</strong>, la fragmentación es particularmente aguda. CASAFARI es la plataforma de datos inmobiliarios más completa de Europa con <strong>más de 200 millones de listings</strong> en 20+ países, deduplicación inteligente y API unificada. Es utilizada por Engel &amp; Völkers y Sotheby&#39;s en Baleares, lo que la convierte en el competidor más directo. Idealista domina los datos de portal con la mayor base de listings activos en España, aunque solo ofrece precios de demanda (asking prices), no transacciones reales. Tinsa Digital proporciona datos de tasación desde 1985 con un índice de referencia para el mercado residencial español. Brainsre se autodenomina &quot;el Bloomberg del inmobiliario&quot; con analítica predictiva big data, modelo freemium y cobertura nacional.</p>
 <p>La conclusión competitiva es contundente: <strong>no existe ninguna plataforma dedicada que combine inteligencia de mercado interactiva, scoring de oportunidades y analítica de grado institucional para el segmento residencial de lujo</strong> en mercados resort europeos. Las firmas de lujo publican informes PDF estáticos; las plataformas de datos cubren el mercado generalista. Anclora Data Lab puede ocupar este espacio vacante.</p>
-<table>
+<div class="table-shell table-compact" data-columns="6"><table>
 <thead>
 <tr>
 <th>Plataforma</th>
@@ -338,7 +369,7 @@
 <td><strong>Freemium premium</strong></td>
 <td><strong>TBD</strong></td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <hr>
 <h2>2. Fuentes de datos: un pipeline robusto con acceso gratuito a datos críticos</h2>
 <p>La investigación identifica <strong>más de 20 fuentes de datos explotables</strong> para el mercado balear, organizadas en cuatro capas de integración prioritaria.</p>
