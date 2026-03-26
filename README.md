@@ -19,10 +19,15 @@ Ver `.env.example`.
 Variables mínimas:
 
 - `DATABASE_URL`
-- `ANCLORA_DATALAB_SESSION_SECRET`
+- `DATALAB_USER_SESSION_SECRET`
 - `DATALAB_ADMIN_USERNAME`
 - `DATALAB_ADMIN_PASSWORD`
 - `DATALAB_ADMIN_SESSION_SECRET`
+
+Modelo de acceso:
+
+- usuarios finales aprobados: solo cuentas reales creadas en base de datos al aceptar una solicitud
+- backoffice interno: credenciales `DATALAB_ADMIN_*`
 
 Rutas relevantes:
 

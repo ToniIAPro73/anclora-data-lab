@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { createHmac, timingSafeEqual } from 'node:crypto'
 import { redirect } from 'next/navigation'
-import { getDataLabUsers, type DataLabRole } from '@/lib/datalab-content'
+import type { DataLabRole } from '@/lib/datalab-content'
 import { getDataLabAccountByEmail, markDataLabLogin } from '@/lib/datalab-access-store'
 import { verifySecret } from '@/lib/passwords'
 
@@ -53,7 +53,11 @@ function buildDecoder<T>(secret: string) {
 }
 
 function getSecret() {
-  return process.env.ANCLORA_DATALAB_SESSION_SECRET?.trim() || 'anclora-datalab-local-dev-secret'
+  return (
+    process.env.DATALAB_USER_SESSION_SECRET?.trim() ||
+    process.env.DATALAB_SESSION_SECRET?.trim() ||
+    'anclora-datalab-local-dev-secret'
+  )
 }
 
 function getAdminSecret() {
@@ -109,14 +113,7 @@ export async function authenticateDataLabUser(username: string, password: string
     }
   }
 
-  const user = getDataLabUsers().find((candidate) => candidate.username === normalizedUsername && candidate.password === normalizedPassword)
-  if (!user) return null
-
-  return {
-    username: user.username,
-    displayName: user.displayName,
-    role: user.role,
-  }
+  return null
 }
 
 export function authenticateDataLabAdmin(username: string, password: string): DataLabAdminSession | null {

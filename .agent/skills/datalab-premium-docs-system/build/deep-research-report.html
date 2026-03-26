@@ -172,10 +172,26 @@
     }
 
     .table-shell {
+      --table-scale: 1;
       width: 100%;
       margin: 22px 0;
       break-inside: avoid-page;
       page-break-inside: avoid;
+      overflow: visible;
+    }
+
+    .table-scale-frame {
+      width: 100%;
+      transform-origin: top left;
+      transform: scale(var(--table-scale));
+    }
+
+    .table-shell.is-scaled .table-scale-frame {
+      width: max-content;
+    }
+
+    .table-shell.is-scaled {
+      padding-bottom: 4px;
     }
 
     .content table {
@@ -357,5 +373,34 @@
       </section>
     </div>
   </div>
+  <script>
+    (() => {
+      const tableShells = Array.from(document.querySelectorAll('.table-shell'))
+
+      for (const shell of tableShells) {
+        const table = shell.querySelector('table')
+        if (!table) continue
+
+        const frame = document.createElement('div')
+        frame.className = 'table-scale-frame'
+        table.parentNode.insertBefore(frame, table)
+        frame.appendChild(table)
+
+        const availableWidth = shell.clientWidth
+        const naturalWidth = table.scrollWidth
+
+        if (!availableWidth || !naturalWidth || naturalWidth <= availableWidth) {
+          shell.style.removeProperty('--table-scale')
+          shell.style.removeProperty('height')
+          continue
+        }
+
+        const scale = Math.max(0.58, Math.min(1, availableWidth / naturalWidth))
+        shell.classList.add('is-scaled')
+        shell.style.setProperty('--table-scale', String(scale))
+        shell.style.height = Math.ceil(table.offsetHeight * scale + 4) + 'px'
+      }
+    })()
+  </script>
 </body>
 </html>

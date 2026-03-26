@@ -5,13 +5,6 @@ export type DataLabRole =
   | 'partner-intelligence'
   | 'investor-viewer'
 
-export type DataLabUserRecord = {
-  username: string
-  password: string
-  displayName: string
-  role: DataLabRole
-}
-
 export type DataLabInsight = {
   title: string
   summary: string
@@ -178,24 +171,3 @@ export const workspaceAlerts = [
     summary: 'Contexto territorial actualizado sobre escasez estructural, presión de demanda y timing comercial.',
   },
 ]
-
-export function getDataLabUsers(): DataLabUserRecord[] {
-  const raw = process.env.ANCLORA_DATALAB_USERS_JSON?.trim()
-  if (raw) {
-    try {
-      const parsed = JSON.parse(raw) as DataLabUserRecord[]
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed
-    } catch {
-      // fall through
-    }
-  }
-
-  return [
-    {
-      username: process.env.ANCLORA_DATALAB_BOOTSTRAP_USERNAME?.trim() || 'antonio',
-      password: process.env.ANCLORA_DATALAB_BOOTSTRAP_PASSWORD?.trim() || 'AncloraDataLab123!',
-      displayName: process.env.ANCLORA_DATALAB_BOOTSTRAP_DISPLAY_NAME?.trim() || 'Antonio',
-      role: (process.env.ANCLORA_DATALAB_BOOTSTRAP_ROLE?.trim() as DataLabRole) || 'datalab-admin',
-    },
-  ]
-}
