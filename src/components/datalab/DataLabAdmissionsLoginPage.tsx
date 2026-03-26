@@ -1,9 +1,10 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState, type FormEvent } from 'react'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
-import { getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
+import { buildAncloraGroupHref, getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
 
 export function DataLabAdmissionsLoginPage() {
   const defaultLocale = getDefaultLocale()
@@ -42,7 +43,9 @@ export function DataLabAdmissionsLoginPage() {
       <div className="datalab-noise" />
       <div className="datalab-shell">
         <header className="datalab-topbar">
-          <div className="datalab-backlink">Backoffice interno Data Lab</div>
+          <Link href={buildAncloraGroupHref()} className="datalab-backlink">
+            Volver a Anclora Group
+          </Link>
           <div className="datalab-brand">
             <div className="datalab-brand-mark">
               <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={54} height={54} className="datalab-brand-logo" />
