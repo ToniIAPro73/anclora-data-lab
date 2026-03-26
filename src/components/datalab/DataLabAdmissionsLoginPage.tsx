@@ -42,7 +42,7 @@ export function DataLabAdmissionsLoginPage() {
     <main className="datalab-page">
       <div className="datalab-noise" />
       <div className="datalab-shell">
-        <header className="datalab-topbar">
+        <header className="datalab-topbar datalab-topbar-admin">
           <Link href={buildAncloraGroupHref()} className="datalab-backlink">
             Volver a Anclora Group
           </Link>
@@ -55,7 +55,7 @@ export function DataLabAdmissionsLoginPage() {
               <span>Admisiones internas y control de accesos.</span>
             </div>
           </div>
-          <div className="datalab-nav">
+          <div className="datalab-nav datalab-nav-admin">
             <DataLabUiToggles defaultLocale={defaultLocale} defaultTheme={defaultTheme} />
           </div>
         </header>

@@ -377,14 +377,59 @@ html[data-theme='light'] .datalab-toggle {
   margin-bottom: 18px;
 }
 .datalab-review-login-wrap {
-  display: grid;
-  grid-template-columns: minmax(0, 0.75fr);
+  display: flex;
   justify-content: center;
-  margin-top: 28px;
+  margin-top: 26px;
 }
 .datalab-review-login-panel {
   display: grid;
   gap: 20px;
+  width: min(720px, 100%);
+  padding: 40px;
+}
+.datalab-review-login-panel h1 {
+  margin: 6px 0 18px;
+  font-size: clamp(2.4rem, 4vw, 4.3rem);
+  line-height: 0.98;
+}
+.datalab-review-login-panel .datalab-copy {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--dl-muted);
+}
+.datalab-topbar-admin .datalab-backlink {
+  font-size: 0.76rem;
+  letter-spacing: 0.22rem;
+}
+.datalab-topbar-admin .datalab-brand-mark {
+  width: 54px;
+  height: 54px;
+}
+.datalab-topbar-admin .datalab-brand-copy p {
+  font-size: 0.84rem;
+  letter-spacing: 0.28em;
+  font-weight: 700;
+}
+.datalab-topbar-admin .datalab-brand-copy span {
+  margin-top: 4px;
+  max-width: 360px;
+  font-size: 0.82rem;
+}
+.datalab-nav-admin .datalab-ui-toggles {
+  gap: 12px;
+}
+.datalab-nav-admin .datalab-toggle {
+  gap: 6px;
+}
+.datalab-nav-admin .datalab-toggle-pill {
+  min-height: 42px;
+  min-width: 42px;
+}
+.datalab-nav-admin .datalab-toggle-pill-text {
+  min-width: auto;
+  padding: 9px 15px;
+  font-size: 0.7rem;
+  letter-spacing: 0.2rem;
 }
 .datalab-review-toolbar {
   margin-top: 24px;
