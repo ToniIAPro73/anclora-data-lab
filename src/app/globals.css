@@ -550,7 +550,12 @@ html[data-theme='light'] .datalab-toggle {
   .datalab-review-login-wrap { grid-template-columns: 1fr; }
   .datalab-topbar { grid-template-columns: 1fr; }
   .datalab-backlink, .datalab-nav { justify-self: start; }
-  .datalab-ui-toggles { flex-wrap: wrap; }
+  .datalab-ui-toggles {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
   .datalab-signals,
   .datalab-support-grid { grid-template-columns: 1fr; }
 }
@@ -561,4 +566,18 @@ html[data-theme='light'] .datalab-toggle {
   .datalab-topbar { align-items: flex-start; }
   .datalab-nav { justify-content: flex-start; }
   .datalab-login-toggle-row { justify-content: flex-start; }
+  .datalab-toggle {
+    gap: 4px;
+    padding: 3px;
+  }
+  .datalab-toggle-pill {
+    min-width: 38px;
+    min-height: 38px;
+  }
+  .datalab-toggle-pill-text {
+    min-width: 48px;
+    padding: 8px 12px;
+    font-size: 0.64rem;
+    letter-spacing: 0.16rem;
+  }
 }
