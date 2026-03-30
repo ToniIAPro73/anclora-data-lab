@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
-import { roleLabels, type DataLabRole } from '@/lib/datalab-content'
+import { roleLabelsByLocale, type DataLabRole } from '@/lib/datalab-content'
+import { datalabAdminCopy } from '@/lib/datalab-admin-copy'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
-import { getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
+import { getDefaultLocale, getDefaultTheme, type DataLabLocale } from '@/lib/datalab-ui'
 
 type DataLabAccessRequestStatus = 'submitted' | 'under_review' | 'accepted' | 'rejected'
 
@@ -34,14 +35,21 @@ type AccessRequestsResponse = {
 
 const STATUS_FILTERS: Array<'all' | DataLabAccessRequestStatus> = ['all', 'submitted', 'under_review', 'accepted', 'rejected']
 
-function formatDate(value: string | null) {
-  if (!value) return 'Sin revisar'
-  return new Intl.DateTimeFormat('es-ES', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
+const LOCALE_FORMATTERS: Record<DataLabLocale, string> = {
+  es: 'es-ES',
+  en: 'en-GB',
+  de: 'de-DE',
+}
+
+function formatDate(value: string | null, locale: DataLabLocale) {
+  if (!value) return datalabAdminCopy[locale].review.notReviewed
+  return new Intl.DateTimeFormat(LOCALE_FORMATTERS[locale], { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
 }
 
 export function DataLabAccessRequestsReviewPage() {
   const defaultLocale = getDefaultLocale()
   const defaultTheme = getDefaultTheme()
+  const [locale, setLocale] = useState<DataLabLocale>(defaultLocale)
   const [items, setItems] = useState<DataLabAccessRequestRecord[]>([])
   const [statusFilter, setStatusFilter] = useState<'all' | DataLabAccessRequestStatus>('all')
   const [query, setQuery] = useState('')
@@ -54,6 +62,8 @@ export function DataLabAccessRequestsReviewPage() {
   const [notice, setNotice] = useState<string | null>(null)
   const [decisionPayload, setDecisionPayload] = useState<{ tempPassword?: string; launchUrl?: string } | null>(null)
   const [savingAction, setSavingAction] = useState<DataLabAccessRequestStatus | null>(null)
+  const copy = datalabAdminCopy[locale]
+  const roleLabels = roleLabelsByLocale[locale]
 
   const loadRequests = useCallback(async (nextStatus = statusFilter, nextQuery = query) => {
     setLoading(true)
@@ -66,7 +76,7 @@ export function DataLabAccessRequestsReviewPage() {
       const response = await fetch(`/api/access-requests?${params.toString()}`, { cache: 'no-store' })
       const body = (await response.json()) as AccessRequestsResponse | { error?: string }
       if (!response.ok || !('items' in body)) {
-        throw new Error(('error' in body && body.error) || 'No se han podido cargar las solicitudes.')
+        throw new Error(('error' in body && body.error) || copy.review.loadError)
       }
 
       setItems(body.items)
@@ -75,11 +85,11 @@ export function DataLabAccessRequestsReviewPage() {
         return body.items[0]?.id || null
       })
     } catch (loadError) {
-      setError(loadError instanceof Error ? loadError.message : 'No se han podido cargar las solicitudes.')
+      setError(loadError instanceof Error ? loadError.message : copy.review.loadError)
     } finally {
       setLoading(false)
     }
-  }, [query, statusFilter])
+  }, [copy.review.loadError, query, statusFilter])
 
   useEffect(() => {
     const timeout = window.setTimeout(() => void loadRequests(statusFilter, query), 200)
@@ -116,7 +126,7 @@ export function DataLabAccessRequestsReviewPage() {
 
       const body = (await response.json()) as (DataLabAccessRequestRecord & { temp_password?: string; launch_url?: string }) | { error?: string }
       if (!response.ok || !('id' in body)) {
-        throw new Error(('error' in body && body.error) || 'No se ha podido actualizar la solicitud.')
+        throw new Error(('error' in body && body.error) || copy.review.updateError)
       }
 
       const nextRecord = {
@@ -130,14 +140,14 @@ export function DataLabAccessRequestsReviewPage() {
           tempPassword: 'temp_password' in body ? body.temp_password : undefined,
           launchUrl: 'launch_url' in body ? body.launch_url : undefined,
         })
-        setNotice('Solicitud aceptada. Las credenciales iniciales ya están preparadas.')
+        setNotice(copy.review.acceptedNotice)
       } else if (status === 'rejected') {
-        setNotice('Solicitud rechazada y registrada correctamente.')
+        setNotice(copy.review.rejectedNotice)
       } else {
-        setNotice('Solicitud marcada como en revisión.')
+        setNotice(copy.review.inReviewNotice)
       }
     } catch (decisionError) {
-      setError(decisionError instanceof Error ? decisionError.message : 'No se ha podido actualizar la solicitud.')
+      setError(decisionError instanceof Error ? decisionError.message : copy.review.updateError)
     } finally {
       setSavingAction(null)
     }
@@ -153,40 +163,37 @@ export function DataLabAccessRequestsReviewPage() {
       <div className="datalab-noise" />
       <div className="datalab-shell">
         <header className="datalab-topbar">
-          <div className="datalab-backlink">Revisión interna de accesos</div>
+          <div className="datalab-backlink">{copy.labels.reviewInternalAccess}</div>
           <div className="datalab-brand">
             <div className="datalab-brand-mark">
               <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={54} height={54} className="datalab-brand-logo" />
             </div>
             <div className="datalab-brand-copy">
-              <p>Anclora Data Lab</p>
-              <span>Backoffice de admisiones y accesos.</span>
+              <p>{copy.labels.brandName}</p>
+              <span>{copy.labels.backofficeAdmissions}</span>
             </div>
           </div>
           <div className="datalab-nav">
-            <DataLabUiToggles defaultLocale={defaultLocale} defaultTheme={defaultTheme} />
+            <DataLabUiToggles defaultLocale={defaultLocale} defaultTheme={defaultTheme} onLocaleChange={setLocale} />
           </div>
         </header>
 
         <section className="datalab-hero">
           <article className="datalab-card">
-            <p className="datalab-eyebrow">Control de accesos</p>
-            <h1>Solicitudes, validación y activación interna.</h1>
-            <p className="datalab-lead">
-              Esta consola permite revisar las solicitudes procedentes de la entrada pública de Data Lab y decidir qué
-              perfiles reciben acceso real al workspace.
-            </p>
+            <p className="datalab-eyebrow">{copy.labels.accessControl}</p>
+            <h1>{copy.review.title}</h1>
+            <p className="datalab-lead">{copy.review.lead}</p>
           </article>
           <aside className="datalab-metrics">
-            <article className="datalab-metric"><span className="datalab-kicker">Total</span><strong>{items.length}</strong><span>Solicitudes cargadas.</span></article>
-            <article className="datalab-metric"><span className="datalab-kicker">Pendientes</span><strong>{items.filter((item) => item.status === 'submitted' || item.status === 'under_review').length}</strong><span>Requieren revisión o decisión.</span></article>
+            <article className="datalab-metric"><span className="datalab-kicker">{copy.labels.total}</span><strong>{items.length}</strong><span>{copy.labels.loadedRequests}</span></article>
+            <article className="datalab-metric"><span className="datalab-kicker">{copy.labels.pending}</span><strong>{items.filter((item) => item.status === 'submitted' || item.status === 'under_review').length}</strong><span>{copy.labels.pendingOrDecision}</span></article>
           </aside>
         </section>
 
         <div className="datalab-review-toolbar">
           <input
             className="datalab-input"
-            placeholder="Buscar por nombre, email u organización"
+            placeholder={copy.review.searchPlaceholder}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
@@ -198,12 +205,12 @@ export function DataLabAccessRequestsReviewPage() {
                 className={`datalab-review-filter ${statusFilter === status ? 'is-active' : ''}`}
                 onClick={() => setStatusFilter(status)}
               >
-                {status === 'all' ? 'Todo' : status === 'under_review' ? 'En revisión' : status === 'submitted' ? 'Recibidas' : status === 'accepted' ? 'Aceptadas' : 'Rechazadas'}
+                {copy.statuses[status]}
               </button>
             ))}
           </div>
           <button type="button" className="datalab-button-ghost" onClick={() => void handleLogout()}>
-            Cerrar sesión
+            {copy.review.closeSession}
           </button>
         </div>
 
@@ -214,14 +221,14 @@ export function DataLabAccessRequestsReviewPage() {
           <section className="datalab-panel datalab-review-list-panel">
             <div className="datalab-section-head">
               <div>
-                <p className="datalab-eyebrow">Cola de solicitudes</p>
-                <h2>Admisiones recibidas.</h2>
+                <p className="datalab-eyebrow">{copy.labels.queue}</p>
+                <h2>{copy.review.receivedAdmissions}</h2>
               </div>
             </div>
             {loading ? (
-              <div className="datalab-review-empty">Cargando solicitudes...</div>
+              <div className="datalab-review-empty">{copy.review.loading}</div>
             ) : items.length === 0 ? (
-              <div className="datalab-review-empty">No hay solicitudes para este filtro.</div>
+              <div className="datalab-review-empty">{copy.review.noItems}</div>
             ) : (
               <div className="datalab-review-list">
                 {items.map((item) => (
@@ -233,10 +240,10 @@ export function DataLabAccessRequestsReviewPage() {
                   >
                     <div className="datalab-review-item-top">
                       <strong>{item.full_name}</strong>
-                      <span className={`datalab-review-badge is-${item.status}`}>{item.status}</span>
+                      <span className={`datalab-review-badge is-${item.status}`}>{copy.rawStatuses[item.status]}</span>
                     </div>
                     <p>{item.organization || item.email}</p>
-                    <small>{formatDate(item.created_at)}</small>
+                    <small>{formatDate(item.created_at, locale)}</small>
                   </button>
                 ))}
               </div>
@@ -245,31 +252,31 @@ export function DataLabAccessRequestsReviewPage() {
 
           <section className="datalab-panel datalab-review-detail-panel">
             {!selected ? (
-              <div className="datalab-review-empty">Selecciona una solicitud para revisar el detalle.</div>
+              <div className="datalab-review-empty">{copy.review.selectOne}</div>
             ) : (
               <div className="datalab-review-detail">
                 <div className="datalab-section-head">
                   <div>
-                    <p className="datalab-eyebrow">Detalle de solicitud</p>
+                    <p className="datalab-eyebrow">{copy.labels.detail}</p>
                     <h2>{selected.full_name}</h2>
                   </div>
                 </div>
 
                 <div className="datalab-review-meta-grid">
-                  <article className="datalab-list-item"><strong>Email</strong><p className="datalab-copy">{selected.email}</p></article>
-                  <article className="datalab-list-item"><strong>Organización</strong><p className="datalab-copy">{selected.organization || 'No indicada'}</p></article>
-                  <article className="datalab-list-item"><strong>Perfil</strong><p className="datalab-copy">{selected.profile_label || 'No indicado'}</p></article>
-                  <article className="datalab-list-item"><strong>Estado</strong><p className="datalab-copy">{selected.status}</p></article>
+                  <article className="datalab-list-item"><strong>{copy.labels.email}</strong><p className="datalab-copy">{selected.email}</p></article>
+                  <article className="datalab-list-item"><strong>{copy.labels.organization}</strong><p className="datalab-copy">{selected.organization || copy.review.noIndicated}</p></article>
+                  <article className="datalab-list-item"><strong>{copy.labels.profile}</strong><p className="datalab-copy">{selected.profile_label || copy.review.notIndicated}</p></article>
+                  <article className="datalab-list-item"><strong>{copy.labels.status}</strong><p className="datalab-copy">{copy.rawStatuses[selected.status]}</p></article>
                 </div>
 
                 <article className="datalab-list-item">
-                  <strong>Contexto de uso</strong>
+                  <strong>{copy.labels.usageContext}</strong>
                   <p className="datalab-copy">{selected.intended_use}</p>
                 </article>
 
                 <div className="datalab-review-meta-grid">
                   <article className="datalab-list-item">
-                    <strong>Rol a conceder</strong>
+                    <strong>{copy.labels.roleToGrant}</strong>
                     <select className="datalab-select" value={assignedRole} onChange={(event) => setAssignedRole(event.target.value as DataLabRole)}>
                       {(Object.keys(roleLabels) as DataLabRole[]).map((role) => (
                         <option key={role} value={role}>{roleLabels[role]}</option>
@@ -277,42 +284,42 @@ export function DataLabAccessRequestsReviewPage() {
                     </select>
                   </article>
                   <article className="datalab-list-item">
-                    <strong>Última revisión</strong>
-                    <p className="datalab-copy">{formatDate(selected.reviewed_at)}</p>
+                    <strong>{copy.labels.lastReview}</strong>
+                    <p className="datalab-copy">{formatDate(selected.reviewed_at, locale)}</p>
                   </article>
                 </div>
 
                 <textarea
                   className="datalab-textarea"
-                  placeholder="Notas internas de revisión"
+                  placeholder={copy.review.reviewNotesPlaceholder}
                   value={reviewNotes}
                   onChange={(event) => setReviewNotes(event.target.value)}
                 />
 
                 <textarea
                   className="datalab-textarea"
-                  placeholder="Motivo o criterio de decisión"
+                  placeholder={copy.review.decisionReasonPlaceholder}
                   value={decisionReason}
                   onChange={(event) => setDecisionReason(event.target.value)}
                 />
 
                 {decisionPayload ? (
                   <article className="datalab-list-item">
-                    <strong>Credenciales iniciales</strong>
-                    <p className="datalab-copy">Password temporal: {decisionPayload.tempPassword || 'No disponible'}</p>
-                    <p className="datalab-copy">Ruta de acceso: {decisionPayload.launchUrl || 'No disponible'}</p>
+                    <strong>{copy.labels.initialCredentials}</strong>
+                    <p className="datalab-copy">{copy.labels.temporaryPassword}: {decisionPayload.tempPassword || copy.generic.unavailable}</p>
+                    <p className="datalab-copy">{copy.labels.launchRoute}: {decisionPayload.launchUrl || copy.generic.unavailable}</p>
                   </article>
                 ) : null}
 
                 <div className="datalab-review-actions">
                   <button className="datalab-button-ghost" type="button" disabled={savingAction !== null} onClick={() => void handleDecision('under_review')}>
-                    {savingAction === 'under_review' ? 'Guardando...' : 'Marcar en revisión'}
+                    {savingAction === 'under_review' ? copy.review.saving : copy.review.saveInReview}
                   </button>
                   <button className="datalab-button-ghost" type="button" disabled={savingAction !== null} onClick={() => void handleDecision('rejected')}>
-                    {savingAction === 'rejected' ? 'Guardando...' : 'Rechazar'}
+                    {savingAction === 'rejected' ? copy.review.saving : copy.review.reject}
                   </button>
                   <button className="datalab-button" type="button" disabled={savingAction !== null} onClick={() => void handleDecision('accepted')}>
-                    {savingAction === 'accepted' ? 'Activando...' : 'Aceptar y crear acceso'}
+                    {savingAction === 'accepted' ? copy.review.accepting : copy.review.acceptAndCreate}
                   </button>
                 </div>
               </div>

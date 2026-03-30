@@ -4,6 +4,16 @@
   --dl-surface: rgba(10, 27, 34, 0.84);
   --dl-surface-strong: rgba(7, 21, 28, 0.96);
   --dl-panel: rgba(8, 31, 40, 0.78);
+  --dl-surface-gradient: linear-gradient(180deg, rgba(9, 31, 40, 0.92), rgba(6, 22, 29, 0.94));
+  --dl-ghost-bg: rgba(7, 23, 30, 0.58);
+  --dl-toggle-bg: rgba(255, 255, 255, 0.03);
+  --dl-toggle-inner-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  --dl-raised-bg: rgba(7, 23, 29, 0.72);
+  --dl-raised-soft-bg: rgba(7, 23, 29, 0.68);
+  --dl-input-bg: rgba(4, 18, 24, 0.92);
+  --dl-notice-bg: rgba(11, 47, 58, 0.84);
+  --dl-role-bg: rgba(8, 29, 37, 0.78);
+  --dl-filter-active-bg: rgba(22, 108, 118, 0.4);
   --dl-border: rgba(67, 211, 220, 0.16);
   --dl-border-strong: rgba(115, 236, 245, 0.26);
   --dl-text: #ebfbff;
@@ -21,13 +31,23 @@ html[data-theme='light'] {
   --dl-surface: rgba(250, 254, 255, 0.9);
   --dl-surface-strong: rgba(244, 251, 253, 0.98);
   --dl-panel: rgba(242, 251, 253, 0.84);
+  --dl-surface-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(240, 250, 252, 0.94));
+  --dl-ghost-bg: rgba(255, 255, 255, 0.84);
+  --dl-toggle-bg: rgba(241, 249, 251, 0.92);
+  --dl-toggle-inner-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.66);
+  --dl-raised-bg: rgba(248, 253, 254, 0.94);
+  --dl-raised-soft-bg: rgba(244, 251, 253, 0.92);
+  --dl-input-bg: rgba(255, 255, 255, 0.94);
+  --dl-notice-bg: rgba(231, 249, 252, 0.96);
+  --dl-role-bg: rgba(236, 248, 250, 0.92);
+  --dl-filter-active-bg: rgba(25, 149, 163, 0.18);
   --dl-border: rgba(12, 118, 135, 0.12);
-  --dl-border-strong: rgba(12, 118, 135, 0.2);
+  --dl-border-strong: rgba(12, 118, 135, 0.3);
   --dl-text: #09212a;
-  --dl-muted: rgba(17, 49, 58, 0.78);
-  --dl-muted-2: rgba(17, 49, 58, 0.58);
+  --dl-muted: rgba(9, 33, 42, 0.8);
+  --dl-muted-2: rgba(9, 33, 42, 0.64);
   --dl-aqua-soft: #0c7687;
-  --dl-ice: #0b1f28;
+  --dl-ice: #10313b;
   --dl-shadow: rgba(8, 34, 41, 0.12);
   --dl-halo: linear-gradient(115deg, rgba(78, 213, 223, 0) 0%, rgba(31, 181, 191, 0.14) 40%, rgba(255, 255, 255, 0.9) 50%, rgba(31, 181, 191, 0.14) 60%, rgba(78, 213, 223, 0) 100%);
 }
@@ -67,7 +87,7 @@ button, input, textarea, select { font: inherit; }
 
 .datalab-topbar, .datalab-card, .datalab-panel, .datalab-login-card, .datalab-workspace-card, .datalab-side-panel {
   border: 1px solid var(--dl-border);
-  background: linear-gradient(180deg, rgba(9, 31, 40, 0.92), rgba(6, 22, 29, 0.94));
+  background: var(--dl-surface-gradient);
   box-shadow: 0 28px 70px var(--dl-shadow);
   backdrop-filter: blur(16px);
   border-radius: 34px;
@@ -124,7 +144,7 @@ button, input, textarea, select { font: inherit; }
   font-size: 0.74rem;
   letter-spacing: 0.2rem;
   text-transform: uppercase;
-  background: rgba(7, 23, 30, 0.58);
+  background: var(--dl-ghost-bg);
 }
 .datalab-ui-toggles {
   display: flex;
@@ -139,11 +159,8 @@ button, input, textarea, select { font: inherit; }
   padding: 4px;
   border-radius: 999px;
   border: 1px solid var(--dl-border);
-  background: rgba(255, 255, 255, 0.03);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
-}
-html[data-theme='light'] .datalab-toggle {
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--dl-toggle-bg);
+  box-shadow: var(--dl-toggle-inner-shadow);
 }
 .datalab-toggle-pill {
   min-height: 42px;
@@ -194,7 +211,7 @@ html[data-theme='light'] .datalab-toggle {
   transition: transform 180ms ease, box-shadow 180ms ease; box-shadow: 0 18px 40px rgba(30, 148, 165, 0.28);
 }
 .datalab-button-ghost, .datalab-doc-link {
-  border: 1px solid var(--dl-border); background: rgba(7, 23, 30, 0.58); color: var(--dl-text); border-radius: 999px;
+  border: 1px solid var(--dl-border); background: var(--dl-ghost-bg); color: var(--dl-text); border-radius: 999px;
   padding: 12px 22px; font-size: 0.76rem; letter-spacing: 0.2rem; text-transform: uppercase;
 }
 .datalab-doc-link { display: inline-flex; align-items: center; gap: 10px; color: var(--dl-aqua-soft); padding: 10px 16px; }
@@ -229,7 +246,7 @@ html[data-theme='light'] .datalab-toggle {
   place-items: center;
   flex-shrink: 0;
   border: 1px solid var(--dl-border);
-  background: rgba(18, 78, 91, 0.22);
+  background: color-mix(in srgb, var(--dl-aqua-soft) 16%, transparent);
   color: var(--dl-aqua-soft);
 }
 .datalab-section-title {
@@ -249,7 +266,7 @@ html[data-theme='light'] .datalab-toggle {
 .datalab-signal-card {
   border: 1px solid var(--dl-border);
   border-radius: 24px;
-  background: rgba(7, 23, 29, 0.72);
+  background: var(--dl-raised-bg);
   padding: 18px 20px;
 }
 .datalab-signal-card h3 {
@@ -273,7 +290,7 @@ html[data-theme='light'] .datalab-toggle {
   align-items: flex-start;
   border: 1px solid var(--dl-border);
   border-radius: 28px;
-  background: rgba(7, 23, 29, 0.68);
+  background: var(--dl-raised-soft-bg);
   padding: 22px 24px;
 }
 .datalab-approved-title {
@@ -310,7 +327,7 @@ html[data-theme='light'] .datalab-toggle {
 .datalab-support-card {
   border: 1px solid var(--dl-border);
   border-radius: 24px;
-  background: rgba(7, 23, 29, 0.72);
+  background: var(--dl-raised-bg);
   padding: 18px 20px;
   transition: transform 160ms ease, border-color 160ms ease;
 }
@@ -334,7 +351,7 @@ html[data-theme='light'] .datalab-toggle {
 
 .datalab-metrics, .datalab-form, .datalab-workspace-stack, .datalab-list, .datalab-doc-list, .datalab-signal-list, .datalab-pack-list, .datalab-alert-list { display: grid; gap: 16px; }
 .datalab-metric, .datalab-list-item, .datalab-doc-item, .datalab-signal-item, .datalab-pack-item, .datalab-alert-item {
-  border: 1px solid var(--dl-border); border-radius: 24px; background: rgba(7, 23, 29, 0.72); padding: 18px 20px;
+  border: 1px solid var(--dl-border); border-radius: 24px; background: var(--dl-raised-bg); padding: 18px 20px;
 }
 .datalab-metric strong { display: block; margin-top: 10px; font-size: 2.15rem; color: var(--dl-ice); }
 .datalab-metric span { display: block; margin-top: 8px; color: var(--dl-muted); line-height: 1.6; }
@@ -349,24 +366,24 @@ html[data-theme='light'] .datalab-toggle {
 .datalab-field { display: grid; gap: 10px; }
 .datalab-field label { color: var(--dl-aqua-soft); font-size: 0.76rem; letter-spacing: 0.2rem; text-transform: uppercase; }
 .datalab-input, .datalab-textarea {
-  width: 100%; border: 1px solid var(--dl-border); border-radius: 22px; padding: 16px 18px; background: rgba(4, 18, 24, 0.92); color: var(--dl-text); outline: none;
+  width: 100%; border: 1px solid var(--dl-border); border-radius: 22px; padding: 16px 18px; background: var(--dl-input-bg); color: var(--dl-text); outline: none;
 }
 .datalab-select {
   width: 100%;
   border: 1px solid var(--dl-border);
   border-radius: 22px;
   padding: 16px 18px;
-  background: rgba(4, 18, 24, 0.92);
+  background: var(--dl-input-bg);
   color: var(--dl-text);
   outline: none;
 }
 .datalab-textarea { min-height: 140px; resize: vertical; }
 .datalab-notice, .datalab-error { border-radius: 24px; padding: 16px 18px; line-height: 1.65; }
-.datalab-notice { border: 1px solid rgba(154, 238, 247, 0.18); background: rgba(11, 47, 58, 0.84); color: var(--dl-aqua-soft); }
+.datalab-notice { border: 1px solid rgba(154, 238, 247, 0.18); background: var(--dl-notice-bg); color: var(--dl-aqua-soft); }
 .datalab-error { border: 1px solid rgba(255, 143, 158, 0.18); background: rgba(49, 19, 25, 0.88); color: #ffd7dc; }
 .datalab-role-badge {
   display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 9px 15px; border: 1px solid var(--dl-border);
-  background: rgba(8, 29, 37, 0.78); color: var(--dl-aqua-soft); font-size: 0.78rem; letter-spacing: 0.17rem; text-transform: uppercase;
+  background: var(--dl-role-bg); color: var(--dl-aqua-soft); font-size: 0.78rem; letter-spacing: 0.17rem; text-transform: uppercase;
 }
 .datalab-mini-stat { display: grid; gap: 4px; }
 .datalab-mini-stat strong { font-size: 1.72rem; }
@@ -448,7 +465,7 @@ html[data-theme='light'] .datalab-toggle {
   padding: 0 16px;
   border-radius: 999px;
   border: 1px solid var(--dl-border);
-  background: rgba(7, 23, 30, 0.58);
+  background: var(--dl-ghost-bg);
   color: var(--dl-muted);
   letter-spacing: 0.16rem;
   text-transform: uppercase;
@@ -458,7 +475,7 @@ html[data-theme='light'] .datalab-toggle {
 .datalab-review-filter.is-active {
   border-color: var(--dl-border-strong);
   color: var(--dl-text);
-  background: rgba(22, 108, 118, 0.4);
+  background: var(--dl-filter-active-bg);
 }
 .datalab-review-grid {
   margin-top: 24px;
@@ -475,7 +492,7 @@ html[data-theme='light'] .datalab-toggle {
   text-align: left;
   border-radius: 22px;
   border: 1px solid var(--dl-border);
-  background: rgba(7, 23, 29, 0.72);
+  background: var(--dl-raised-bg);
   padding: 18px 20px;
   color: var(--dl-text);
   cursor: pointer;
@@ -552,9 +569,9 @@ html[data-theme='light'] .datalab-toggle {
   .datalab-backlink, .datalab-nav { justify-self: start; }
   .datalab-ui-toggles {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 8px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
   .datalab-signals,
   .datalab-support-grid { grid-template-columns: 1fr; }
@@ -569,6 +586,7 @@ html[data-theme='light'] .datalab-toggle {
   .datalab-toggle {
     gap: 4px;
     padding: 3px;
+    width: auto;
   }
   .datalab-toggle-pill {
     min-width: 38px;

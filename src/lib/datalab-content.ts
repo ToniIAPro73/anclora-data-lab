@@ -5,6 +5,8 @@ export type DataLabRole =
   | 'partner-intelligence'
   | 'investor-viewer'
 
+export type DataLabRoleLabels = Record<DataLabRole, string>
+
 export type DataLabInsight = {
   title: string
   summary: string
@@ -27,13 +29,31 @@ export type DataLabDocument = {
   href: string
 }
 
-export const roleLabels: Record<DataLabRole, string> = {
-  'datalab-admin': 'Administrador Data Lab',
-  'market-analyst': 'Analista de mercado',
-  'investment-advisory': 'Investment advisory',
-  'partner-intelligence': 'Partner intelligence',
-  'investor-viewer': 'Investor viewer',
+export const roleLabelsByLocale: Record<'es' | 'en' | 'de', DataLabRoleLabels> = {
+  es: {
+    'datalab-admin': 'Administrador Data Lab',
+    'market-analyst': 'Analista de mercado',
+    'investment-advisory': 'Asesoría de inversión',
+    'partner-intelligence': 'Inteligencia de partners',
+    'investor-viewer': 'Visor de inversor',
+  },
+  en: {
+    'datalab-admin': 'Data Lab administrator',
+    'market-analyst': 'Market analyst',
+    'investment-advisory': 'Investment advisory',
+    'partner-intelligence': 'Partner intelligence',
+    'investor-viewer': 'Investor viewer',
+  },
+  de: {
+    'datalab-admin': 'Data-Lab-Administrator',
+    'market-analyst': 'Marktanalyst',
+    'investment-advisory': 'Investment Advisory',
+    'partner-intelligence': 'Partner Intelligence',
+    'investor-viewer': 'Investor-Viewer',
+  },
 }
+
+export const roleLabels = roleLabelsByLocale.es
 
 export const heroMetrics = [
   {
