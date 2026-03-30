@@ -8,8 +8,12 @@ import { curatedDocuments, heroMetrics, mvpModules, signals, zones } from '@/lib
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
 import { buildPrivateEstatesHref, getDefaultLocale, getDefaultTheme, type DataLabLocale } from '@/lib/datalab-ui'
 
-export function DataLabPublicPage() {
-  const defaultLocale = getDefaultLocale()
+type Props = {
+  defaultLocale?: DataLabLocale
+}
+
+export function DataLabPublicPage({ defaultLocale: initialLocale }: Props) {
+  const defaultLocale = initialLocale ?? getDefaultLocale()
   const defaultTheme = getDefaultTheme()
   const [locale, setLocale] = useState<DataLabLocale>(defaultLocale)
   const [requestForm, setRequestForm] = useState({
@@ -89,7 +93,7 @@ export function DataLabPublicPage() {
             </div>
           </div>
           <div className="datalab-nav">
-            <DataLabUiToggles defaultLocale={defaultLocale} defaultTheme={defaultTheme} onLocaleChange={setLocale} />
+            <DataLabUiToggles locale={locale} defaultLocale={defaultLocale} defaultTheme={defaultTheme} onLocaleChange={setLocale} />
           </div>
         </header>
 

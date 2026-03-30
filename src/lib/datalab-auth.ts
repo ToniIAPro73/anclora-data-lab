@@ -121,9 +121,28 @@ export function authenticateDataLabAdmin(username: string, password: string): Da
   const configuredPassword = process.env.DATALAB_ADMIN_PASSWORD?.trim()
   const configuredRole = (process.env.DATALAB_ADMIN_ROLE?.trim() as DataLabAdminRole | undefined) || 'reviewer'
   const configuredDisplayName = process.env.DATALAB_ADMIN_DISPLAY_NAME?.trim() || 'Data Lab Admissions'
+  const allowUserText = process.env.UTILIZAR_USER_TEXT === 'true'
+  const fallbackUsername = process.env.USER_TEXT?.trim()
+  const fallbackPassword = process.env.PASS_TEXT?.trim()
+  const normalizedUsername = username.trim()
+  const normalizedPassword = password.trim()
+
+  if (
+    allowUserText &&
+    fallbackUsername &&
+    fallbackPassword &&
+    fallbackUsername === normalizedUsername &&
+    fallbackPassword === normalizedPassword
+  ) {
+    return {
+      username: fallbackUsername,
+      displayName: configuredDisplayName,
+      role: configuredRole,
+    }
+  }
 
   if (!configuredUsername || !configuredPassword) return null
-  if (configuredUsername !== username.trim() || configuredPassword !== password.trim()) return null
+  if (configuredUsername !== normalizedUsername || configuredPassword !== normalizedPassword) return null
 
   return {
     username: configuredUsername,

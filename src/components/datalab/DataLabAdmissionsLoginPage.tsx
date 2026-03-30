@@ -7,12 +7,18 @@ import { datalabAdminCopy } from '@/lib/datalab-admin-copy'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
 import { buildAncloraGroupHref, getDefaultLocale, getDefaultTheme, type DataLabLocale } from '@/lib/datalab-ui'
 
-export function DataLabAdmissionsLoginPage() {
-  const defaultLocale = getDefaultLocale()
+type Props = {
+  defaultLocale?: DataLabLocale
+  defaultUsername?: string
+  defaultPassword?: string
+}
+
+export function DataLabAdmissionsLoginPage({ defaultLocale: initialLocale, defaultUsername = '', defaultPassword = '' }: Props) {
+  const defaultLocale = initialLocale ?? getDefaultLocale()
   const defaultTheme = getDefaultTheme()
   const [locale, setLocale] = useState<DataLabLocale>(defaultLocale)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState(defaultUsername)
+  const [password, setPassword] = useState(defaultPassword)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const copy = datalabAdminCopy[locale]
@@ -59,7 +65,7 @@ export function DataLabAdmissionsLoginPage() {
             </div>
           </div>
           <div className="datalab-nav datalab-nav-admin">
-            <DataLabUiToggles defaultLocale={defaultLocale} defaultTheme={defaultTheme} onLocaleChange={setLocale} />
+            <DataLabUiToggles locale={locale} defaultLocale={defaultLocale} defaultTheme={defaultTheme} onLocaleChange={setLocale} />
           </div>
         </header>
 

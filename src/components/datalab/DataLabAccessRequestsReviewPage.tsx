@@ -47,8 +47,12 @@ function formatDate(value: string | null, locale: DataLabLocale) {
   return new Intl.DateTimeFormat(LOCALE_FORMATTERS[locale], { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
 }
 
-export function DataLabAccessRequestsReviewPage() {
-  const defaultLocale = getDefaultLocale()
+type Props = {
+  defaultLocale?: DataLabLocale
+}
+
+export function DataLabAccessRequestsReviewPage({ defaultLocale: initialLocale }: Props) {
+  const defaultLocale = initialLocale ?? getDefaultLocale()
   const defaultTheme = getDefaultTheme()
   const [locale, setLocale] = useState<DataLabLocale>(defaultLocale)
   const [items, setItems] = useState<DataLabAccessRequestRecord[]>([])
@@ -177,7 +181,7 @@ export function DataLabAccessRequestsReviewPage() {
             </div>
           </div>
           <div className="datalab-nav">
-            <DataLabUiToggles defaultLocale={defaultLocale} defaultTheme={defaultTheme} onLocaleChange={setLocale} />
+            <DataLabUiToggles locale={locale} defaultLocale={defaultLocale} defaultTheme={defaultTheme} onLocaleChange={setLocale} />
           </div>
         </header>
 

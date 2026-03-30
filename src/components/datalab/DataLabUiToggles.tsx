@@ -2,7 +2,7 @@
 
 import { Laptop2, MoonStar, SunMedium } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { DATALAB_LOCALES, DATALAB_THEMES, type DataLabLocale, type DataLabTheme } from '@/lib/datalab-ui'
+import { DATALAB_LOCALE_COOKIE, DATALAB_LOCALES, DATALAB_THEMES, type DataLabLocale, type DataLabTheme } from '@/lib/datalab-ui'
 
 const STORAGE_LOCALE_KEY = 'anclora-datalab-locale'
 const STORAGE_THEME_KEY = 'anclora-datalab-theme'
@@ -10,6 +10,7 @@ const STORAGE_THEME_KEY = 'anclora-datalab-theme'
 type Props = {
   defaultLocale: DataLabLocale
   defaultTheme: DataLabTheme
+  locale?: DataLabLocale
   onLocaleChange?: (locale: DataLabLocale) => void
 }
 
@@ -25,8 +26,8 @@ function resolveTheme(theme: DataLabTheme) {
   return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
 }
 
-export function DataLabUiToggles({ defaultLocale, defaultTheme, onLocaleChange }: Props) {
-  const [locale, setLocale] = useState<DataLabLocale>(() => {
+export function DataLabUiToggles({ defaultLocale, defaultTheme, locale: controlledLocale, onLocaleChange }: Props) {
+  const [internalLocale, setInternalLocale] = useState<DataLabLocale>(() => {
     if (typeof window === 'undefined') return defaultLocale
     const storedLocale = window.localStorage.getItem(STORAGE_LOCALE_KEY) as DataLabLocale | null
     return storedLocale && DATALAB_LOCALES.includes(storedLocale) ? storedLocale : defaultLocale
@@ -38,13 +39,15 @@ export function DataLabUiToggles({ defaultLocale, defaultTheme, onLocaleChange }
     return storedTheme && DATALAB_THEMES.includes(storedTheme) ? storedTheme : defaultTheme
   })
 
+  const locale = controlledLocale ?? internalLocale
+
   useEffect(() => {
     const root = document.documentElement
     root.lang = locale
     root.dataset.locale = locale
     window.localStorage.setItem(STORAGE_LOCALE_KEY, locale)
-    onLocaleChange?.(locale)
-  }, [locale, onLocaleChange])
+    document.cookie = `${DATALAB_LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; samesite=lax`
+  }, [locale])
 
   useEffect(() => {
     const root = document.documentElement
@@ -92,7 +95,10 @@ export function DataLabUiToggles({ defaultLocale, defaultTheme, onLocaleChange }
               key={option}
               type="button"
               className={`datalab-toggle-pill datalab-toggle-pill-text ${active ? 'is-active' : ''}`}
-              onClick={() => setLocale(option)}
+              onClick={() => {
+                if (controlledLocale === undefined) setInternalLocale(option)
+                onLocaleChange?.(option)
+              }}
               aria-pressed={active}
             >
               {option.toUpperCase()}

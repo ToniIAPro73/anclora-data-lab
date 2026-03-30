@@ -3,12 +3,17 @@ export type DataLabTheme = 'dark' | 'light' | 'system'
 
 export const DATALAB_LOCALES: DataLabLocale[] = ['es', 'en', 'de']
 export const DATALAB_THEMES: DataLabTheme[] = ['light', 'dark', 'system']
+export const DATALAB_LOCALE_COOKIE = 'anclora-datalab-locale'
 const DEFAULT_PRIVATE_ESTATES_URL = 'https://anclora-private-estates.vercel.app/?open=private-area'
 const DEFAULT_ANCLORA_GROUP_URL = 'https://anclora-group.vercel.app/workspace'
 
 export function getDefaultLocale(): DataLabLocale {
   const value = process.env.NEXT_PUBLIC_DATALAB_DEFAULT_LOCALE?.trim().toLowerCase()
   return value === 'en' || value === 'de' ? value : 'es'
+}
+
+export function resolveDataLabLocale(value?: string | null): DataLabLocale {
+  return value === 'en' || value === 'de' || value === 'es' ? value : getDefaultLocale()
 }
 
 export function getDefaultTheme(): DataLabTheme {

@@ -1,5 +1,6 @@
+import { cookies } from 'next/headers'
 import type { Metadata } from 'next'
-import { getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
+import { getDefaultTheme, DATALAB_LOCALE_COOKIE, resolveDataLabLocale } from '@/lib/datalab-ui'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -10,12 +11,13 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const defaultLocale = getDefaultLocale()
+  const cookieStore = await cookies()
+  const defaultLocale = resolveDataLabLocale(cookieStore.get(DATALAB_LOCALE_COOKIE)?.value)
   const defaultTheme = getDefaultTheme()
 
   return (

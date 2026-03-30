@@ -1,9 +1,10 @@
+import { cookies } from 'next/headers'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { DataLabLoginForm } from '@/components/datalab/DataLabLoginForm'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
 import { getDataLabSession } from '@/lib/datalab-auth'
-import { getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
+import { DATALAB_LOCALE_COOKIE, getDefaultTheme, resolveDataLabLocale } from '@/lib/datalab-ui'
 
 type PageProps = {
   searchParams: Promise<{ email?: string | string[] }>
@@ -13,7 +14,8 @@ export default async function LoginPage({ searchParams }: PageProps) {
   const session = await getDataLabSession()
   if (session) redirect('/workspace')
 
-  const defaultLocale = getDefaultLocale()
+  const cookieStore = await cookies()
+  const defaultLocale = resolveDataLabLocale(cookieStore.get(DATALAB_LOCALE_COOKIE)?.value)
   const defaultTheme = getDefaultTheme()
   const params = await searchParams
   const emailParam = params.email
