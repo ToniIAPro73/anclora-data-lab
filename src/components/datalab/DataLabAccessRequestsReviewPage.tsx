@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { roleLabelsByLocale, type DataLabRole } from '@/lib/datalab-content'
 import { datalabAdminCopy } from '@/lib/datalab-admin-copy'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
-import { getDefaultLocale, getDefaultTheme, type DataLabLocale } from '@/lib/datalab-ui'
+import { buildAncloraGroupHref, getDefaultLocale, getDefaultTheme, type DataLabLocale } from '@/lib/datalab-ui'
 
 type DataLabAccessRequestStatus = 'submitted' | 'under_review' | 'accepted' | 'rejected'
 
@@ -163,7 +164,9 @@ export function DataLabAccessRequestsReviewPage() {
       <div className="datalab-noise" />
       <div className="datalab-shell">
         <header className="datalab-topbar">
-          <div className="datalab-backlink">{copy.labels.reviewInternalAccess}</div>
+          <Link href={buildAncloraGroupHref()} className="datalab-backlink">
+            {copy.login.backToGroup}
+          </Link>
           <div className="datalab-brand">
             <div className="datalab-brand-mark">
               <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={54} height={54} className="datalab-brand-logo" />
