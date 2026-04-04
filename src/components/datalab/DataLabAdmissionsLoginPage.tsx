@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, type FormEvent } from 'react'
+import { DATALAB_BRAND } from '@/lib/datalab-brand'
 import { datalabAdminCopy } from '@/lib/datalab-admin-copy'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
 import { buildAncloraGroupHref, getDefaultLocale, getDefaultTheme, type DataLabLocale } from '@/lib/datalab-ui'
@@ -57,7 +58,7 @@ export function DataLabAdmissionsLoginPage({ defaultLocale: initialLocale, defau
           </Link>
           <div className="datalab-brand">
             <div className="datalab-brand-mark">
-              <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={54} height={54} className="datalab-brand-logo" />
+              <Image src={DATALAB_BRAND.logoPath} alt={DATALAB_BRAND.name} width={54} height={54} className="datalab-brand-logo" />
             </div>
             <div className="datalab-brand-copy">
               <p>{copy.labels.brandName}</p>

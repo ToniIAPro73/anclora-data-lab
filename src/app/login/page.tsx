@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
+import { DATALAB_BRAND } from '@/lib/datalab-brand'
 import { DataLabLoginForm } from '@/components/datalab/DataLabLoginForm'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
 import { getDataLabSession } from '@/lib/datalab-auth'
@@ -28,10 +29,10 @@ export default async function LoginPage({ searchParams }: PageProps) {
         <article className="datalab-login-card">
           <div className="datalab-brand">
             <div className="datalab-brand-mark">
-              <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={44} height={44} className="datalab-brand-logo" />
+              <Image src={DATALAB_BRAND.logoPath} alt={DATALAB_BRAND.name} width={44} height={44} className="datalab-brand-logo" />
             </div>
             <div className="datalab-brand-copy">
-              <p>Anclora Data Lab</p>
+              <p>{DATALAB_BRAND.name}</p>
               <span>Plataforma de inteligencia y activos analíticos de Anclora Private Estates.</span>
             </div>
           </div>

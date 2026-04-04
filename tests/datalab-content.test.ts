@@ -4,6 +4,6 @@ import { roleLabels } from '@/lib/datalab-content'
 
 test('roleLabels includes core datalab roles', () => {
   assert.equal(roleLabels['datalab-admin'], 'Administrador Data Lab')
-  assert.equal(roleLabels['partner-intelligence'], 'Partner intelligence')
-  assert.equal(roleLabels['investor-viewer'], 'Investor viewer')
+  assert.equal(roleLabels['partner-intelligence'], 'Inteligencia de partners')
+  assert.equal(roleLabels['investor-viewer'], 'Visor de inversor')
 })

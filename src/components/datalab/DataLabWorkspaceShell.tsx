@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Bell, BookOpenText, ChartColumnBig, LockKeyhole, Map, Radar, Shield } from 'lucide-react'
 import type { DataLabSession } from '@/lib/datalab-auth'
+import { DATALAB_BRAND } from '@/lib/datalab-brand'
 import { curatedDocuments, roleLabels, signals, workspaceAlerts, workspacePacks, zones } from '@/lib/datalab-content'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
 import { getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
@@ -21,10 +22,10 @@ export function DataLabWorkspaceShell({ session }: Props) {
         <header className="datalab-topbar">
           <div className="datalab-brand">
             <div className="datalab-brand-mark">
-              <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={44} height={44} className="datalab-brand-logo" />
+              <Image src={DATALAB_BRAND.logoPath} alt={DATALAB_BRAND.name} width={44} height={44} className="datalab-brand-logo" />
             </div>
             <div className="datalab-brand-copy">
-              <p>Anclora Data Lab</p>
+              <p>{DATALAB_BRAND.name}</p>
               <span>Workspace privado para señal territorial, activos documentales y consumo premium de inteligencia.</span>
             </div>
           </div>

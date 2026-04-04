@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, type FormEvent } from 'react'
 import { ArrowRight, ArrowUpRight, Database, KeyRound, MapPinned, Radar, ShieldCheck, Sparkles, UserRoundPlus } from 'lucide-react'
+import { DATALAB_BRAND } from '@/lib/datalab-brand'
 import { curatedDocuments, heroMetrics, mvpModules, signals, zones } from '@/lib/datalab-content'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
 import { buildPrivateEstatesHref, getDefaultLocale, getDefaultTheme, type DataLabLocale } from '@/lib/datalab-ui'
@@ -85,10 +86,10 @@ export function DataLabPublicPage({ defaultLocale: initialLocale }: Props) {
 
           <div className="datalab-brand">
             <div className="datalab-brand-mark">
-              <Image src="/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width={54} height={54} className="datalab-brand-logo" />
+              <Image src={DATALAB_BRAND.logoPath} alt={DATALAB_BRAND.name} width={54} height={54} className="datalab-brand-logo" />
             </div>
             <div className="datalab-brand-copy">
-              <p>Anclora Data Lab</p>
+              <p>{DATALAB_BRAND.name}</p>
               <span>Inteligencia territorial y activos analíticos de Anclora.</span>
             </div>
           </div>
@@ -155,7 +156,7 @@ export function DataLabPublicPage({ defaultLocale: initialLocale }: Props) {
                 <p>Recogemos organización, perfil de acceso y el tipo de uso previsto dentro de Anclora Data Lab.</p>
               </article>
               <article className="datalab-signal-card">
-                <ShieldCheck className="datalab-signal-icon is-cyan" />
+                <ShieldCheck className="datalab-signal-icon is-emerald" />
                 <h3>Validación curada</h3>
                 <p>El acceso se concede solo cuando encaja con el nivel de confidencialidad y el propósito analítico.</p>
               </article>
@@ -238,7 +239,7 @@ export function DataLabPublicPage({ defaultLocale: initialLocale }: Props) {
                 <p>El login está reservado a usuarios aprobados con acceso real al entorno analítico de Data Lab.</p>
               </article>
               <article className="datalab-signal-card">
-                <ArrowRight className="datalab-signal-icon is-cyan" />
+                <ArrowRight className="datalab-signal-icon is-emerald" />
                 <h3>Workspace selectivo</h3>
                 <p>Una vez dentro, el acceso se adapta al perfil y a la capa de visibilidad concedida.</p>
               </article>
