@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(///wsl.localhost/Ubuntu/home/toni/projects/**)",
+      "Read(///wsl.localhost/Ubuntu/home/toni/projects/anclora-content-generator-ai/**)",
+      "Read(///wsl.localhost/Ubuntu/home/toni/projects/anclora-content-generator-ai/src/app/**)",
+      "Read(///wsl.localhost/Ubuntu/home/toni/projects/anclora-content-generator-ai/sdd/**)",
+      "Read(///wsl.localhost/Ubuntu/home/toni/projects/anclora-content-generator-ai/.antigravity/**)",
+      "Read(//home/toni/projects/anclora-nexus/**)",
+      "Read(///wsl.localhost/Ubuntu/home/toni/projects/anclora-nexus/**)",
+      "Read(//home/toni/projects/anclora-content-generator-ai/**)",
+      "Bash(wsl -e bash -c \"ls -la /home/toni/projects/anclora-content-generator-ai/*.json /home/toni/projects/anclora-nexus/*.json 2>/dev/null\")",
+      "Read(//home/toni/projects/anclora-content-generator-ai/src/app/api/content/generate/**)",
+      "Read(///wsl.localhost/Ubuntu/home/toni/projects/anclora-content-generator-ai/src/app/api/content/generate/**)",
+      "Read(//home/toni/projects/anclora-content-generator-ai/src/lib/db/**)",
+      "Read(///wsl.localhost/Ubuntu/home/toni/projects/anclora-content-generator-ai/src/lib/db/**)",
+      "Read(//home/toni/projects/anclora-content-generator-ai/src/app/api/content/library/**)",
+      "Read(///wsl.localhost/Ubuntu/home/toni/projects/anclora-content-generator-ai/src/app/api/content/library/**)"
+    ],
+    "additionalDirectories": [
+      "\\home\\toni\\projects\\anclora-content-generator-ai\\src\\lib\\brand",
+      "\\\\wsl.localhost\\Ubuntu\\home\\toni\\projects\\anclora-content-generator-ai\\src\\lib\\brand",
+      "\\home\\toni\\projects\\anclora-content-generator-ai\\src\\lib\\agents",
+      "\\\\wsl.localhost\\Ubuntu\\home\\toni\\projects\\anclora-content-generator-ai\\src\\lib\\agents"
+    ]
+  }
+}
