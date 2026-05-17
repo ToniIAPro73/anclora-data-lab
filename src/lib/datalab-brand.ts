@@ -1,6 +1,6 @@
 export const DATALAB_BRAND = {
   name: 'Anclora Data Lab',
-  description: 'Anclora Data Lab es una marca comercial operada bajo licencia exclusiva por Anclora Group. Plataforma de inteligencia, señales territoriales y activos analíticos.',
+  description: 'Anclora Data Lab forma parte del ecosistema tecnológico de Anclora Group. Plataforma de inteligencia, señales territoriales y activos analíticos.',
   logoPath: '/brand/logo-anclora-datalab.png',
   faviconPath: '/favicon.ico',
   premiumAccent: '#2DA078',
