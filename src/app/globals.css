@@ -247,18 +247,12 @@ button, input, textarea, select { font: inherit; }
   font-weight: 800;
   letter-spacing: 0.08em;
 }
-.datalab-preferences-token {
-  color: var(--dl-text);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
 .datalab-preferences-panel {
   position: absolute;
   right: 0;
   top: calc(100% + 10px);
   z-index: 30;
-  width: min(22rem, calc(100vw - 2rem));
+  width: min(18rem, calc(100vw - 2rem));
   padding: 16px;
   border-radius: 24px;
   border: 1px solid var(--dl-border);
