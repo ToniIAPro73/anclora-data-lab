@@ -163,7 +163,8 @@ button, input, textarea, select { font: inherit; }
 .datalab-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+  height: 36px;
   padding: 4px;
   border-radius: 999px;
   border: 1px solid var(--dl-border);
@@ -171,10 +172,12 @@ button, input, textarea, select { font: inherit; }
   box-shadow: var(--dl-toggle-inner-shadow);
 }
 .datalab-toggle-pill {
-  min-height: 42px;
-  min-width: 42px;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
   border-radius: 999px;
-  border: 1px solid transparent;
+  border: 0;
   background: transparent;
   color: var(--dl-muted);
   display: inline-flex;
@@ -186,20 +189,20 @@ button, input, textarea, select { font: inherit; }
 .datalab-toggle-pill svg { display: block; }
 .datalab-toggle-pill:hover,
 .datalab-toggle-pill:focus-visible {
-  transform: translateY(-1px);
-  border-color: var(--dl-border);
+  background: color-mix(in srgb, var(--dl-text) 8%, transparent);
   color: var(--dl-text);
 }
 .datalab-toggle-pill.is-active {
-  background: linear-gradient(180deg, rgba(45, 160, 120, 0.94), rgba(192, 120, 96, 0.88));
+  background: var(--dl-brand-emerald);
   color: #07130f;
-  box-shadow: 0 14px 28px rgba(45, 160, 120, 0.2);
+  box-shadow: 0 8px 18px rgba(45, 160, 120, 0.22);
 }
 .datalab-toggle-pill-text {
-  min-width: 58px;
-  padding: 9px 15px;
-  font-size: 0.7rem;
-  letter-spacing: 0.2rem;
+  width: 42px;
+  min-width: 42px;
+  padding: 0 10px;
+  font-size: 0.68rem;
+  letter-spacing: 0.14rem;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -593,17 +596,21 @@ button, input, textarea, select { font: inherit; }
   .datalab-login-toggle-row { justify-content: flex-start; }
   .datalab-toggle {
     gap: 4px;
+    height: 34px;
     padding: 3px;
     width: auto;
   }
   .datalab-toggle-pill {
-    min-width: 38px;
-    min-height: 38px;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
   }
   .datalab-toggle-pill-text {
-    min-width: 48px;
-    padding: 8px 12px;
-    font-size: 0.64rem;
-    letter-spacing: 0.16rem;
+    width: 40px;
+    min-width: 40px;
+    padding: 0 8px;
+    font-size: 0.62rem;
+    letter-spacing: 0.12rem;
   }
 }
