@@ -206,6 +206,136 @@ button, input, textarea, select { font: inherit; }
   font-weight: 700;
   text-transform: uppercase;
 }
+.datalab-preferences-wrap {
+  position: relative;
+}
+.datalab-preferences-trigger {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 13px;
+  border-radius: 999px;
+  border: 1px solid var(--dl-border);
+  background: var(--dl-toggle-bg);
+  color: var(--dl-muted);
+  box-shadow: var(--dl-toggle-inner-shadow);
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+.datalab-preferences-trigger:hover,
+.datalab-preferences-trigger:focus-visible {
+  border-color: var(--dl-border-strong);
+  color: var(--dl-text);
+}
+.datalab-preferences-trigger svg {
+  flex: 0 0 auto;
+}
+.datalab-preferences-trigger svg:last-child {
+  transition: transform 160ms ease;
+}
+.datalab-preferences-trigger svg:last-child.is-open {
+  transform: rotate(180deg);
+}
+.datalab-preferences-language {
+  max-width: 7rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--dl-brand-emerald-soft);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.datalab-preferences-token {
+  color: var(--dl-text);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.datalab-preferences-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  z-index: 30;
+  width: min(22rem, calc(100vw - 2rem));
+  padding: 16px;
+  border-radius: 24px;
+  border: 1px solid var(--dl-border);
+  background: var(--dl-surface-strong);
+  box-shadow: 0 24px 70px var(--dl-shadow);
+}
+.datalab-preferences-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.datalab-preferences-panel-head p {
+  margin: 0 0 4px;
+  color: var(--dl-aqua-soft);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.datalab-preferences-panel-head h2 {
+  margin: 0;
+  color: var(--dl-text);
+  font-size: 1rem;
+}
+.datalab-preferences-panel-head button {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--dl-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dl-muted);
+  cursor: pointer;
+}
+.datalab-preferences-field {
+  display: block;
+  margin-top: 12px;
+}
+.datalab-preferences-field > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--dl-muted);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.datalab-preferences-field select {
+  width: 100%;
+  min-height: 42px;
+  border-radius: 14px;
+  border: 1px solid var(--dl-border);
+  background: var(--dl-input-bg);
+  color: var(--dl-text);
+  padding: 0 12px;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+.datalab-preferences-save {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--dl-brand-emerald);
+  color: #07130f;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
 .datalab-button, .datalab-link-button, .datalab-doc-link { position: relative; overflow: hidden; }
 .datalab-button::before, .datalab-link-button::before, .datalab-doc-link::before {
   content: '';
