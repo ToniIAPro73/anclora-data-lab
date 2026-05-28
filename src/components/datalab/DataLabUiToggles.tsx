@@ -20,6 +20,44 @@ const themeIcons = {
   system: Laptop2,
 } as const
 
+const uiCopy: Record<DataLabLocale, {
+  controls: string
+  theme: string
+  language: string
+  themeLabels: Record<DataLabTheme, string>
+}> = {
+  es: {
+    controls: 'Controles de idioma y tema',
+    theme: 'Tema',
+    language: 'Idioma',
+    themeLabels: {
+      light: 'Tema claro',
+      dark: 'Tema oscuro',
+      system: 'Tema automático',
+    },
+  },
+  en: {
+    controls: 'Language and theme controls',
+    theme: 'Theme',
+    language: 'Language',
+    themeLabels: {
+      light: 'Light theme',
+      dark: 'Dark theme',
+      system: 'System theme',
+    },
+  },
+  de: {
+    controls: 'Sprach- und Theme-Steuerung',
+    theme: 'Theme',
+    language: 'Sprache',
+    themeLabels: {
+      light: 'Helles Theme',
+      dark: 'Dunkles Theme',
+      system: 'System-Theme',
+    },
+  },
+}
+
 function resolveTheme(theme: DataLabTheme) {
   if (theme !== 'system') return theme
   if (typeof window === 'undefined') return 'dark'
@@ -40,6 +78,7 @@ export function DataLabUiToggles({ defaultLocale, defaultTheme, locale: controll
   })
 
   const locale = controlledLocale ?? internalLocale
+  const copy = uiCopy[locale]
 
   useEffect(() => {
     const root = document.documentElement
@@ -66,11 +105,12 @@ export function DataLabUiToggles({ defaultLocale, defaultTheme, locale: controll
   }, [theme])
 
   return (
-    <div className="datalab-ui-toggles" aria-label="Controles de idioma y tema">
-      <div className="datalab-toggle datalab-toggle-theme" role="group" aria-label="Tema">
+    <div className="datalab-ui-toggles" aria-label={copy.controls}>
+      <div className="datalab-toggle datalab-toggle-theme" role="group" aria-label={copy.theme}>
         {DATALAB_THEMES.map((option) => {
           const active = theme === option
           const Icon = themeIcons[option]
+          const label = copy.themeLabels[option]
           return (
             <button
               key={option}
@@ -78,8 +118,8 @@ export function DataLabUiToggles({ defaultLocale, defaultTheme, locale: controll
               className={`datalab-toggle-pill ${active ? 'is-active' : ''}`}
               onClick={() => setTheme(option)}
               aria-pressed={active}
-              aria-label={`Tema ${option}`}
-              title={`Tema ${option}`}
+              aria-label={label}
+              title={label}
             >
               <Icon size={16} strokeWidth={1.8} />
             </button>
@@ -87,7 +127,7 @@ export function DataLabUiToggles({ defaultLocale, defaultTheme, locale: controll
         })}
       </div>
 
-      <div className="datalab-toggle datalab-toggle-locale" role="group" aria-label="Idioma">
+      <div className="datalab-toggle datalab-toggle-locale" role="group" aria-label={copy.language}>
         {DATALAB_LOCALES.map((option) => {
           const active = locale === option
           return (
