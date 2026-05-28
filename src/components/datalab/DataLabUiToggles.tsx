@@ -6,17 +6,6 @@ import { DATALAB_LOCALE_COOKIE, DATALAB_LOCALES, DATALAB_THEMES, type DataLabLoc
 
 const STORAGE_LOCALE_KEY = 'anclora-datalab-locale'
 const STORAGE_THEME_KEY = 'anclora-datalab-theme'
-const STORAGE_CURRENCY_KEY = 'anclora-datalab-currency'
-const STORAGE_UNITS_KEY = 'anclora-datalab-units'
-
-type CurrencyCode = 'EUR' | 'USD' | 'GBP' | 'CHF'
-type UnitSystem = 'metric' | 'imperial'
-
-const CURRENCIES: CurrencyCode[] = ['EUR', 'USD', 'GBP', 'CHF']
-const UNITS: { code: UnitSystem; symbol: string }[] = [
-  { code: 'metric', symbol: 'm²' },
-  { code: 'imperial', symbol: 'Sqft' },
-]
 
 const localeLabels: Record<DataLabLocale, string> = {
   es: 'Español',
@@ -42,20 +31,15 @@ const uiCopy: Record<DataLabLocale, {
   theme: string
   language: string
   preferences: string
-  currency: string
-  units: string
   close: string
   save: string
   themeLabels: Record<DataLabTheme, string>
-  unitLabels: Record<UnitSystem, string>
 }> = {
   es: {
     controls: 'Controles de idioma y tema',
     theme: 'Tema',
     language: 'Idioma',
     preferences: 'Preferencias globales',
-    currency: 'Moneda',
-    units: 'Unidades de medida',
     close: 'Cerrar preferencias',
     save: 'Guardar y cerrar',
     themeLabels: {
@@ -63,18 +47,12 @@ const uiCopy: Record<DataLabLocale, {
       dark: 'Tema oscuro',
       system: 'Tema automático',
     },
-    unitLabels: {
-      metric: 'Metro cuadrado - m² / Hectárea - ha',
-      imperial: 'Pie cuadrado - ft² / Acre - ac',
-    },
   },
   en: {
     controls: 'Language and theme controls',
     theme: 'Theme',
     language: 'Language',
     preferences: 'Global preferences',
-    currency: 'Currency',
-    units: 'Measure units',
     close: 'Close preferences',
     save: 'Save and close',
     themeLabels: {
@@ -82,28 +60,18 @@ const uiCopy: Record<DataLabLocale, {
       dark: 'Dark theme',
       system: 'System theme',
     },
-    unitLabels: {
-      metric: 'Square meter - m² / Hectare - ha',
-      imperial: 'Square foot - ft² / Acre - ac',
-    },
   },
   de: {
     controls: 'Sprach- und Theme-Steuerung',
     theme: 'Theme',
     language: 'Sprache',
     preferences: 'Globale Einstellungen',
-    currency: 'Währung',
-    units: 'Maßeinheiten',
     close: 'Einstellungen schließen',
     save: 'Speichern und schließen',
     themeLabels: {
       light: 'Helles Theme',
       dark: 'Dunkles Theme',
       system: 'System-Theme',
-    },
-    unitLabels: {
-      metric: 'Quadratmeter - m² / Hektar - ha',
-      imperial: 'Quadratfuß - ft² / Acre - ac',
     },
   },
 }
@@ -128,19 +96,9 @@ export function DataLabUiToggles({ defaultLocale, defaultTheme, locale: controll
     const storedTheme = window.localStorage.getItem(STORAGE_THEME_KEY) as DataLabTheme | null
     return storedTheme && DATALAB_THEMES.includes(storedTheme) ? storedTheme : defaultTheme
   })
-  const [currency, setCurrency] = useState<CurrencyCode>(() => {
-    if (typeof window === 'undefined') return 'EUR'
-    const storedCurrency = window.localStorage.getItem(STORAGE_CURRENCY_KEY) as CurrencyCode | null
-    return storedCurrency && CURRENCIES.includes(storedCurrency) ? storedCurrency : 'EUR'
-  })
-  const [unitSystem, setUnitSystem] = useState<UnitSystem>(() => {
-    if (typeof window === 'undefined') return 'metric'
-    return window.localStorage.getItem(STORAGE_UNITS_KEY) === 'imperial' ? 'imperial' : 'metric'
-  })
 
   const locale = controlledLocale ?? internalLocale
   const copy = uiCopy[locale]
-  const currentUnit = UNITS.find((unit) => unit.code === unitSystem) || UNITS[0]
 
   useEffect(() => {
     const root = document.documentElement
@@ -165,11 +123,6 @@ export function DataLabUiToggles({ defaultLocale, defaultTheme, locale: controll
     media.addEventListener('change', apply)
     return () => media.removeEventListener('change', apply)
   }, [theme])
-
-  useEffect(() => {
-    window.localStorage.setItem(STORAGE_CURRENCY_KEY, currency)
-    window.localStorage.setItem(STORAGE_UNITS_KEY, unitSystem)
-  }, [currency, unitSystem])
 
   useEffect(() => {
     function handlePointerDown(event: MouseEvent) {
@@ -225,8 +178,6 @@ export function DataLabUiToggles({ defaultLocale, defaultTheme, locale: controll
         >
           <Globe size={16} strokeWidth={1.8} />
           <span className="datalab-preferences-language">{localeLabels[locale]}</span>
-          <span className="datalab-preferences-token">{currency}</span>
-          <span className="datalab-preferences-token">{currentUnit.symbol}</span>
           <ChevronDown size={15} strokeWidth={1.8} className={preferencesOpen ? 'is-open' : ''} />
         </button>
 
@@ -247,24 +198,6 @@ export function DataLabUiToggles({ defaultLocale, defaultTheme, locale: controll
               <select value={locale} onChange={(event) => selectLocale(event.target.value as DataLabLocale)}>
                 {DATALAB_LOCALES.map((option) => (
                   <option key={option} value={option}>{localeLabels[option]}</option>
-                ))}
-              </select>
-            </label>
-
-            <label className="datalab-preferences-field">
-              <span>{copy.currency}</span>
-              <select value={currency} onChange={(event) => setCurrency(event.target.value as CurrencyCode)}>
-                {CURRENCIES.map((option) => (
-                  <option key={option} value={option}>{option}</option>
-                ))}
-              </select>
-            </label>
-
-            <label className="datalab-preferences-field">
-              <span>{copy.units}</span>
-              <select value={unitSystem} onChange={(event) => setUnitSystem(event.target.value as UnitSystem)}>
-                {UNITS.map((option) => (
-                  <option key={option.code} value={option.code}>{copy.unitLabels[option.code]}</option>
                 ))}
               </select>
             </label>
