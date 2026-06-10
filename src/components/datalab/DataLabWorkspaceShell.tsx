@@ -149,6 +149,10 @@ export function DataLabWorkspaceShell({ session }: Props) {
               <p className="datalab-footer-note">
                 Esta fundación se alinea con el acceso ya mostrado en el Área Privada de Anclora Private Estates y prepara la evolución hacia dashboards, scoring y briefings IA más profundos.
               </p>
+              <footer className="datalab-shell-footer" style={{ marginTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1rem', opacity: 0.5, fontSize: '0.7rem' }}>
+                <p>© {new Date().getFullYear()} Anclora Group - Todos los derechos reservados.</p>
+                <p>Anclora Data Lab es una marca comercial operada bajo licencia exclusiva por Anclora Group.</p>
+              </footer>
             </aside>
           </div>
         </section>
