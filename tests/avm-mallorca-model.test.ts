@@ -31,7 +31,7 @@ test('Property 18: AVM confidence gating returns low confidence below 10 compara
 
       assert.equal(result.confidenceLevel, 'low')
       assert.equal(typeof result.explanation, 'string')
-      assert.ok(result.explanation.length > 0)
+      assert.ok((result.explanation?.length ?? 0) > 0)
     }),
     { numRuns: 100 }
   )
