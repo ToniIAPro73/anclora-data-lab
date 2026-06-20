@@ -1,5 +1,9 @@
-import { NextResponse } from 'next/server'
+import { after, NextResponse } from 'next/server'
 import { createDataLabAccessRequest } from '@/lib/datalab-access-store'
+import {
+  buildDataLabAccessIntakePayload,
+  forwardDataLabAccessToNexus,
+} from '@/lib/nexus-intake-forward'
 
 export async function POST(request: Request) {
   let payload: {
@@ -36,6 +40,27 @@ export async function POST(request: Request) {
       requestedLocale: payload.requestedLocale?.trim() || 'es',
       submissionSource: payload.submissionSource?.trim() || 'private-estates',
     })
+
+    // Forward to Nexus with Anclora Intake Contract v1 (fire-and-forget)
+    if (created?.id) {
+      const nexusPayload = buildDataLabAccessIntakePayload({
+        requestId: created.id,
+        fullName,
+        email,
+        organization: payload.organization ?? null,
+        intendedUse,
+        profileLabel: payload.profileLabel ?? null,
+        requestedLocale: payload.requestedLocale?.trim() || 'es',
+        submissionSource: payload.submissionSource?.trim() || 'private-estates',
+      })
+      after(() =>
+        forwardDataLabAccessToNexus(nexusPayload, {
+          nexusBaseUrl: process.env.NEXUS_BASE_URL,
+          nexusApiKey: process.env.NEXUS_INTERNAL_API_KEY,
+          requestId: created.id,
+        })
+      )
+    }
 
     return NextResponse.json({ ok: true, id: created?.id })
   } catch (error) {
