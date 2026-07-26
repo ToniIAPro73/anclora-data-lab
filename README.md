@@ -1,58 +1,83 @@
+<!-- markdownlint-disable MD001 MD013 MD033 MD041 MD060 -->
+
+<div align="center">
+
+<img src="./public/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width="120" />
+
 # Anclora Data Lab
 
-Aplicación independiente de inteligencia y activos analíticos para `Anclora Private Estates`.
+### Repositorio interno del ecosistema Anclora para operaciones de familia premium
 
-## Incluye
+**Español** · [English](./README.en.md)
 
-- landing pública premium
-- solicitud pública de acceso
-- login privado para perfiles aprobados
-- backoffice interno de revisión de accesos
-- workspace inicial
-- base SDD
-- documentación pública
+<br />
 
-## Entorno
+![Anclora](https://img.shields.io/badge/Anclora-ecosystem-111827)
+![Documentation](https://img.shields.io/badge/documentation-premium-BFA46A)
+![Languages](https://img.shields.io/badge/languages-ES%20%7C%20EN-047857)
 
-Ver `.env.example`.
+</div>
 
-Variables mínimas:
+---
 
-- `DATABASE_URL`
-- `DATALAB_USER_SESSION_SECRET`
-- `DATALAB_ADMIN_USERNAME`
-- `DATALAB_ADMIN_PASSWORD`
-- `DATALAB_ADMIN_SESSION_SECRET`
+> [!IMPORTANT]
+> Repositorio interno del ecosistema Anclora. No publicar detalles operativos, credenciales,
+> datos reales ni logica sensible fuera de los canales autorizados.
 
-Modelo de acceso:
+## Vista rapida
 
-- usuarios finales aprobados: solo cuentas reales creadas en base de datos al aceptar una solicitud
-- backoffice interno: credenciales `DATALAB_ADMIN_*`
+| Area | Definicion |
+| --- | --- |
+| Proposito | Repositorio interno del ecosistema Anclora para operaciones de familia premium |
+| Familia | `premium` |
+| Visibilidad | `private` |
+| Rol | Repositorio de trabajo interno |
 
-Rutas relevantes:
+## Flujo conceptual
 
-- `/` acceso público dual
-- `/login` acceso al workspace para usuarios aprobados
-- `/access-requests/login` acceso interno al backoffice de revisión
-- `/access-requests` consola interna de admisiones
+```text
+Contexto interno
+      ↓
+Configuracion y datos controlados
+      ↓
+Logica de producto
+      ↓
+Revision tecnica
+      ↓
+Entrega o soporte operativo
+```
 
-Esquema SQL base:
+## Arranque local
 
-- `db/datalab_access.sql`
+```bash
+npm install
+npm run dev
+```
 
-## Scripts
+## Tecnologia
 
-- `npm run dev`
-- `npm run lint`
-- `npm run test`
-- `npm run build`
+| Area | Detalle |
+| --- | --- |
+| Next.js | Detectado en el repositorio |
+| React | Detectado en el repositorio |
+| TypeScript | Detectado en el repositorio |
+| Tailwind CSS | Detectado en el repositorio |
 
-## Contratos UX/UI
+## Documentacion
 
-Lectura mínima antes de tocar interfaz:
+- [Documentacion](./docs)
 
-1. `docs/standards/ANCLORA_ECOSYSTEM_CONTRACT_GROUPS.md`
-2. `docs/standards/ANCLORA_PREMIUM_APP_CONTRACT.md`
-3. `docs/standards/UI_MOTION_CONTRACT.md`
-4. `docs/standards/MODAL_CONTRACT.md`
-5. `docs/standards/LOCALIZATION_CONTRACT.md`
+## Gobernanza
+
+- Producto canonico: `anclora-data-lab`
+- Boveda: `/mnt/c/Users/antonio.ballesterosa/Desktop/Proyectos/Boveda-Anclora`
+- Contratos: `contracts/` y `docs/governance/`
+- Asset de marca: `presente`
+
+---
+
+<div align="center">
+
+### Anclora Group · Uso interno
+
+</div>
