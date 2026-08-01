@@ -15,14 +15,6 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: DATALAB_BRAND.name,
   description: DATALAB_BRAND.description,
-  icons: {
-    icon: [
-      { url: DATALAB_BRAND.logoPath, type: 'image/png' },
-      { url: DATALAB_BRAND.faviconPath, type: 'image/x-icon' },
-    ],
-    apple: DATALAB_BRAND.logoPath,
-    shortcut: DATALAB_BRAND.faviconPath,
-  },
 }
 
 export default async function RootLayout({

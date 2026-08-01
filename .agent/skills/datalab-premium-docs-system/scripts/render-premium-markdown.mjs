@@ -201,6 +201,9 @@ const html = `<!DOCTYPE html>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     @page {
       margin: 20mm 14mm 20mm;
@@ -234,7 +237,7 @@ const html = `<!DOCTYPE html>
     body {
       margin: 0;
       color: var(--dl-text);
-      font-family: Georgia, 'Times New Roman', serif;
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
       background:
         radial-gradient(circle at top left, rgba(61, 181, 191, 0.26), transparent 26%),
         linear-gradient(180deg, #02070b 0%, #07141a 54%, #081a21 100%);
