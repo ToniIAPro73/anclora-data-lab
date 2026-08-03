@@ -20,7 +20,7 @@ Levantar el primer repositorio funcional de `Anclora Data Lab` con:
 
 1. La app debe existir como repo independiente `anclora-data-lab`.
 2. Debe incluir `.agent`, `sdd`, `public/brand` y `public/docs`.
-3. Debe usar el logo `logo-anclora-datalab.png`.
+3. Debe usar el logo `anclora-data-lab.png`.
 4. Debe exponer una home pública con narrativa premium.
 5. Debe tener login privado funcional.
 6. Debe tener workspace privado inicial.
