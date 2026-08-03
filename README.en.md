@@ -2,18 +2,20 @@
 
 <div align="center">
 
-<img src="./public/brand/logo-anclora-datalab.png" alt="Anclora Data Lab" width="120" />
+<img src="./public/brand/anclora-data-lab.png" alt="Anclora Data Lab" width="132" />
 
 # Anclora Data Lab
 
-### Repositorio interno del ecosistema Anclora para operaciones de familia premium
+### Data intelligence and territorial signals for the Anclora ecosystem
+
+Premium data-analysis platform and analytical assets, with controlled access from Anclora Group.
 
 [Español](./README.md) · **English**
 
 <br />
 
 ![Anclora](https://img.shields.io/badge/Anclora-ecosystem-111827)
-![Documentation](https://img.shields.io/badge/documentation-premium-BFA46A)
+![Category](https://img.shields.io/badge/category-Premium-C07860)
 ![Languages](https://img.shields.io/badge/languages-ES%20%7C%20EN-047857)
 
 </div>
@@ -21,63 +23,60 @@
 ---
 
 > [!IMPORTANT]
-> Internal Anclora ecosystem repository. Do not publish operational details, credentials,
-> real data or sensitive logic outside approved channels.
+> Internal Anclora ecosystem repository. Do not publish operational details, credentials, or sensitive logic outside authorized channels.
 
-## At a glance
+## What it is
 
-| Area | Definition |
-| --- | --- |
-| Purpose | Repositorio interno del ecosistema Anclora para operaciones de familia premium |
-| Family | `premium` |
-| Visibility | `private` |
-| Role | Internal working repository |
+Anclora Data Lab is the Anclora ecosystem's premium data-intelligence platform: it processes territorial signals and analytical assets, with managed access from the corporate portal (`anclora-group`).
 
-## Conceptual workflow
+## Category in the ecosystem
 
-```text
-Internal context
-      ↓
-Controlled configuration and data
-      ↓
-Product logic
-      ↓
-Technical review
-      ↓
-Delivery or operational support
-```
+| Field | Value |
+|---|---|
+| Category | Premium |
+| Brand accent | `#2DA078` |
+| Typography | DM Sans |
+| Canonical repository | `anclora-data-lab` |
 
-## Local start
+## Key features
+
+- Territorial signal processing and visualization
+- Controlled access integrated with the Anclora Group portal
+- Serverless database (Neon)
+- Interface with light/dark theme support
+
+## Technology stack
+
+| Area | Technology |
+|---|---|
+| Framework | Next.js, React |
+| Database | Neon (serverless PostgreSQL) |
+| Styling | Lightning CSS |
+| UI | Lucide React |
+
+## Local setup
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Technology
+## Supported languages
 
-| Area | Detail |
-| --- | --- |
-| Next.js | Detected in repository |
-| React | Detected in repository |
-| TypeScript | Detected in repository |
-| Tailwind CSS | Detected in repository |
+- Español (default)
+- English
 
-## Documentation
+## Documentation and governance
 
-- [Documentacion](./docs)
-
-## Governance
-
-- Canonical product: `anclora-data-lab`
-- Vault: `/mnt/c/Users/antonio.ballesterosa/Desktop/Proyectos/Boveda-Anclora`
-- Contracts: `contracts/` and `docs/governance/`
-- Brand asset: `present`
+- Brand and governance contracts: [`docs/standards/`](./docs/standards/)
+- Anclora Vault (source of truth): `contracts/` and `docs/governance/`
 
 ---
 
 <div align="center">
 
-### Anclora Group · Internal use
+### Anclora Group
+
+Internal use.
 
 </div>

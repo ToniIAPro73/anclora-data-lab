@@ -1,8 +1,8 @@
 export const DATALAB_BRAND = {
   name: 'Anclora Data Lab',
   description: 'Anclora Data Lab forma parte del ecosistema tecnológico de Anclora Group. Plataforma de inteligencia, señales territoriales y activos analíticos.',
-  logoPath: '/brand/logo-anclora-datalab.png',
-  faviconPath: '/datalab_favicon.ico',
+  logoPath: '/brand/anclora-data-lab.png',
+  faviconPath: '/favicon.ico',
   premiumAccent: '#2DA078',
   premiumAccentSoft: '#7ED4B8',
   premiumCopper: '#C07860',
