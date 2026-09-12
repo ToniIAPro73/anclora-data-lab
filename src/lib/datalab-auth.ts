@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 import type { DataLabRole } from '@/lib/datalab-content'
 import { getDataLabAccountByEmail, markDataLabLogin } from '@/lib/datalab-access-store'
 import { verifySecret } from '@/lib/passwords'
+import { isAncloraIdentityEnabled } from '@/lib/anclora-identity/env'
+import { getAncloraIdentityDataLabSession } from '@/lib/anclora-identity/session'
 
 const SESSION_COOKIE = 'anclora-datalab-session'
 const ADMIN_SESSION_COOKIE = 'anclora-datalab-admin-session'
@@ -69,16 +71,53 @@ const decodeSession = buildDecoder<DataLabSession>(getSecret())
 const encodeAdminSession = buildEncoder<DataLabAdminSession>(getAdminSecret())
 const decodeAdminSession = buildDecoder<DataLabAdminSession>(getAdminSecret())
 
-export async function getDataLabSession() {
+/**
+ * Anclora Identity pilot integration (ANCLORA_IDENTITY_ENABLED, see
+ * src/lib/anclora-identity/). When the flag is not exactly `'true'` these
+ * functions are byte-for-byte the pre-pilot legacy behavior. When it IS
+ * `'true'`, session resolution goes ONLY through Anclora Identity — there is
+ * no per-request fallback to the legacy cookie, by design (a request that
+ * could authenticate via either path depending on transient state would be
+ * an unreviewable, silent bypass).
+ */
+async function getEffectiveDataLabSession(): Promise<DataLabSession | null> {
+  if (!isAncloraIdentityEnabled()) {
+    return getLegacyDataLabSession()
+  }
+
+  const identitySession = await getAncloraIdentityDataLabSession()
+  if (!identitySession) return null
+
+  return {
+    username: identitySession.email || identitySession.sub,
+    displayName: identitySession.name,
+    // GROUP_OWNER maps to the full-access local role. Anclora Identity has no
+    // concept of Data Lab's finer-grained roles (market-analyst,
+    // investment-advisory, ...) — that authorization stays local to Data
+    // Lab, so a member (non-owner) SSO login gets the most restrictive
+    // non-admin role by default. Assigning a richer local role for a given
+    // Anclora Identity member is local Data Lab admin work, out of scope for
+    // this pilot — tracked as a gap, not silently decided here.
+    role: identitySession.decision.reason === 'DATA_LAB_FULL_ACCESS' ? 'datalab-admin' : 'investor-viewer',
+  }
+}
+
+async function getLegacyDataLabSession() {
   const store = await cookies()
   const token = store.get(SESSION_COOKIE)?.value
   if (!token) return null
   return decodeSession(token)
 }
 
+export async function getDataLabSession() {
+  return getEffectiveDataLabSession()
+}
+
 export async function requireDataLabSession() {
-  const session = await getDataLabSession()
-  if (!session) redirect('/login')
+  const session = await getEffectiveDataLabSession()
+  if (!session) {
+    redirect(isAncloraIdentityEnabled() ? '/api/auth/anclora-identity/login' : '/login')
+  }
   return session
 }
 
