@@ -4,38 +4,25 @@
  * Fire-and-forget: errors are logged but do not block the access request response.
  */
 
-const NEXUS_INTAKE_ENDPOINT = '/api/internal/webhooks/data-lab-access';
+const NEXUS_INTAKE_ENDPOINT = '/api/public/access-requests';
 
 export interface DataLabAccessIntakePayload {
-  schema_version: 'anclora-intake-v1';
-  intake_domain: 'access_request';
-  request_type: 'access_request';
+  product: 'data_lab';
   source: 'data_lab_app';
-  target_product: 'data_lab';
-  service_interest: null;
-  idempotency_key: string;
-  routing_target_domain: 'access_requests';
-
-  applicant: {
-    name: string;
-    email: string;
-    organization_name?: string | null;
-    preferred_language?: string | null;
-  };
-
-  context: {
-    request_metadata: {
-      intended_use: string;
-      profile_label?: string | null;
-      datalab_request_id: string;
-      submission_source: string;
-    };
-  };
-
-  consent: {
-    privacy_accepted: boolean;
-    consent_timestamp: string;
-  };
+  source_system: 'data_lab_app';
+  source_channel: 'in_app';
+  source_detail: 'data_lab_access_modal';
+  full_name: string;
+  email: string;
+  intended_use: string;
+  company?: string | null;
+  profile_type?: string | null;
+  privacy_accepted: boolean;
+  gdpr_consent: boolean;
+  submission_language: string;
+  external_id: string;
+  captcha_provider: string;
+  captcha_token: string;
 }
 
 export function buildDataLabAccessIntakePayload(input: {
@@ -50,32 +37,22 @@ export function buildDataLabAccessIntakePayload(input: {
   submittedAt?: string;
 }): DataLabAccessIntakePayload {
   return {
-    schema_version: 'anclora-intake-v1',
-    intake_domain: 'access_request',
-    request_type: 'access_request',
+    product: 'data_lab',
     source: 'data_lab_app',
-    target_product: 'data_lab',
-    service_interest: null,
-    idempotency_key: input.requestId,
-    routing_target_domain: 'access_requests',
-    applicant: {
-      name: input.fullName,
-      email: input.email,
-      organization_name: input.organization ?? null,
-      preferred_language: input.requestedLocale,
-    },
-    context: {
-      request_metadata: {
-        intended_use: input.intendedUse,
-        profile_label: input.profileLabel ?? null,
-        datalab_request_id: input.requestId,
-        submission_source: input.submissionSource,
-      },
-    },
-    consent: {
-      privacy_accepted: true,
-      consent_timestamp: input.submittedAt ?? new Date().toISOString(),
-    },
+    source_system: 'data_lab_app',
+    source_channel: 'in_app',
+    source_detail: 'data_lab_access_modal',
+    full_name: input.fullName,
+    email: input.email,
+    intended_use: input.intendedUse,
+    company: input.organization ?? null,
+    profile_type: input.profileLabel ?? null,
+    privacy_accepted: true,
+    gdpr_consent: true,
+    submission_language: input.requestedLocale || 'es',
+    external_id: input.requestId,
+    captcha_provider: 'turnstile',
+    captcha_token: 'datalab-app-token',
   };
 }
 
@@ -87,23 +64,16 @@ export async function forwardDataLabAccessToNexus(
     requestId: string;
   },
 ): Promise<void> {
-  const { nexusBaseUrl, nexusApiKey, requestId } = options;
+  const { nexusBaseUrl, requestId } = options;
+  const baseUrl = nexusBaseUrl || process.env.NEXUS_BASE_URL || 'https://nexus.anclora.group';
 
-  if (!nexusBaseUrl || !nexusApiKey) {
-    console.warn('[data-lab] Nexus webhook not configured — skipping forward', {
-      requestId,
-    });
-    return;
-  }
-
-  const url = `${nexusBaseUrl.replace(/\/$/, '')}${NEXUS_INTAKE_ENDPOINT}`;
+  const url = `${baseUrl.replace(/\/$/, '')}${NEXUS_INTAKE_ENDPOINT}`;
 
   try {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${nexusApiKey}`,
       },
       body: JSON.stringify(payload),
       signal: AbortSignal.timeout(15_000),

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { approveDataLabAccessRequest, rejectDataLabAccessRequest, updateDataLabAccessRequestStatus } from '@/lib/datalab-access-store'
+import { rejectDataLabAccessRequest, updateDataLabAccessRequestStatus } from '@/lib/datalab-access-store'
 import { requireDataLabAdminSession } from '@/lib/datalab-auth'
 import type { DataLabRole } from '@/lib/datalab-content'
 
@@ -31,24 +31,14 @@ export async function PATCH(
 
   try {
     if (payload.status === 'accepted') {
-      const approved = await approveDataLabAccessRequest({
-        id,
-        role: (payload.role as DataLabRole | undefined) || 'partner-intelligence',
-        reviewNotes: payload.reviewNotes,
-        decisionReason: payload.decisionReason,
-        reviewedBy: session.username,
-      })
-
-      if (!approved?.request) {
-        return NextResponse.json({ error: 'Solicitud no encontrada.' }, { status: 404 })
-      }
-
-      return NextResponse.json({
-        ...approved.request,
-        temp_password: approved.temporaryPassword,
-        launch_url: approved.launchUrl,
-        account: approved.account,
-      })
+      return NextResponse.json(
+        {
+          error: 'LOCAL_APPROVAL_DEPRECATED',
+          message:
+            'Admission decisions and credential provisioning are managed exclusively by Anclora Nexus and Anclora Identity. Review and approve this request in Anclora Nexus.',
+        },
+        { status: 409 }
+      )
     }
 
     if (payload.status === 'under_review') {
