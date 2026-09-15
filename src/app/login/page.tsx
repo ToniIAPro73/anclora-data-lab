@@ -6,6 +6,8 @@ import { DataLabLoginForm } from '@/components/datalab/DataLabLoginForm'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
 import { getDataLabSession } from '@/lib/datalab-auth'
 import { DATALAB_LOCALE_COOKIE, getDefaultTheme, resolveDataLabLocale } from '@/lib/datalab-ui'
+import { getDataLabLoginPath } from '@/lib/anclora-identity/loginRouting'
+import { isAncloraIdentityEnabled } from '@/lib/anclora-identity/env'
 
 type PageProps = {
   searchParams: Promise<{ email?: string | string[] }>
@@ -14,6 +16,7 @@ type PageProps = {
 export default async function LoginPage({ searchParams }: PageProps) {
   const session = await getDataLabSession()
   if (session) redirect('/workspace')
+  if (isAncloraIdentityEnabled()) redirect(getDataLabLoginPath(true))
 
   const cookieStore = await cookies()
   const defaultLocale = resolveDataLabLocale(cookieStore.get(DATALAB_LOCALE_COOKIE)?.value)

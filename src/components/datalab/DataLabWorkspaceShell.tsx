@@ -6,6 +6,7 @@ import { DATALAB_BRAND } from '@/lib/datalab-brand'
 import { curatedDocuments, roleLabels, signals, workspaceAlerts, workspacePacks, zones } from '@/lib/datalab-content'
 import { DataLabUiToggles } from '@/components/datalab/DataLabUiToggles'
 import { getDefaultLocale, getDefaultTheme } from '@/lib/datalab-ui'
+import { isAncloraIdentityEnabled } from '@/lib/anclora-identity/env'
 
 type Props = {
   session: DataLabSession
@@ -14,6 +15,7 @@ type Props = {
 export function DataLabWorkspaceShell({ session }: Props) {
   const defaultLocale = getDefaultLocale()
   const defaultTheme = getDefaultTheme()
+  const identityEnabled = isAncloraIdentityEnabled()
 
   return (
     <main className="datalab-page">
@@ -35,8 +37,8 @@ export function DataLabWorkspaceShell({ session }: Props) {
               <Shield size={15} />
               {roleLabels[session.role]}
             </span>
-            <form action="/api/auth/session" method="post">
-              <input type="hidden" name="_method" value="DELETE" />
+            <form action={identityEnabled ? '/api/auth/anclora-identity/logout' : '/api/auth/session'} method="post">
+              {!identityEnabled ? <input type="hidden" name="_method" value="DELETE" /> : null}
               <button className="datalab-button-ghost" type="submit">Cerrar sesión</button>
             </form>
           </div>

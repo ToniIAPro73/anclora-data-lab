@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server'
 import { authenticateDataLabUser, clearDataLabSession, createDataLabSession } from '@/lib/datalab-auth'
+import { isAncloraIdentityEnabled } from '@/lib/anclora-identity/env'
 
 export async function POST(request: Request) {
+  if (isAncloraIdentityEnabled()) {
+    return NextResponse.json({ error: 'ANCLORA_IDENTITY_ENABLED' }, { status: 404 })
+  }
+
   const contentType = request.headers.get('content-type') || ''
 
   if (contentType.includes('application/x-www-form-urlencoded')) {

@@ -6,6 +6,7 @@ import { getDataLabAccountByEmail, markDataLabLogin } from '@/lib/datalab-access
 import { verifySecret } from '@/lib/passwords'
 import { isAncloraIdentityEnabled } from '@/lib/anclora-identity/env'
 import { getAncloraIdentityDataLabSession } from '@/lib/anclora-identity/session'
+import { getDataLabLoginPath } from '@/lib/anclora-identity/loginRouting'
 
 const SESSION_COOKIE = 'anclora-datalab-session'
 const ADMIN_SESSION_COOKIE = 'anclora-datalab-admin-session'
@@ -116,7 +117,7 @@ export async function getDataLabSession() {
 export async function requireDataLabSession() {
   const session = await getEffectiveDataLabSession()
   if (!session) {
-    redirect(isAncloraIdentityEnabled() ? '/api/auth/anclora-identity/login' : '/login')
+    redirect(getDataLabLoginPath(isAncloraIdentityEnabled()))
   }
   return session
 }
