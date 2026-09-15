@@ -64,7 +64,14 @@ export async function createAncloraIdentityDataLabSession(session: AncloraIdenti
 
 export async function clearAncloraIdentityDataLabSession(): Promise<void> {
   const store = await cookies()
-  store.set(SESSION_COOKIE, '', { httpOnly: true, sameSite: 'lax', path: '/', expires: new Date(0) })
+  store.set(SESSION_COOKIE, '', {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+    maxAge: 0,
+    expires: new Date(0),
+  })
 }
 
 /** Short-lived (10 minute) cookie carrying the PKCE verifier + state between /login and /callback. */
