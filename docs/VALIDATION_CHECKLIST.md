@@ -1,50 +1,53 @@
-# Checklist de validación — Data Lab Identity access recovery (2026-10-28)
+# Checklist de validación — acceso QA de Data Lab vía Identity (2026-10-28)
+
+> Este fichero se sobrescribe en cada entrega. El historial queda en Git.
 
 **Repositorio:** anclora-data-lab
 **Rama:** development
-**Validación en development:** Toni confirmó que el cambio está verificado.
-**Datos:** no se modificaron datos de aplicación ni secretos.
+**Validación en development:** Toni validó este cambio.
+**Datos:** la ruta QA evita insertar solicitudes en las tablas operativas de Data Lab.
 
 ## 1. Qué cambia
 
-- Los errores del callback de Identity vuelven a una pantalla de Data Lab con
-  explicación clara y opción para reintentar, sin exponer códigos OAuth.
-- Si la cuenta no tiene membresía `data-lab`, la pantalla enlaza al formulario
-  público de solicitud de acceso.
-- El formulario público tiene un ancla estable para llevar al usuario a la
-  solicitud.
-- La autorización sigue denegando el acceso si falta una membresía activa.
+- El scope QA se selecciona solo desde configuración del servidor y se entrega a la ruta QA de Nexus.
+- La autorización reconoce el rol QA de Identity; el área de revisión sigue separada.
 
-## 2. Comprobaciones
+## 2. Ya comprobado por el agente
 
 | Comprobación | Comando o método | Resultado |
 | --- | --- | --- |
-| Pruebas focalizadas | `npx vitest run tests/anclora-identity-callback-redirect.test.ts tests/anclora-identity-authorization.test.ts` | PASS; 9 pruebas |
 | TypeScript | `npx tsc --noEmit` | PASS |
-| ESLint focalizado | Callback, helper, login y formulario afectados | PASS |
-| Integridad del diff | `git diff --check` | PASS |
-| Visual QA local | `anclora-visual-qa` en estados de membresía, intercambio y reintento, más `/#request-access` | PASS |
+| Pruebas focalizadas | `node --import tsx --test tests/anclora-identity-authorization.test.ts tests/nexus-intake-forward.test.ts` | PASS; 9 pruebas |
+| Integridad | `git diff --check` | PASS |
+| Revisión de solicitudes previas | Consulta de solo lectura para la identidad QA en Nexus y Data Lab | PASS; ninguna encontrada |
 
-## 3. Revisión de Toni
+## 3. Pruebas no ejecutadas (NOT_RUN)
 
-| # | Dónde | Resultado |
-| --- | --- | --- |
-| 1 | development | Validado por Toni antes del commit y push |
-| 2 | Preview | Pendiente tras el deployment del commit |
-| 3 | Production | Pendiente del flujo de promoción gobernado |
+| Prueba | Motivo concreto |
+| --- | --- |
+| Solicitud real, aprobación Nexus, correo y callback Identity | El código local no está desplegado y Vercel denegó acceso a las variables del proyecto. |
+| Visual QA del área autenticada desplegada | Pendiente de deployment con este cambio. |
 
-## 4. Promoción
+## 4. Checklist para validar en la aplicación
 
-- [x] Validado en development
-- [ ] Validado en Preview
-- [ ] `PROMOTE=FULL`
-- [ ] Promoción completa. Pendiente de revisión de Preview y autorización expresa.
+| # | Dónde | Pasos | Resultado esperado | Cuenta o configuración | Bloqueante |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Data Lab Preview | Solicitar acceso, verificar Nexus, aprobar y abrir Data Lab | Solicitud dentro del scope QA; sesión con rol de solo lectura QA | `tonipmi.test@gmail.com`; revisora QA Nexus | Sí |
 
-## 5. Entrega de solicitudes a Nexus (2026-10-28)
+### Casos negativos y de borde
 
-- **Validación en development:** Toni confirmó que Data Lab y Nexus están verificados.
-- **Data Lab:** `node --import tsx --test tests/nexus-intake-forward.test.ts` — PASS, 2 pruebas.
-- **Nexus:** `../.venv/bin/python -m pytest tests/test_syncxml_pilot_routes.py -k 'data_lab' -q` — PASS, 2 pruebas; 22 omitidas por filtro.
-- **Integridad:** `git diff --check` — PASS en ambos repositorios.
-- Las pruebas de entrega usan fetch simulado; no escriben en producción ni prueban la solicitud real pendiente.
-- Preview y producción quedan sujetos al flujo de promoción gobernado.
+- Si falta configuración QA, no se escribe en el almacén operativo de Data Lab.
+- Sin membresía Identity válida, el área autenticada no abre.
+- El rol QA no obtiene acceso a las funciones de administración/revisión.
+
+## 5. Riesgos y limitaciones
+
+- Vercel devolvió `403` al listar variables; no se configuraron secretos.
+- No se leyó Gmail ni se enviaron solicitudes o notificaciones.
+- Preview y producción siguen pendientes de la secuencia gobernada.
+
+## 6. Decisión de Toni
+
+- [x] Cambios revisados y validados en development.
+- [ ] Todos los puntos bloqueantes del flujo desplegado pasan.
+- [ ] Se promociona: escribir `PROMOTE=FULL`.

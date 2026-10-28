@@ -156,6 +156,12 @@ QA_CREATE_IF_MISSING=false
 QA_DELETE_AFTER_TEST=false
 QA_CREATION_CONFIRMATION_REQUIRED=false
 QA_PERSISTENT_IDENTITY=ANCLORA_DATA_LAB_KEY
+QA_ACCESS_REQUEST_IDENTITY=tonipmi.test@gmail.com
+QA_ACCESS_REQUEST_SCOPE=server-configured Nexus QA organization; never selected by email or client input
+QA_ACCESS_REQUEST_ROLE=data-lab:qa
+QA_ACCESS_REQUEST_CONFIGURATION=DATA_LAB_ACCESS_REQUEST_SCOPE=qa + NEXUS_QA_DATA_LAB_WEBHOOK_SECRET; Nexus requires DATA_LAB_QA_ORG_ID + DATA_LAB_QA_WEBHOOK_SECRET + DATA_LAB_QA_APPLICANT_EMAIL
+QA_ACCESS_REQUEST_STATUS=dedicated Nexus QA organization and reviewer verified; preview scope, secret, and deployment remain unconfigured
+QA_ACCESS_REQUEST_LOCAL_WRITE=false
 
 For machine services: Authenticate via service tokens or worker keys declared in local secure environment variables.
 

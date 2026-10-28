@@ -12,6 +12,15 @@ test('a user with a data-lab membership is allowed', () => {
   assert.deepEqual(decision, { allowed: true, reason: 'APPLICATION_MEMBERSHIP' })
 })
 
+test('an explicitly scoped QA membership is identified as QA access', () => {
+  const decision = resolveDataLabAccess({
+    sub: 'qa-user',
+    application_memberships: ['data-lab'],
+    application_roles: { 'data-lab': 'qa' },
+  })
+  assert.deepEqual(decision, { allowed: true, reason: 'QA_MEMBERSHIP' })
+})
+
 test('an authenticated user with no data-lab membership and no platform override is denied', () => {
   const decision = resolveDataLabAccess({ sub: 'user-2', platform_roles: ['USER'], application_memberships: ['talent'] })
   assert.deepEqual(decision, { allowed: false, reason: 'NO_MEMBERSHIP' })

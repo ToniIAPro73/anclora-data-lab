@@ -46,6 +46,7 @@ export async function forwardDataLabAccessToNexus(
     nexusBaseUrl?: string;
     nexusApiKey?: string;
     requestId: string;
+    endpointPath?: string;
   },
 ): Promise<NexusForwardResult> {
   const baseUrl = (options.nexusBaseUrl || process.env.NEXUS_BASE_URL || '').trim();
@@ -62,7 +63,7 @@ export async function forwardDataLabAccessToNexus(
 
   let endpoint: URL;
   try {
-    endpoint = new URL(NEXUS_WEBHOOK_PATH, `${baseUrl.replace(/\/+$/, '')}/`);
+    endpoint = new URL(options.endpointPath || NEXUS_WEBHOOK_PATH, `${baseUrl.replace(/\/+$/, '')}/`);
   } catch {
     console.error('[data-lab] Nexus access-request base URL is invalid', { requestId: options.requestId });
     return { ok: false, reason: 'configuration' };

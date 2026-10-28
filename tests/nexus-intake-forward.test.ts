@@ -86,3 +86,28 @@ test('reports a rejected Nexus delivery so the caller can offer a retry', async 
     globalThis.fetch = originalFetch
   }
 })
+
+test('uses the explicit QA endpoint when configured by the server-side caller', async () => {
+  const originalFetch = globalThis.fetch
+  let endpoint = ''
+  globalThis.fetch = (async (input: URL | RequestInfo) => {
+    endpoint = String(input)
+    return Response.json({ status: 'accepted', request_id: 'qa-nexus-456' })
+  }) as typeof fetch
+  try {
+    const payload = buildDataLabAccessIntakePayload({
+      requestId: '22222222-2222-4222-8222-222222222222',
+      fullName: 'QA Applicant', email: 'qa@example.test', intendedUse: 'isolated QA', requestedLocale: 'es',
+    })
+    const result = await forwardDataLabAccessToNexus(payload, {
+      nexusBaseUrl: 'https://nexus.example.test',
+      nexusApiKey: 'qa-only-test-key',
+      requestId: payload.requestId,
+      endpointPath: '/api/internal/webhooks/data-lab-qa-access',
+    })
+    assert.deepEqual(result, { ok: true, nexusRequestId: 'qa-nexus-456' })
+    assert.equal(endpoint, 'https://nexus.example.test/api/internal/webhooks/data-lab-qa-access')
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+})

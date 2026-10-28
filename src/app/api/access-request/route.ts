@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { randomUUID } from 'node:crypto'
 import { createDataLabAccessRequest, getDataLabAccessRequestById } from '@/lib/datalab-access-store'
 import {
   buildDataLabAccessIntakePayload,
@@ -26,12 +27,47 @@ export async function POST(request: Request) {
   const fullName = payload.fullName?.trim() || ''
   const email = payload.email?.trim().toLowerCase() || ''
   const intendedUse = payload.intendedUse?.trim() || ''
+  const qaRequestScope = process.env.DATA_LAB_ACCESS_REQUEST_SCOPE === 'qa'
 
   if (!fullName || !email || !intendedUse) {
     return NextResponse.json({ error: 'Debes completar nombre, email e intención de uso.' }, { status: 400 })
   }
 
   try {
+    if (qaRequestScope) {
+      const requestId = payload.requestId?.trim() || randomUUID()
+      if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(requestId)) {
+        return NextResponse.json({ error: 'Identificador de reintento no válido.' }, { status: 400 })
+      }
+      const nexusBaseUrl = process.env.NEXUS_BASE_URL
+      const nexusApiKey = process.env.NEXUS_QA_DATA_LAB_WEBHOOK_SECRET
+      if (!nexusBaseUrl || !nexusApiKey) {
+        return NextResponse.json({ error: 'Solicitud QA no disponible: configuración aislada incompleta.' }, { status: 503 })
+      }
+      const nexusPayload = buildDataLabAccessIntakePayload({
+        requestId,
+        fullName,
+        email,
+        organization: payload.organization,
+        intendedUse,
+        profileLabel: payload.profileLabel,
+        requestedLocale: payload.requestedLocale?.trim() || 'es',
+      })
+      const nexusResult = await forwardDataLabAccessToNexus(nexusPayload, {
+        nexusBaseUrl,
+        nexusApiKey,
+        requestId,
+        endpointPath: '/api/internal/webhooks/data-lab-qa-access',
+      })
+      if (!nexusResult.ok) {
+        return NextResponse.json(
+          { error: 'No se pudo enviar la solicitud QA a Nexus. Puedes reintentar con el mismo identificador.', requestId },
+          { status: 502 },
+        )
+      }
+      return NextResponse.json({ ok: true, id: nexusResult.nexusRequestId ?? requestId, nexusRequestId: nexusResult.nexusRequestId, requestId })
+    }
+
     let created
     if (payload.requestId?.trim()) {
       created = await getDataLabAccessRequestById(payload.requestId.trim())

@@ -17,19 +17,26 @@ export interface AncloraIdentityClaims {
   email?: string
   platform_roles?: string[]
   application_memberships?: string[]
+  application_roles?: Record<string, string>
 }
 
 export type DataLabAccessDecision =
   | { allowed: true; reason: 'DATA_LAB_FULL_ACCESS' }
   | { allowed: true; reason: 'APPLICATION_MEMBERSHIP' }
+  | { allowed: true; reason: 'QA_MEMBERSHIP' }
   | { allowed: false; reason: 'NO_MEMBERSHIP' }
 
 export function resolveDataLabAccess(claims: AncloraIdentityClaims): DataLabAccessDecision {
   const platformRoles = claims.platform_roles ?? []
   const memberships = claims.application_memberships ?? []
+  const applicationRoles = claims.application_roles ?? {}
 
   if (platformRoles.includes('GROUP_OWNER')) {
     return { allowed: true, reason: 'DATA_LAB_FULL_ACCESS' }
+  }
+
+  if (memberships.includes(DATA_LAB_APPLICATION_ID) && applicationRoles[DATA_LAB_APPLICATION_ID] === 'qa') {
+    return { allowed: true, reason: 'QA_MEMBERSHIP' }
   }
 
   if (memberships.includes(DATA_LAB_APPLICATION_ID)) {
