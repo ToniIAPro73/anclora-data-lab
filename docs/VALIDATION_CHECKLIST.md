@@ -1,41 +1,40 @@
-# Checklist de validación — política de promoción (2026-10-23)
-
-> Entrega de cambios de flujo y configuración. El SHA final queda registrado en el commit que incluye este checklist.
+# Checklist de validación — Data Lab Identity login reliability (2026-10-28)
 
 **Repositorio:** anclora-data-lab
 **Rama:** development
-**Entorno de validación:** entorno development/Preview del repositorio, pendiente de revisión de Toni
-**Datos:** no se usaron ni modificaron datos de aplicación.
+**Validación en development:** Toni confirmó que el cambio está verificado.
+**Datos:** no se modificaron datos de aplicación ni secretos.
 
 ## 1. Qué cambia
-- El workflow promote.yml admite el dispatch de cadena completa con target=full y source_sha revisado en Preview.
-- El contrato runtime define validación expresa en development, Preview y promoción completa asíncrona.
 
-## 2. Ya comprobado por el agente
+- El descubrimiento OIDC queda limitado a 8 segundos.
+- Si falla la inicialización del login de Anclora Identity, Data Lab vuelve a
+  una pantalla propia con explicación y opción para reintentar.
+- Identity continúa siendo el único login cuando está habilitado; no hay
+  fallback silencioso a contraseña local.
+
+## 2. Comprobaciones
+
 | Comprobación | Comando o método | Resultado |
 | --- | --- | --- |
-| Sintaxis de workflows | Parser YAML sobre los 41 `promote.yml` del workspace | PASS |
-| Integridad del diff | `git diff --check` | PASS |
+| TypeScript | `npx tsc --noEmit` | PASS |
+| ESLint focalizado | Archivos de login y cliente OIDC afectados | PASS |
+| Integridad del diff | `git diff --check` y `git diff --cached --check` | PASS |
+| Reproducción de Production | HTTP a `/login` y endpoint OIDC | `/login` redirigía; endpoint OIDC quedó pendiente hasta timeout |
+| Visual QA tras el cambio | Pendiente de publicación del SHA | NOT_RUN |
+| Suite de tests | No ejecutada | No solicitada; verificación focalizada suficiente para revisión de código |
 
-## 3. Pruebas no ejecutadas (NOT_RUN)
-| Prueba | Motivo concreto |
-| --- | --- |
-| Suite de la aplicación, lint y build | Cambios de políticas y configuración de promoción; no se ejecutaron suites por no afectar código de aplicación. |
-| Revisión visual y smoke test de Preview | Pendiente de Toni en el entorno publicado tras este push. |
-| Resultado de CI/deployments | No se esperará ni consultará; Toni revisa los entornos según la política acordada. |
+## 3. Revisión de Toni
 
-## 4. Checklist para Toni
-| # | Dónde | Pasos | Resultado esperado | Bloqueante |
-| --- | --- | --- | --- | --- |
-| 1 | development | Revisar el contrato y `promote.yml` de este repositorio | Cambios acordes con el flujo aprobado | Sí |
-| 2 | Preview | Confirmar la Preview correspondiente al SHA de este push | La revisión corresponde al SHA publicado | Sí, antes de promoción |
+| # | Dónde | Resultado |
+| --- | --- | --- |
+| 1 | development | Validado por Toni antes del commit y push |
+| 2 | Preview | Pendiente tras el deployment del commit |
+| 3 | Production | Pendiente del flujo de promoción gobernado |
 
-## 5. Riesgos y limitaciones
-- La promoción requiere el SHA exacto revisado en Preview. Si `development` avanza, el workflow completo se detendrá y requerirá revisión nueva.
-- Los resultados de staging, production y main quedan bajo revisión de Toni.
+## 4. Promoción
 
-## 6. Decisión de Toni
-- [ ] Validado en development
+- [x] Validado en development
 - [ ] Validado en Preview
-- [ ] PROMOTE=FULL
-- [ ] No se promociona. Motivo: ______________________
+- [ ] `PROMOTE=FULL`
+- [ ] Promoción completa. Pendiente de revisión de Preview y autorización expresa.

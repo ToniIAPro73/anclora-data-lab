@@ -10,18 +10,19 @@ import { getDataLabLoginPath } from '@/lib/anclora-identity/loginRouting'
 import { isAncloraIdentityEnabled } from '@/lib/anclora-identity/env'
 
 type PageProps = {
-  searchParams: Promise<{ email?: string | string[] }>
+  searchParams: Promise<{ email?: string | string[]; identity_error?: string | string[] }>
 }
 
 export default async function LoginPage({ searchParams }: PageProps) {
   const session = await getDataLabSession()
   if (session) redirect('/workspace')
-  if (isAncloraIdentityEnabled()) redirect(getDataLabLoginPath(true))
+  const params = await searchParams
+  const identityUnavailable = params.identity_error === 'unavailable'
+  if (isAncloraIdentityEnabled() && !identityUnavailable) redirect(getDataLabLoginPath(true))
 
   const cookieStore = await cookies()
   const defaultLocale = resolveDataLabLocale(cookieStore.get(DATALAB_LOCALE_COOKIE)?.value)
   const defaultTheme = getDefaultTheme()
-  const params = await searchParams
   const emailParam = params.email
   const prefillEmail = Array.isArray(emailParam) ? emailParam[0] || '' : emailParam || ''
 
@@ -55,13 +56,26 @@ export default async function LoginPage({ searchParams }: PageProps) {
           <div className="datalab-login-toggle-row">
             <DataLabUiToggles defaultLocale={defaultLocale} defaultTheme={defaultTheme} />
           </div>
-          <p className="datalab-eyebrow">Credenciales</p>
-          <h1>Abrir workspace.</h1>
-          <p className="datalab-copy">
-            Este acceso está reservado a usuarios ya aprobados. Entra con el email autorizado y la contraseña asociada a
-            tu cuenta de Data Lab para abrir directamente el workspace analítico.
-          </p>
-          <DataLabLoginForm prefillEmail={prefillEmail} />
+          {identityUnavailable ? (
+            <>
+              <p className="datalab-eyebrow">Anclora Identity</p>
+              <h1>El acceso no está disponible ahora.</h1>
+              <p className="datalab-copy" role="alert">
+                No se pudo conectar con Anclora Identity. Espera un momento y vuelve a intentarlo.
+              </p>
+              <a className="datalab-button datalab-button-link" href="/api/auth/anclora-identity/login">Reintentar inicio de sesión</a>
+            </>
+          ) : (
+            <>
+              <p className="datalab-eyebrow">Credenciales</p>
+              <h1>Abrir workspace.</h1>
+              <p className="datalab-copy">
+                Este acceso está reservado a usuarios ya aprobados. Entra con el email autorizado y la contraseña asociada a
+                tu cuenta de Data Lab para abrir directamente el workspace analítico.
+              </p>
+              <DataLabLoginForm prefillEmail={prefillEmail} />
+            </>
+          )}
         </article>
       </section>
     </main>
