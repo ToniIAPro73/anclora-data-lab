@@ -362,7 +362,7 @@ button, input, textarea, select { font: inherit; }
 }
 
 .datalab-hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.9fr); gap: 28px; margin-top: 26px; }
-.datalab-access-grid { margin-top: 26px; align-items: start; }
+.datalab-access-grid { margin-top: 26px; align-items: start; scroll-margin-top: 24px; }
 .datalab-access-panel { display: grid; gap: 22px; }
 .datalab-card h1, .datalab-card h2, .datalab-login-card h1, .datalab-workspace-card h2 { margin: 0; line-height: 1.05; font-weight: 600; }
 .datalab-card h1, .datalab-login-card h1 { font-size: clamp(2.6rem, 5vw, 4.7rem); }

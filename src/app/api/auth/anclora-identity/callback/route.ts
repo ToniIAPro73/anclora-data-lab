@@ -3,6 +3,7 @@ import { isAncloraIdentityEnabled, getAncloraIdentityConfig } from '@/lib/anclor
 import { getAncloraIdentityOidcConfig, authorizationCodeGrant, fetchUserInfo } from '@/lib/anclora-identity/oidcClient'
 import { consumeOidcStateCookie, createAncloraIdentityDataLabSession } from '@/lib/anclora-identity/session'
 import { resolveDataLabAccess, type AncloraIdentityClaims } from '@/lib/anclora-identity/authorization'
+import { buildIdentityCallbackErrorUrl } from '@/lib/anclora-identity/callbackRedirect'
 
 export async function GET(request: Request) {
   if (!isAncloraIdentityEnabled()) {
@@ -11,11 +12,17 @@ export async function GET(request: Request) {
 
   const stateCookie = await consumeOidcStateCookie()
   if (!stateCookie) {
-    return NextResponse.json({ error: 'INVALID_OIDC_STATE' }, { status: 400 })
+    return NextResponse.redirect(buildIdentityCallbackErrorUrl(request.url, 'retry'))
   }
 
-  const { redirectUri } = getAncloraIdentityConfig()
-  const oidcConfig = await getAncloraIdentityOidcConfig()
+  let redirectUri: string
+  let oidcConfig
+  try {
+    ({ redirectUri } = getAncloraIdentityConfig())
+    oidcConfig = await getAncloraIdentityOidcConfig()
+  } catch {
+    return NextResponse.redirect(buildIdentityCallbackErrorUrl(request.url, 'unavailable'))
+  }
 
   const callbackUrl = new URL(redirectUri)
   new URL(request.url).searchParams.forEach((val, key) => callbackUrl.searchParams.set(key, val))
@@ -26,13 +33,14 @@ export async function GET(request: Request) {
       pkceCodeVerifier: stateCookie.codeVerifier,
       expectedState: stateCookie.state,
     })
-  } catch {
-    return NextResponse.json({ error: 'TOKEN_EXCHANGE_FAILED' }, { status: 400 })
+  } catch (error) {
+    console.error('[data-lab-auth] Identity token exchange failed', { code: getSafeOidcErrorCode(error) })
+    return NextResponse.redirect(buildIdentityCallbackErrorUrl(request.url, 'exchange'))
   }
 
   const idClaims = tokens.claims() as unknown as AncloraIdentityClaims | undefined
   if (!idClaims?.sub) {
-    return NextResponse.json({ error: 'INVALID_ID_TOKEN' }, { status: 400 })
+    return NextResponse.redirect(buildIdentityCallbackErrorUrl(request.url, 'retry'))
   }
 
   let userInfoClaims: Partial<AncloraIdentityClaims> = {}
@@ -52,9 +60,7 @@ export async function GET(request: Request) {
   const decision = resolveDataLabAccess(claims)
 
   if (!decision.allowed) {
-    // Authenticated identity, no Data Lab membership: explicit 403, never a redirect loop
-    // (section 14 of the founder brief).
-    return NextResponse.json({ error: 'ACCESS_DENIED' }, { status: 403 })
+    return NextResponse.redirect(buildIdentityCallbackErrorUrl(request.url, 'membership_required'))
   }
 
   await createAncloraIdentityDataLabSession({
@@ -65,4 +71,19 @@ export async function GET(request: Request) {
   })
 
   return NextResponse.redirect(new URL('/workspace', request.url))
+}
+
+function getSafeOidcErrorCode(error: unknown): string {
+  if (!error || typeof error !== 'object' || !('error' in error)) return 'other'
+  const code = error.error
+  const knownCodes = new Set([
+    'invalid_client',
+    'invalid_grant',
+    'invalid_request',
+    'unauthorized_client',
+    'invalid_scope',
+    'server_error',
+    'temporarily_unavailable',
+  ])
+  return typeof code === 'string' && knownCodes.has(code) ? code : 'other'
 }

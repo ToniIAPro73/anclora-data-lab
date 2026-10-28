@@ -1,4 +1,4 @@
-# Checklist de validación — Data Lab Identity login reliability (2026-10-28)
+# Checklist de validación — Data Lab Identity access recovery (2026-10-28)
 
 **Repositorio:** anclora-data-lab
 **Rama:** development
@@ -7,22 +7,23 @@
 
 ## 1. Qué cambia
 
-- El descubrimiento OIDC queda limitado a 8 segundos.
-- Si falla la inicialización del login de Anclora Identity, Data Lab vuelve a
-  una pantalla propia con explicación y opción para reintentar.
-- Identity continúa siendo el único login cuando está habilitado; no hay
-  fallback silencioso a contraseña local.
+- Los errores del callback de Identity vuelven a una pantalla de Data Lab con
+  explicación clara y opción para reintentar, sin exponer códigos OAuth.
+- Si la cuenta no tiene membresía `data-lab`, la pantalla enlaza al formulario
+  público de solicitud de acceso.
+- El formulario público tiene un ancla estable para llevar al usuario a la
+  solicitud.
+- La autorización sigue denegando el acceso si falta una membresía activa.
 
 ## 2. Comprobaciones
 
 | Comprobación | Comando o método | Resultado |
 | --- | --- | --- |
+| Pruebas focalizadas | `npx vitest run tests/anclora-identity-callback-redirect.test.ts tests/anclora-identity-authorization.test.ts` | PASS; 9 pruebas |
 | TypeScript | `npx tsc --noEmit` | PASS |
-| ESLint focalizado | Archivos de login y cliente OIDC afectados | PASS |
-| Integridad del diff | `git diff --check` y `git diff --cached --check` | PASS |
-| Reproducción de Production | HTTP a `/login` y endpoint OIDC | `/login` redirigía; endpoint OIDC quedó pendiente hasta timeout |
-| Visual QA tras el cambio | Pendiente de publicación del SHA | NOT_RUN |
-| Suite de tests | No ejecutada | No solicitada; verificación focalizada suficiente para revisión de código |
+| ESLint focalizado | Callback, helper, login y formulario afectados | PASS |
+| Integridad del diff | `git diff --check` | PASS |
+| Visual QA local | `anclora-visual-qa` en estados de membresía, intercambio y reintento, más `/#request-access` | PASS |
 
 ## 3. Revisión de Toni
 

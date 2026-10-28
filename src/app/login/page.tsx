@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers'
 import Image from 'next/image'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { DATALAB_BRAND } from '@/lib/datalab-brand'
 import { DataLabLoginForm } from '@/components/datalab/DataLabLoginForm'
@@ -18,7 +19,10 @@ export default async function LoginPage({ searchParams }: PageProps) {
   if (session) redirect('/workspace')
   const params = await searchParams
   const identityUnavailable = params.identity_error === 'unavailable'
-  if (isAncloraIdentityEnabled() && !identityUnavailable) redirect(getDataLabLoginPath(true))
+  const identityMembershipRequired = params.identity_error === 'membership_required'
+  const identityExchangeFailed = params.identity_error === 'exchange'
+  const identityRetryRequired = params.identity_error === 'retry'
+  if (isAncloraIdentityEnabled() && !identityUnavailable && !identityMembershipRequired && !identityExchangeFailed && !identityRetryRequired) redirect(getDataLabLoginPath(true))
 
   const cookieStore = await cookies()
   const defaultLocale = resolveDataLabLocale(cookieStore.get(DATALAB_LOCALE_COOKIE)?.value)
@@ -64,6 +68,33 @@ export default async function LoginPage({ searchParams }: PageProps) {
                 No se pudo conectar con Anclora Identity. Espera un momento y vuelve a intentarlo.
               </p>
               <a className="datalab-button datalab-button-link" href="/api/auth/anclora-identity/login">Reintentar inicio de sesión</a>
+            </>
+          ) : identityMembershipRequired ? (
+            <>
+              <p className="datalab-eyebrow">Acceso privado</p>
+              <h1>Tu acceso aún no está aprobado.</h1>
+              <p className="datalab-copy" role="status">
+                Has iniciado sesión, pero tu cuenta todavía no tiene acceso a Data Lab. Solicita acceso y te avisaremos cuando esté habilitado.
+              </p>
+              <Link className="datalab-button datalab-button-link" href="/#request-access">Solicitar acceso a Data Lab</Link>
+            </>
+          ) : identityExchangeFailed ? (
+            <>
+              <p className="datalab-eyebrow">Anclora Identity</p>
+              <h1>No se pudo completar el acceso.</h1>
+              <p className="datalab-copy" role="alert">
+                Ha ocurrido un problema temporal al conectar con Data Lab. Vuelve a intentarlo en unos segundos.
+              </p>
+              <a className="datalab-button datalab-button-link" href="/api/auth/anclora-identity/login">Volver a intentarlo</a>
+            </>
+          ) : identityRetryRequired ? (
+            <>
+              <p className="datalab-eyebrow">Anclora Identity</p>
+              <h1>Vuelve a iniciar sesión.</h1>
+              <p className="datalab-copy" role="alert">
+                No hemos podido confirmar tu sesión segura. Inicia sesión de nuevo para continuar.
+              </p>
+              <a className="datalab-button datalab-button-link" href="/api/auth/anclora-identity/login">Iniciar sesión de nuevo</a>
             </>
           ) : (
             <>

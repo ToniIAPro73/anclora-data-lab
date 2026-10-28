@@ -133,7 +133,7 @@ export function DataLabPublicPage({ defaultLocale: initialLocale }: Props) {
           </aside>
         </section>
 
-        <section className="datalab-grid-2 datalab-access-grid">
+        <section id="request-access" className="datalab-grid-2 datalab-access-grid">
           <section className="datalab-panel datalab-access-panel">
             <div className="datalab-section-intro">
               <div className="datalab-section-icon">
