@@ -39,3 +39,12 @@
 - [ ] Validado en Preview
 - [ ] `PROMOTE=FULL`
 - [ ] Promoción completa. Pendiente de revisión de Preview y autorización expresa.
+
+## 5. Entrega de solicitudes a Nexus (2026-10-28)
+
+- **Validación en development:** Toni confirmó que Data Lab y Nexus están verificados.
+- **Data Lab:** `node --import tsx --test tests/nexus-intake-forward.test.ts` — PASS, 2 pruebas.
+- **Nexus:** `../.venv/bin/python -m pytest tests/test_syncxml_pilot_routes.py -k 'data_lab' -q` — PASS, 2 pruebas; 22 omitidas por filtro.
+- **Integridad:** `git diff --check` — PASS en ambos repositorios.
+- Las pruebas de entrega usan fetch simulado; no escriben en producción ni prueban la solicitud real pendiente.
+- Preview y producción quedan sujetos al flujo de promoción gobernado.
