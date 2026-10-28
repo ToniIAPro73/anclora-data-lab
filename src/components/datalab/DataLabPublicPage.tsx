@@ -27,6 +27,7 @@ export function DataLabPublicPage({ defaultLocale: initialLocale }: Props) {
   const [requestBusy, setRequestBusy] = useState(false)
   const [requestNotice, setRequestNotice] = useState<string | null>(null)
   const [requestError, setRequestError] = useState<string | null>(null)
+  const [requestIdToRetry, setRequestIdToRetry] = useState<string | null>(null)
   const showPublicTechnicalItems = false
   const publicDocuments = showPublicTechnicalItems
     ? curatedDocuments
@@ -50,17 +51,20 @@ export function DataLabPublicPage({ defaultLocale: initialLocale }: Props) {
           intendedUse: requestForm.intendedUse,
           requestedLocale: locale,
           submissionSource: 'private-estates',
+          requestId: requestIdToRetry ?? undefined,
         }),
       })
 
-      const payload = (await response.json().catch(() => null)) as { error?: string } | { id?: string } | null
+      const payload = (await response.json().catch(() => null)) as { error?: string; id?: string; requestId?: string } | null
       if (!response.ok) {
+        if (payload?.requestId) setRequestIdToRetry(payload.requestId)
         throw new Error((payload && 'error' in payload && payload.error) || 'No se ha podido registrar la solicitud de acceso.')
       }
 
       setRequestNotice(
-        'Solicitud de acceso registrada. El equipo de Data Lab evaluará tu encaje y te responderá por email con los siguientes pasos.'
+        'Solicitud enviada al equipo de Anclora Nexus para revisión. Recibirás un email cuando haya una decisión.'
       )
+      setRequestIdToRetry(null)
       setRequestForm({
         name: '',
         organization: '',
@@ -200,11 +204,11 @@ export function DataLabPublicPage({ defaultLocale: initialLocale }: Props) {
                 required
               />
 
-              {requestError ? <p className="datalab-notice">{requestError}</p> : null}
+              {requestError ? <p className="datalab-error" role="alert">{requestError}</p> : null}
               {requestNotice ? <p className="datalab-notice">{requestNotice}</p> : null}
 
               <button className="datalab-button" type="submit" disabled={requestBusy}>
-                {requestBusy ? 'Registrando solicitud...' : 'Enviar solicitud de acceso'}
+                {requestBusy ? 'Enviando solicitud...' : requestIdToRetry ? 'Reintentar envío a Nexus' : 'Enviar solicitud de acceso'}
               </button>
             </form>
           </section>

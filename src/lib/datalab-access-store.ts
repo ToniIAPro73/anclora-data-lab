@@ -153,6 +153,35 @@ export async function createDataLabAccessRequest(input: {
   return rows[0] ?? null
 }
 
+export async function getDataLabAccessRequestById(id: string) {
+  await ensureSchemaReady()
+
+  const rows = await sql<DataLabAccessRequestRecord>`
+    SELECT
+      id,
+      full_name,
+      organization,
+      email,
+      profile_label,
+      intended_use,
+      requested_locale,
+      submission_source,
+      status,
+      review_notes,
+      decision_reason,
+      reviewed_at,
+      reviewed_by,
+      datalab_account_id,
+      created_at,
+      updated_at
+    FROM datalab_access_requests
+    WHERE id = ${id}
+    LIMIT 1;
+  `
+
+  return rows[0] ?? null
+}
+
 export async function listDataLabAccessRequests(input?: {
   status?: DataLabAccessRequestStatus
   query?: string

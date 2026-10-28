@@ -1,29 +1,24 @@
 /**
- * Anclora Intake Contract v1 — Nexus forward for Data Lab access requests.
- *
- * Fire-and-forget: errors are logged but do not block the access request response.
+ * Server-to-server delivery for Data Lab access requests.
+ * Nexus is the approval system of record; this route uses a dedicated service
+ * credential and an idempotency key derived from the persisted Data Lab row.
  */
 
-const NEXUS_INTAKE_ENDPOINT = '/api/public/access-requests';
+const NEXUS_WEBHOOK_PATH = '/api/internal/webhooks/data-lab-access';
 
 export interface DataLabAccessIntakePayload {
-  product: 'data_lab';
-  source: 'data_lab_app';
-  source_system: 'data_lab_app';
-  source_channel: 'in_app';
-  source_detail: 'data_lab_access_modal';
-  full_name: string;
+  requestId: string;
+  fullName: string;
   email: string;
-  intended_use: string;
-  company?: string | null;
-  profile_type?: string | null;
-  privacy_accepted: boolean;
-  gdpr_consent: boolean;
-  submission_language: string;
-  external_id: string;
-  captcha_provider: string;
-  captcha_token: string;
+  organization?: string | null;
+  intendedUse: string;
+  profileLabel?: string | null;
+  requestedLocale: string;
 }
+
+export type NexusForwardResult =
+  | { ok: true; nexusRequestId?: string }
+  | { ok: false; reason: 'configuration' | 'request_failed'; status?: number };
 
 export function buildDataLabAccessIntakePayload(input: {
   requestId: string;
@@ -33,26 +28,15 @@ export function buildDataLabAccessIntakePayload(input: {
   intendedUse: string;
   profileLabel?: string | null;
   requestedLocale: string;
-  submissionSource: string;
-  submittedAt?: string;
 }): DataLabAccessIntakePayload {
   return {
-    product: 'data_lab',
-    source: 'data_lab_app',
-    source_system: 'data_lab_app',
-    source_channel: 'in_app',
-    source_detail: 'data_lab_access_modal',
-    full_name: input.fullName,
+    requestId: input.requestId,
+    fullName: input.fullName,
     email: input.email,
-    intended_use: input.intendedUse,
-    company: input.organization ?? null,
-    profile_type: input.profileLabel ?? null,
-    privacy_accepted: true,
-    gdpr_consent: true,
-    submission_language: input.requestedLocale || 'es',
-    external_id: input.requestId,
-    captcha_provider: 'turnstile',
-    captcha_token: 'datalab-app-token',
+    organization: input.organization ?? null,
+    intendedUse: input.intendedUse,
+    profileLabel: input.profileLabel ?? null,
+    requestedLocale: input.requestedLocale || 'es',
   };
 }
 
@@ -63,32 +47,79 @@ export async function forwardDataLabAccessToNexus(
     nexusApiKey?: string;
     requestId: string;
   },
-): Promise<void> {
-  const { nexusBaseUrl, requestId } = options;
-  const baseUrl = nexusBaseUrl || process.env.NEXUS_BASE_URL || 'https://nexus.anclora.group';
+): Promise<NexusForwardResult> {
+  const baseUrl = (options.nexusBaseUrl || process.env.NEXUS_BASE_URL || '').trim();
+  const apiKey = options.nexusApiKey || process.env.DATA_LAB_WEBHOOK_SECRET || '';
 
-  const url = `${baseUrl.replace(/\/$/, '')}${NEXUS_INTAKE_ENDPOINT}`;
+  if (!baseUrl || !apiKey) {
+    console.error('[data-lab] Nexus access-request forwarding is not configured', {
+      requestId: options.requestId,
+      hasBaseUrl: Boolean(baseUrl),
+      hasServiceSecret: Boolean(apiKey),
+    });
+    return { ok: false, reason: 'configuration' };
+  }
+
+  let endpoint: URL;
+  try {
+    endpoint = new URL(NEXUS_WEBHOOK_PATH, `${baseUrl.replace(/\/+$/, '')}/`);
+  } catch {
+    console.error('[data-lab] Nexus access-request base URL is invalid', { requestId: options.requestId });
+    return { ok: false, reason: 'configuration' };
+  }
+
+  if (endpoint.protocol !== 'https:') {
+    console.error('[data-lab] Nexus access-request endpoint must use HTTPS', { requestId: options.requestId });
+    return { ok: false, reason: 'configuration' };
+  }
+
+  const nexusPayload = {
+    applicant: {
+      email: payload.email,
+      name: payload.fullName,
+      organization_name: payload.organization,
+    },
+    source: 'data_lab_app',
+    request_type: 'access_request',
+    idempotency_key: payload.requestId,
+    context: {
+      request_metadata: {
+        intended_use: payload.intendedUse,
+        profile_type: payload.profileLabel,
+        submission_language: payload.requestedLocale,
+      },
+    },
+  };
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(nexusPayload),
       signal: AbortSignal.timeout(15_000),
     });
 
     if (!response.ok) {
-      console.warn('[data-lab] Nexus returned non-OK for access request forward', {
-        requestId,
+      console.warn('[data-lab] Nexus rejected access-request forwarding', {
+        requestId: options.requestId,
         status: response.status,
       });
+      return { ok: false, reason: 'request_failed', status: response.status };
     }
-  } catch (err) {
+
+    const result = (await response.json().catch(() => null)) as { request_id?: unknown } | null;
+    return {
+      ok: true,
+      nexusRequestId: typeof result?.request_id === 'string' ? result.request_id : undefined,
+    };
+  } catch (error) {
     console.error('[data-lab] Failed to forward access request to Nexus', {
-      requestId,
-      message: err instanceof Error ? err.message : String(err),
+      requestId: options.requestId,
+      errorType: error instanceof Error ? error.name : 'UnknownError',
     });
+    return { ok: false, reason: 'request_failed' };
   }
 }
