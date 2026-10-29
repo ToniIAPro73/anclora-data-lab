@@ -5,10 +5,10 @@ COMMIT_PUSH_REQUIRES_EXPLICIT_USER_VALIDATION=true
 AUTO_COMMIT_AFTER_VALIDATION=false
 AUTO_PUSH_DEVELOPMENT=false
 AUTO_PUSH_WORK_BRANCH=false
-PREVIEW_VALIDATION_REQUIRED_BEFORE_PROMOTION=true
+PREVIEW_VALIDATION_REQUIRED_BEFORE_PROMOTION=false
 PROMOTION_AUTHORIZATION_TOKEN=PROMOTE=FULL
 PROMOTION_DISPATCH_FULL_CHAIN_ONCE=true
-PROMOTION_REQUIRES_PREVIEW_REVIEWED_SHA=true
+PROMOTION_REQUIRES_PREVIEW_REVIEWED_SHA=false
 PROMOTION_AGENT_WAITS_FOR_SOURCE_CI=false
 PROMOTION_WAIT_FOR_WORKFLOW_COMPLETION=false
 PROMOTION_AGENT_POLLS_CI_OR_DEPLOYMENT=false
@@ -16,9 +16,9 @@ PROMOTION_AGENT_PER_HOP_VERIFICATION=false
 PROMOTION_USER_VERIFIES_EACH_BRANCH=true
 PROMOTION_DISPATCH_IMMEDIATELY=true
 PROMOTION_FORCE_PUSH_ALLOWED=false
-PROMOTION_PROTOCOL=Local changes -> explicit Toni validation in development -> commit/push development -> Toni Preview review -> PROMOTE=FULL + exact reviewed SHA -> one asynchronous full-chain workflow
+PROMOTION_PROTOCOL=Local changes -> explicit Toni validation in development -> commit/push development -> PROMOTE=FULL + exact current development SHA -> one asynchronous full-chain workflow; workspace Preview-review exception applies
 
-Toni validates every change in the development environment before the agent commits or pushes it. After the push, the agent waits for Toni to review Preview. Only Toni's exact PROMOTE=FULL token authorizes the complete ordered staging -> production -> main chain, using the exact SHA reviewed in Preview. The agent dispatches one full-chain workflow per repository, does not wait for or poll CI/deployment/workflow completion, and does not verify individual target branches. That workflow rejects failed source status and branch divergence, permits pending checks, validates all target branches before writing, and updates all three refs sequentially with fast-forward pushes, and stops if development moved after Preview review. Toni reviews the resulting environments.
+Toni validates every change in the development environment before the agent commits or pushes it. Under the active temporary workspace exception, Preview review is not required before promotion. Only Toni's exact PROMOTE=FULL token authorizes the complete ordered staging -> production -> main chain, using the exact current development SHA. The agent dispatches one full-chain workflow per repository, does not wait for or poll CI/deployment/workflow completion, and does not verify individual target branches. That workflow rejects failed source status and branch divergence, permits pending checks, validates all target branches before writing, and updates all three refs sequentially with fast-forward pushes. Toni reviews the resulting environments.
 
 # Anclora Data Lab — Production Runtime Manifest
 
@@ -158,9 +158,10 @@ QA_CREATION_CONFIRMATION_REQUIRED=false
 QA_PERSISTENT_IDENTITY=ANCLORA_DATA_LAB_KEY
 QA_ACCESS_REQUEST_IDENTITY=tonipmi.test@gmail.com
 QA_ACCESS_REQUEST_SCOPE=server-configured Nexus QA organization; never selected by email or client input
+QA_ACCESS_REQUEST_TARGET=Production isolated Nexus QA organization
 QA_ACCESS_REQUEST_ROLE=data-lab:qa
 QA_ACCESS_REQUEST_CONFIGURATION=DATA_LAB_ACCESS_REQUEST_SCOPE=qa + NEXUS_QA_DATA_LAB_WEBHOOK_SECRET; Nexus requires DATA_LAB_QA_ORG_ID + DATA_LAB_QA_WEBHOOK_SECRET + DATA_LAB_QA_APPLICANT_EMAIL
-QA_ACCESS_REQUEST_STATUS=dedicated Nexus QA organization and reviewer verified; preview scope, secret, and deployment remain unconfigured
+QA_ACCESS_REQUEST_STATUS=Production isolated QA organization and reviewer recorded; local Vercel Development scope, Nexus base URL, and dedicated credential are configured; Nexus Render Production deploy f810466 is live and its matching QA variables are active; GuestHub intake is verified; Data Lab intake and UI review remain pending; local OIDC discovery initially timed out at 8 seconds and succeeded after the Identity issuer warmed
 QA_ACCESS_REQUEST_LOCAL_WRITE=false
 
 For machine services: Authenticate via service tokens or worker keys declared in local secure environment variables.
